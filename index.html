@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RDU Command Centre</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky-top:    #1a3a5c;
+    --sky-mid:    #2e6ea6;
+    --sky-light:  #6aaed6;
+    --horizon:    #e8b86d;
+    --dust:       #c4893a;
+    --earth:      #7a4a1e;
+    --earth-dark: #3d2010;
+    --earth-deep: #1e0f06;
+
+    --tan:        #d4a96a;
+    --tan-light:  #f0d5a0;
+    --tan-dim:    rgba(212,169,106,0.12);
+    --cream:      #fdf6e8;
+
+    --brown:      #5c3317;
+    --brown-mid:  #8b4f22;
+    --brown-light:#b8722e;
+
+    --blue-sky:   #4a9fd4;
+    --blue-bright:#2e8bc0;
+    --blue-dim:   rgba(74,159,212,0.12);
+
+    --red-dust:   #c0392b;
+    --green-gum:  #5a8a3c;
+
+    --text:       #1e0f06;
+    --text-light: #5c3317;
+    --muted:      #8b6f4a;
+    --subtle:     #b8956a;
+
+    --surface:    #fdf6e8;
+    --surface2:   #f5e8cc;
+    --surface3:   #edddb0;
+    --border:     #d4b896;
+    --border2:    #c4a070;
+
+    --shadow:     0 2px 12px rgba(61,32,16,0.15), 0 1px 4px rgba(61,32,16,0.1);
+    --shadow-lg:  0 6px 30px rgba(61,32,16,0.2), 0 2px 8px rgba(61,32,16,0.12);
+
+    /* MOKO neon palette */
+    --neon:       #00ff88;
+    --neon-dim:   rgba(0,255,136,0.15);
+    --neon-glow:  0 0 12px rgba(0,255,136,0.6), 0 0 30px rgba(0,255,136,0.25);
+    --neon-gold:  #ffd700;
+    --neon-gold-glow: 0 0 10px rgba(255,215,0,0.7), 0 0 25px rgba(255,215,0,0.3);
+    --moko-bg:    #060e0a;
+    --moko-bg2:   #0a1410;
+    --moko-border:rgba(0,255,136,0.35);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--earth-deep);
+    font-family: 'Barlow', sans-serif;
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── SKY BACKGROUND ── */
+  .sky-bg {
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background: linear-gradient(
+      180deg,
+      var(--sky-top) 0%,
+      var(--sky-mid) 35%,
+      var(--sky-light) 60%,
+      var(--horizon) 78%,
+      var(--dust) 88%,
+      var(--earth) 94%,
+      var(--earth-dark) 100%
+    );
+  }
+  .sky-bg::before {
+    content:'';
+    position:absolute; bottom:18%; left:50%; transform:translateX(-50%);
+    width:120px; height:120px; border-radius:50%;
+    background: radial-gradient(circle, #fff8e0 0%, #ffd060 40%, rgba(255,180,60,0) 70%);
+    opacity:0.85;
+    box-shadow: 0 0 60px 20px rgba(255,200,60,0.3), 0 0 120px 60px rgba(255,160,30,0.15);
+  }
+  .sky-bg::after {
+    content:'';
+    position:absolute; bottom:14%; left:0; right:0; height:12%;
+    background: linear-gradient(180deg, transparent, rgba(196,137,58,0.4), rgba(122,74,30,0.6));
+  }
+
+  /* ── SILHOUETTE ── */
+  .silhouette {
+    position:fixed; bottom:0; left:0; right:0; height:22%; z-index:1; pointer-events:none;
+  }
+  .silhouette svg { width:100%; height:100%; }
+
+  /* ── GRAIN OVERLAY ── */
+  .grain {
+    position:fixed; inset:0; z-index:2; pointer-events:none; opacity:0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  .wrap {
+    position:relative; z-index:3;
+    width:100vw; height:100vh;
+    display:grid;
+    grid-template-rows: 62px 1fr 1fr 26px;
+    grid-template-columns: 200px 1fr 1fr 200px;
+    gap:8px;
+    padding:12px 14px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    grid-column:1/-1;
+    display:flex; justify-content:space-between; align-items:center;
+    background: linear-gradient(135deg, var(--earth-dark) 0%, var(--brown) 50%, var(--earth-dark) 100%);
+    border:2px solid var(--tan);
+    border-radius:6px; padding:0 18px;
+    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(240,213,160,0.2);
+    animation: fadeDown 0.5s ease both;
+    position:relative; overflow:hidden;
+  }
+  header::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(90deg, transparent, var(--horizon), var(--tan-light), var(--horizon), transparent);
+  }
+  header::after {
+    content:'';
+    position:absolute; bottom:0; left:0; right:0; height:1px;
+    background: linear-gradient(90deg, transparent, var(--tan), transparent);
+    opacity:0.4;
+  }
+
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeUp   { from{opacity:0;transform:translateY(8px)}  to{opacity:1;transform:translateY(0)} }
+  @keyframes neonPulse { 0%,100%{opacity:1;text-shadow: var(--neon-glow)} 50%{opacity:0.8;text-shadow:none} }
+  @keyframes shimmer { 0%{background-position:200% center} 100%{background-position:-200% center} }
+
+  .logo-block { display:flex; align-items:center; gap:10px; }
+  .logo-mark {
+    width:40px; height:40px;
+    background: linear-gradient(135deg, var(--blue-sky), var(--blue-bright));
+    border-radius:6px; border:1px solid var(--tan);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.3rem; flex-shrink:0;
+    box-shadow: 0 2px 10px rgba(46,139,192,0.4);
+  }
+  .logo-text { }
+  .logo-title {
+    font-family:'Bebas Neue',sans-serif; font-size:1.5rem;
+    color: var(--tan-light); letter-spacing:0.08em; line-height:1;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5), 0 0 20px rgba(240,213,160,0.2);
+  }
+  .logo-sub {
+    font-family:'Barlow Condensed',sans-serif; font-weight:600;
+    font-size:0.48rem; color:var(--subtle);
+    letter-spacing:0.14em; margin-top:2px; text-transform:uppercase;
+  }
+
+  /* Colorbond badge */
+  .colorbond-badge {
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background: linear-gradient(135deg, #c0c8d0 0%, #8a9baa 30%, #b8c4cc 60%, #d0d8e0 100%);
+    border:1.5px solid rgba(255,255,255,0.4);
+    border-radius:5px; padding:3px 9px; margin-left:6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.5);
+    flex-shrink:0;
+  }
+  .colorbond-badge .cb-word {
+    font-family:'Bebas Neue',sans-serif; font-size:0.72rem; letter-spacing:0.12em;
+    color:#1a2a3a; line-height:1;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+  }
+  .colorbond-badge .cb-reg {
+    font-family:'Barlow Condensed',sans-serif; font-size:0.36rem; font-weight:700;
+    color:#3a5068; letter-spacing:0.18em; text-transform:uppercase; margin-top:1px;
+  }
+
+  .header-centre { display:flex; gap:7px; align-items:center; }
+  .status-pill {
+    display:flex; align-items:center; gap:5px;
+    background:rgba(30,15,6,0.5); border:1px solid var(--border);
+    border-radius:20px; padding:3px 10px;
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:0.52rem; font-weight:600; letter-spacing:0.1em; color:var(--subtle);
+    text-transform:uppercase;
+  }
+  .status-dot { width:5px; height:5px; border-radius:50%; animation:pulse 2.5s infinite; }
+  .status-dot.green  { background:#7bc67e; box-shadow:0 0 5px #7bc67e; }
+  .status-dot.blue   { background:var(--blue-sky); box-shadow:0 0 5px var(--blue-sky); }
+  .status-dot.amber  { background:var(--tan); box-shadow:0 0 5px var(--tan); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .header-right { text-align:right; }
+  .live-time {
+    font-family:'Bebas Neue',sans-serif; font-size:1.8rem;
+    color:var(--tan-light); line-height:1; letter-spacing:0.1em;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .live-date {
+    font-family:'Barlow Condensed',sans-serif; font-size:0.45rem;
+    color:var(--subtle); letter-spacing:0.16em; margin-top:2px; text-transform:uppercase;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    grid-column:1/-1;
+    display:flex; justify-content:space-between; align-items:center; padding:0 4px;
+  }
+  .footer-left { font-family:'Barlow Condensed',sans-serif; font-size:0.44rem; letter-spacing:0.14em; color:var(--muted); text-transform:uppercase; }
+  .footer-right { display:flex; gap:14px; }
+  .footer-tag { font-family:'Barlow Condensed',sans-serif; font-size:0.44rem; letter-spacing:0.1em; color:var(--muted); text-transform:uppercase; }
+
+  /* ── PANELS ── */
+  .panel {
+    background: rgba(253,246,232,0.88);
+    border:1.5px solid var(--border);
+    border-radius:6px; padding:11px;
+    position:relative; overflow:hidden;
+    display:flex; flex-direction:column;
+    box-shadow: var(--shadow);
+    animation:fadeUp 0.4s ease both;
+    backdrop-filter:blur(4px);
+    transition:box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+  }
+  .panel:hover { box-shadow:var(--shadow-lg); border-color:var(--border2); transform:translateY(-1px); }
+  .panel::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg, var(--brown-light), var(--tan), var(--brown-light));
+    opacity:0.6;
+  }
+
+  .panel-label {
+    font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:0.14em;
+    color:var(--brown); text-transform:uppercase;
+    margin-bottom:8px;
+    display:flex; align-items:center; gap:8px; flex-shrink:0;
+  }
+  .panel-label::after { content:''; flex:1; height:1.5px; background:linear-gradient(90deg,var(--border),transparent); }
+
+  /* ── LAUNCHER ── */
+  .launcher { grid-column:1; grid-row:2/4; animation-delay:0.05s; }
+
+  .app-btn {
+    display:flex; align-items:center; gap:9px; padding:5px 9px;
+    background:transparent; border:1px solid var(--border);
+    border-radius:4px; cursor:pointer; text-decoration:none;
+    color:var(--text-light); font-family:'Barlow',sans-serif;
+    font-size:0.64rem; font-weight:600;
+    transition:all 0.15s; flex-shrink:0;
+  }
+  .app-btn:hover { background:var(--surface2); border-color:var(--brown-mid); color:var(--brown); transform:translateX(3px); box-shadow:2px 0 0 var(--tan); }
+  .app-btn.blue:hover  { background:var(--blue-dim); border-color:var(--blue-sky); color:var(--blue-bright); }
+  .app-btn.amber:hover { background:var(--tan-dim);  border-color:var(--tan); color:var(--dust); }
+
+  .app-icon { font-size:0.9rem; flex-shrink:0; width:18px; text-align:center; }
+  .app-info { flex:1; }
+  .app-name { display:block; font-weight:600; }
+  .app-desc { font-size:0.41rem; color:var(--muted); font-weight:400; margin-top:1px; letter-spacing:0.04em; }
+  .app-arrow { font-size:0.6rem; opacity:0; transition:opacity 0.15s; color:var(--dust); }
+  .app-btn:hover .app-arrow { opacity:1; }
+  .apps-grid { display:flex; flex-direction:column; gap:3px; flex:1; justify-content:space-between; }
+
+  .note-input {
+    width:100%; background:var(--surface2); border:1.5px solid var(--border);
+    border-radius:4px; color:var(--text); font-family:'Barlow',sans-serif;
+    font-size:0.58rem; padding:7px 9px; resize:none; outline:none;
+    line-height:1.7; min-height:58px;
+    transition:border-color 0.15s, box-shadow 0.15s;
+  }
+  .note-input:focus { border-color:var(--blue-sky); box-shadow:0 0 0 3px rgba(74,159,212,0.15); background:var(--surface); }
+  .note-input::placeholder { color:var(--subtle); }
+
+  /* ── WEATHER ── */
+  .weather-panel { grid-column:2; grid-row:2; animation-delay:0.1s; }
+  .weather-main { display:flex; align-items:center; gap:14px; margin-bottom:10px; }
+  .weather-icon { font-size:2.6rem; }
+  .weather-temp { font-family:'Bebas Neue',sans-serif; font-size:2.6rem; color:var(--brown); line-height:1; }
+  .weather-temp span { font-size:1.1rem; color:var(--muted); font-family:'Barlow',sans-serif; font-weight:400; }
+  .weather-desc { font-family:'Barlow Condensed',sans-serif; font-size:0.68rem; color:var(--text-light); letter-spacing:0.06em; margin-top:2px; font-weight:700; text-transform:uppercase; }
+  .weather-loc { font-size:0.44rem; color:var(--muted); letter-spacing:0.12em; margin-top:2px; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; }
+  .weather-stats { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .w-stat { background:var(--surface2); border:1px solid var(--border); padding:6px 9px; border-radius:4px; border-left:3px solid var(--blue-sky); }
+  .w-stat-label { font-family:'Barlow Condensed',sans-serif; font-size:0.4rem; letter-spacing:0.14em; color:var(--muted); margin-bottom:2px; font-weight:700; text-transform:uppercase; }
+  .w-stat-val { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--brown); letter-spacing:0.04em; }
+  .weather-loading { color:var(--muted); font-size:0.58rem; text-align:center; margin:auto; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:0.1em; }
+
+  /* ── KAI PANEL — 3 Accounts ── */
+  .kai-panel { grid-column:3; grid-row:2; animation-delay:0.15s; }
+  .kai-panel::before { background:linear-gradient(90deg, var(--blue-bright), var(--blue-sky), var(--blue-bright)); opacity:0.7; }
+
+  .kai-3grid {
+    flex:1; display:flex; flex-direction:column; gap:6px; justify-content:space-between;
+  }
+  .kai-acct {
+    flex:1; border-radius:5px; padding:7px 10px;
+    position:relative; overflow:hidden;
+    border:1.5px solid;
+    display:flex; align-items:center; gap:8px;
+  }
+  .kai-acct.biz   { background:linear-gradient(135deg,#1a2e1a,#0a1a0a); border-color:rgba(0,255,136,0.3); }
+  .kai-acct.tax   { background:linear-gradient(135deg,#2a1a00,#1a0e00); border-color:rgba(255,180,0,0.3); }
+  .kai-acct.pers  { background:linear-gradient(135deg,#0a1a2e,#060e1a); border-color:rgba(74,159,212,0.3); }
+
+  .kai-acct-icon { font-size:1.2rem; flex-shrink:0; }
+  .kai-acct-info { flex:1; min-width:0; }
+  .kai-acct-label {
+    font-family:'Barlow Condensed',sans-serif; font-size:0.42rem; font-weight:700;
+    letter-spacing:0.18em; text-transform:uppercase; margin-bottom:1px;
+  }
+  .kai-acct.biz  .kai-acct-label { color:rgba(0,255,136,0.6); }
+  .kai-acct.tax  .kai-acct-label { color:rgba(255,180,0,0.6); }
+  .kai-acct.pers .kai-acct-label { color:rgba(74,159,212,0.6); }
+
+  .kai-acct-val {
+    font-family:'Bebas Neue',sans-serif; font-size:1.4rem; line-height:1; letter-spacing:0.04em;
+  }
+  .kai-acct.biz  .kai-acct-val { color:#00ff88; text-shadow: 0 0 10px rgba(0,255,136,0.5); }
+  .kai-acct.tax  .kai-acct-val { color:#ffb400; text-shadow: 0 0 10px rgba(255,180,0,0.5); }
+  .kai-acct.pers .kai-acct-val { color:#4a9fd4; text-shadow: 0 0 10px rgba(74,159,212,0.5); }
+
+  .kai-acct-ts {
+    font-family:'Barlow Condensed',sans-serif; font-size:0.36rem; letter-spacing:0.08em; margin-top:1px;
+    color:rgba(255,255,255,0.25);
+  }
+  .kai-acct-right { display:flex; gap:4px; flex-shrink:0; align-items:center; }
+  .kai-micro-input {
+    width:80px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15);
+    color:#fff; font-family:'Barlow',sans-serif; font-size:0.52rem;
+    padding:4px 7px; outline:none; border-radius:3px; transition:all 0.15s;
+  }
+  .kai-micro-input::placeholder { color:rgba(255,255,255,0.25); }
+  .kai-micro-input:focus { border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.1); }
+  .kai-micro-btn {
+    border:none; font-family:'Bebas Neue',sans-serif; font-size:0.6rem;
+    padding:4px 8px; cursor:pointer; border-radius:3px; letter-spacing:0.1em;
+    transition:all 0.15s; white-space:nowrap;
+  }
+  .kai-acct.biz  .kai-micro-btn { background:rgba(0,255,136,0.2); color:#00ff88; border:1px solid rgba(0,255,136,0.4); }
+  .kai-acct.tax  .kai-micro-btn { background:rgba(255,180,0,0.2);  color:#ffb400;  border:1px solid rgba(255,180,0,0.4); }
+  .kai-acct.pers .kai-micro-btn { background:rgba(74,159,212,0.2); color:#4a9fd4; border:1px solid rgba(74,159,212,0.4); }
+  .kai-micro-btn:hover { filter:brightness(1.3); transform:translateY(-1px); }
+
+  .kai-total-row {
+    display:flex; align-items:center; justify-content:space-between;
+    background:rgba(30,15,6,0.5); border:1px solid var(--border);
+    border-radius:4px; padding:5px 10px;
+  }
+  .kai-total-label { font-family:'Barlow Condensed',sans-serif; font-size:0.44rem; font-weight:700; letter-spacing:0.16em; color:var(--subtle); text-transform:uppercase; }
+  .kai-total-val { font-family:'Bebas Neue',sans-serif; font-size:1rem; color:var(--tan-light); letter-spacing:0.04em; }
+
+  /* ── TASKS ── */
+  .tasks-panel { grid-column:4; grid-row:2; animation-delay:0.2s; }
+  .task-list { display:flex; flex-direction:column; gap:2px; flex:1; overflow-y:auto; }
+  .task-item {
+    display:flex; align-items:flex-start; gap:8px;
+    font-size:0.62rem; color:var(--text-light); font-weight:500;
+    padding:5px 7px; border-radius:4px; cursor:pointer; transition:all 0.15s;
+    font-family:'Barlow',sans-serif; border-left:2px solid transparent;
+  }
+  .task-item:hover { background:var(--surface2); color:var(--brown); border-left-color:var(--blue-sky); }
+  .task-check {
+    width:14px; height:14px; min-width:14px;
+    border:1.5px solid var(--border2); border-radius:3px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:9px; transition:all 0.2s; color:#fff;
+  }
+  .task-item.done .task-check { background:var(--green-gum); border-color:var(--green-gum); }
+  .task-item.done .task-text { text-decoration:line-through; opacity:0.4; }
+  .task-text { flex:1; line-height:1.4; }
+
+  /* ── MAHI ── */
+  .jobs-panel { grid-column:2/4; grid-row:3; animation-delay:0.25s; }
+  .jobs-table-wrap { flex:1; overflow-y:auto; }
+  table { width:100%; border-collapse:collapse; font-size:0.61rem; }
+  th {
+    font-family:'Bebas Neue',sans-serif; font-size:0.62rem; font-weight:400;
+    letter-spacing:0.14em; color:var(--brown); text-transform:uppercase;
+    padding:4px 10px; border-bottom:2px solid var(--border2); text-align:left;
+  }
+  td { padding:5px 10px; border-bottom:1px solid var(--border); color:var(--text-light); vertical-align:middle; font-family:'Barlow',sans-serif; font-weight:500; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:var(--surface2); color:var(--brown); }
+  .badge {
+    display:inline-block; padding:2px 9px; border-radius:20px;
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:0.44rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700;
+  }
+  .badge.active  { background:rgba(90,138,60,0.12);  color:var(--green-gum); border:1px solid rgba(90,138,60,0.35); }
+  .badge.quoted  { background:var(--blue-dim);        color:var(--blue-bright); border:1px solid rgba(74,159,212,0.35); }
+  .badge.pending { background:var(--tan-dim);         color:var(--dust);      border:1px solid rgba(196,137,58,0.35); }
+  .badge.complete{ background:rgba(92,51,23,0.1);    color:var(--brown-mid); border:1px solid rgba(92,51,23,0.3); }
+
+  .add-row { display:flex; gap:6px; margin-top:7px; flex-shrink:0; }
+  .add-input {
+    flex:1; background:var(--surface2); border:1.5px solid var(--border);
+    color:var(--text); font-family:'Barlow',sans-serif; font-size:0.58rem;
+    padding:5px 9px; outline:none; border-radius:4px; transition:all 0.15s;
+  }
+  .add-input:focus { border-color:var(--blue-sky); box-shadow:0 0 0 3px rgba(74,159,212,0.12); background:var(--surface); }
+  .add-input::placeholder { color:var(--subtle); }
+  .add-input option { background:var(--surface); color:var(--text); }
+  .add-btn {
+    background:linear-gradient(135deg, var(--brown), var(--brown-mid));
+    border:none; color:var(--tan-light); font-family:'Bebas Neue',sans-serif;
+    font-size:0.7rem; padding:5px 14px; cursor:pointer; border-radius:4px;
+    letter-spacing:0.1em; transition:all 0.15s; white-space:nowrap;
+    box-shadow:0 2px 8px rgba(61,32,16,0.3);
+  }
+  .add-btn:hover { background:linear-gradient(135deg, var(--brown-mid), var(--dust)); transform:translateY(-1px); }
+
+  /* ── MOKO — NEON SCOREBOARD ── */
+  .moko-panel {
+    grid-column:4; grid-row:3; animation-delay:0.3s;
+    background: linear-gradient(160deg, var(--moko-bg) 0%, var(--moko-bg2) 100%) !important;
+    border-color: var(--moko-border) !important;
+    backdrop-filter: blur(8px);
+  }
+  .moko-panel:hover { border-color: rgba(0,255,136,0.6) !important; box-shadow: 0 0 30px rgba(0,255,136,0.1), var(--shadow-lg) !important; }
+  .moko-panel::before {
+    background:linear-gradient(90deg, transparent, var(--neon), #39ff14, var(--neon), transparent) !important;
+    opacity:0.9 !important;
+  }
+  .moko-panel .panel-label { color: var(--neon) !important; text-shadow: 0 0 8px rgba(0,255,136,0.5); }
+  .moko-panel .panel-label::after { background:linear-gradient(90deg, rgba(0,255,136,0.3), transparent) !important; }
+
+  /* Koru / Tāmoko SVG background layer */
+  .moko-koru-bg {
+    position:absolute; inset:0; pointer-events:none; z-index:0; opacity:0.07;
+    overflow:hidden;
+  }
+
+  /* Australia silhouette in board */
+  .aus-silhouette {
+    position:absolute; right:-5px; bottom:28px; width:70px; height:55px;
+    opacity:0.12; pointer-events:none;
+  }
+
+  .moko-board {
+    background: linear-gradient(160deg, #020808 0%, #061008 100%);
+    border-radius:6px; padding:0; overflow:hidden; margin-bottom:6px;
+    border:1px solid rgba(0,255,136,0.2); flex-shrink:0;
+    box-shadow: 0 0 20px rgba(0,255,136,0.08), inset 0 1px 0 rgba(0,255,136,0.05);
+    position:relative;
+  }
+  .moko-board-header {
+    background:linear-gradient(90deg, rgba(0,30,15,0.9), rgba(0,20,10,0.9), rgba(0,30,15,0.9));
+    padding:5px 10px; display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid rgba(0,255,136,0.15);
+  }
+  .moko-board-title {
+    font-family:'Bebas Neue',sans-serif; font-size:0.78rem; letter-spacing:0.14em;
+    color:var(--neon); text-shadow: var(--neon-glow);
+  }
+  .moko-crown { font-size:0.9rem; }
+
+  .moko-rev-section { padding:8px 10px 5px; position:relative; }
+  .moko-rev-eyebrow { font-family:'Barlow Condensed',sans-serif; font-size:0.38rem; font-weight:700; letter-spacing:0.2em; color:rgba(0,255,136,0.4); text-transform:uppercase; margin-bottom:2px; }
+  .moko-rev {
+    font-family:'Bebas Neue',sans-serif; font-size:1.9rem; color:var(--neon); line-height:1;
+    letter-spacing:0.04em; text-shadow: var(--neon-glow);
+    animation: neonPulse 4s ease-in-out infinite;
+  }
+  .moko-vibe { font-family:'Barlow Condensed',sans-serif; font-size:0.42rem; font-weight:600; color:rgba(0,255,136,0.6); margin-top:2px; letter-spacing:0.08em; text-transform:uppercase; }
+
+  .moko-progress-wrap { padding:0 10px 8px; }
+  .moko-bar-track { height:4px; background:rgba(0,255,136,0.1); border-radius:2px; overflow:hidden; margin-bottom:3px; }
+  .moko-bar-fill { height:100%; background:linear-gradient(90deg, #006633, var(--neon), #39ff14); border-radius:2px; transition:width 0.7s cubic-bezier(.4,0,.2,1); box-shadow:0 0 8px rgba(0,255,136,0.6); }
+  .moko-bar-label { font-family:'Barlow Condensed',sans-serif; font-size:0.38rem; color:rgba(0,255,136,0.4); letter-spacing:0.1em; }
+
+  .moko-stats { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(0,255,136,0.06); border-top:1px solid rgba(0,255,136,0.1); }
+  .moko-stat { padding:6px 8px; background:rgba(0,0,0,0.3); }
+  .moko-stat-label { font-family:'Barlow Condensed',sans-serif; font-size:0.36rem; font-weight:700; letter-spacing:0.14em; color:rgba(0,255,136,0.35); text-transform:uppercase; margin-bottom:1px; }
+  .moko-stat-val { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:0.04em; }
+  .moko-stat-val.neon { color:var(--neon); text-shadow: var(--neon-glow); }
+  .moko-stat-val.gold { color:var(--neon-gold); text-shadow: var(--neon-gold-glow); }
+
+  .moko-inputs { display:flex; flex-direction:column; gap:4px; flex:1; justify-content:flex-end; }
+  .moko-row { display:flex; gap:4px; }
+  .moko-input {
+    flex:1; background:rgba(0,255,136,0.04); border:1px solid rgba(0,255,136,0.2);
+    color:#cce8d8; font-family:'Barlow',sans-serif; font-size:0.54rem;
+    padding:5px 8px; outline:none; border-radius:4px; transition:all 0.15s;
+  }
+  .moko-input:focus { border-color:var(--neon); box-shadow:0 0 0 2px rgba(0,255,136,0.15); background:rgba(0,255,136,0.07); }
+  .moko-input::placeholder { color:rgba(0,255,136,0.25); }
+  .moko-btn {
+    background:rgba(0,255,136,0.12); border:1px solid rgba(0,255,136,0.35);
+    color:var(--neon); font-family:'Bebas Neue',sans-serif;
+    font-size:0.65rem; padding:5px 10px; cursor:pointer; border-radius:4px;
+    letter-spacing:0.1em; transition:all 0.15s; white-space:nowrap;
+    text-shadow: 0 0 6px rgba(0,255,136,0.4);
+  }
+  .moko-btn:hover { background:rgba(0,255,136,0.22); box-shadow:var(--neon-glow); transform:translateY(-1px); }
+
+  ::-webkit-scrollbar { width:3px; }
+  ::-webkit-scrollbar-track { background:var(--surface2); }
+  ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
+</style>
+</head>
+<body>
+
+<!-- SKY + LANDSCAPE -->
+<div class="sky-bg"></div>
+
+<!-- BLUE HEELER + OUTBACK SILHOUETTE -->
+<div class="silhouette">
+  <svg viewBox="0 0 1440 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="120" width="1440" height="60" fill="#1e0f06"/>
+    <path d="M0,130 Q80,100 160,118 Q240,135 320,110 Q400,88 480,115 Q560,138 640,108 Q720,80 800,112 Q880,138 960,105 Q1040,75 1120,108 Q1200,135 1280,112 Q1360,92 1440,118 L1440,180 L0,180 Z" fill="#3d2010"/>
+    <path d="M0,140 Q120,125 240,138 Q360,150 480,130 Q600,112 720,135 Q840,155 960,130 Q1080,108 1200,135 Q1320,158 1440,140 L1440,180 L0,180 Z" fill="#2a1508"/>
+    <g fill="#1e0f06">
+      <rect x="60" y="105" width="6" height="25"/><ellipse cx="63" cy="100" rx="12" ry="14"/>
+      <rect x="110" y="108" width="5" height="22"/><ellipse cx="112" cy="103" rx="10" ry="12"/>
+      <rect x="145" y="100" width="7" height="30"/><ellipse cx="148" cy="94" rx="14" ry="16"/>
+      <rect x="200" y="107" width="5" height="23"/><ellipse cx="202" cy="102" rx="9" ry="11"/>
+    </g>
+    <g fill="#1e0f06">
+      <rect x="1200" y="103" width="6" height="27"/><ellipse cx="1203" cy="97" rx="13" ry="15"/>
+      <rect x="1250" y="107" width="5" height="23"/><ellipse cx="1252" cy="102" rx="10" ry="12"/>
+      <rect x="1300" y="100" width="7" height="30"/><ellipse cx="1303" cy="94" rx="14" ry="16"/>
+      <rect x="1360" y="108" width="5" height="22"/><ellipse cx="1362" cy="103" rx="9" ry="11"/>
+    </g>
+    <g fill="#2a1508" stroke="#1e0f06" stroke-width="0.5">
+      <rect x="30" y="118" width="3" height="30"/>
+      <rect x="80" y="120" width="3" height="28"/>
+      <rect x="130" y="118" width="3" height="30"/>
+      <line x1="30" y1="124" x2="133" y2="124" stroke="#3d2010" stroke-width="0.8"/>
+      <line x1="30" y1="130" x2="133" y2="130" stroke="#3d2010" stroke-width="0.8"/>
+    </g>
+    <!-- Rocky the blue heeler -->
+    <g transform="translate(820,72)" fill="#1a0c04">
+      <ellipse cx="0" cy="30" rx="18" ry="13"/>
+      <rect x="-6" y="13" width="12" height="16" rx="4"/>
+      <ellipse cx="0" cy="9" rx="11" ry="10"/>
+      <ellipse cx="8" cy="12" rx="7" ry="5"/>
+      <polygon points="-9,3 -14,-10 -3,1"/>
+      <polygon points="8,3 16,-8 6,1"/>
+      <rect x="-14" y="38" width="5" height="22" rx="2"/>
+      <rect x="-2" y="38" width="5" height="22" rx="2"/>
+      <ellipse cx="14" cy="36" rx="10" ry="9"/>
+      <rect x="8" y="44" width="5" height="18" rx="2"/>
+      <path d="M18,28 Q30,15 26,5 Q24,0 22,4 Q25,10 16,22 Z"/>
+      <circle cx="13" cy="11" r="2" fill="#0d0602"/>
+      <circle cx="4" cy="7" r="1.5" fill="#0d0602"/>
+    </g>
+    <g transform="translate(640,108) scale(0.5)" fill="#1a0c04" opacity="0.7">
+      <ellipse cx="0" cy="20" rx="14" ry="9"/>
+      <rect x="-4" y="9" width="9" height="11" rx="3"/>
+      <ellipse cx="0" cy="5" rx="8" ry="7"/>
+      <ellipse cx="6" cy="8" rx="5" ry="3.5"/>
+      <polygon points="-7,1 -11,-7 -2,0"/>
+      <polygon points="5,1 12,-6 4,0"/>
+      <rect x="-10" y="26" width="4" height="16" rx="2"/>
+      <rect x="-2" y="26" width="4" height="16" rx="2"/>
+      <path d="M14,18 Q22,9 19,2 Q17,-2 15,1 Q18,7 11,15 Z"/>
+    </g>
+    <g transform="translate(200,118) scale(0.45)" fill="#1a0c04" opacity="0.5">
+      <ellipse cx="0" cy="15" rx="22" ry="11"/>
+      <rect x="-8" y="4" width="10" height="12" rx="3"/>
+      <ellipse cx="-3" cy="1" rx="8" ry="7"/>
+      <rect x="-18" y="22" width="4" height="14" rx="2"/>
+      <rect x="-8" y="23" width="4" height="14" rx="2"/>
+      <rect x="4" y="23" width="4" height="14" rx="2"/>
+      <rect x="14" y="22" width="4" height="14" rx="2"/>
+      <path d="M22,12 Q30,10 28,6" stroke="#1a0c04" stroke-width="2" fill="none"/>
+    </g>
+    <g transform="translate(250,122) scale(0.38)" fill="#1a0c04" opacity="0.45">
+      <ellipse cx="0" cy="15" rx="22" ry="11"/>
+      <rect x="-8" y="4" width="10" height="12" rx="3"/>
+      <ellipse cx="-3" cy="1" rx="8" ry="7"/>
+      <rect x="-18" y="22" width="4" height="14" rx="2"/>
+      <rect x="4" y="22" width="4" height="14" rx="2"/>
+      <rect x="14" y="22" width="4" height="14" rx="2"/>
+    </g>
+  </svg>
+</div>
+
+<div class="grain"></div>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-block">
+      <div class="logo-mark">🏠</div>
+      <div class="logo-text">
+        <div class="logo-title">Roofing Down Under</div>
+        <div class="logo-sub">CMD Centre v3.6 &nbsp;·&nbsp; Ronny Lee Couling &nbsp;·&nbsp; Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</div>
+      </div>
+      <div class="colorbond-badge">
+        <span class="cb-word">COLORBOND<sup style="font-size:0.5em">®</sup></span>
+        <span class="cb-reg">Accredited</span>
+      </div>
+    </div>
+    <div class="header-centre">
+      <div class="status-pill"><div class="status-dot green"></div>Systems Online</div>
+      <div class="status-pill"><div class="status-dot blue"></div>ABN Active</div>
+      <div class="status-pill"><div class="status-dot amber"></div>VA Connected</div>
+    </div>
+    <div class="header-right">
+      <div class="live-time" id="clock">--:--:--</div>
+      <div class="live-date" id="dateDisplay">Loading...</div>
+    </div>
+  </header>
+
+  <!-- LAUNCHER -->
+  <div class="panel launcher">
+    <div class="panel-label">Quick Launch</div>
+    <div class="apps-grid">
+      <a href="https://go.xero.com"         target="_blank" class="app-btn blue"><span class="app-icon">💼</span><div class="app-info"><span class="app-name">Xero</span><span class="app-desc">Invoicing &amp; Accounts</span></div><span class="app-arrow">›</span></a>
+      <a href="https://app.roofr.com"       target="_blank" class="app-btn amber"><span class="app-icon">🏠</span><div class="app-info"><span class="app-name">Roofr</span><span class="app-desc">Quoting &amp; Proposals</span></div><span class="app-arrow">›</span></a>
+      <a href="https://web.whatsapp.com"    target="_blank" class="app-btn"><span class="app-icon">💬</span><div class="app-info"><span class="app-name">WhatsApp</span><span class="app-desc">Team &amp; Client Comms</span></div><span class="app-arrow">›</span></a>
+      <a href="https://drive.google.com"    target="_blank" class="app-btn blue"><span class="app-icon">📁</span><div class="app-info"><span class="app-name">Google Drive</span><span class="app-desc">Files &amp; SOPs</span></div><span class="app-arrow">›</span></a>
+      <a href="https://mail.google.com"     target="_blank" class="app-btn amber"><span class="app-icon">✉️</span><div class="app-info"><span class="app-name">Gmail</span><span class="app-desc">Email</span></div><span class="app-arrow">›</span></a>
+      <a href="https://calendar.google.com" target="_blank" class="app-btn blue"><span class="app-icon">📅</span><div class="app-info"><span class="app-name">Calendar</span><span class="app-desc">Schedule &amp; Jobs</span></div><span class="app-arrow">›</span></a>
+      <a href="https://claude.ai"           target="_blank" class="app-btn"><span class="app-icon">🤖</span><div class="app-info"><span class="app-name">Claude</span><span class="app-desc">AI Operations</span></div><span class="app-arrow">›</span></a>
+      <a href="https://open.spotify.com"    target="_blank" class="app-btn"><span class="app-icon">🎵</span><div class="app-info"><span class="app-name">Spotify</span><span class="app-desc">Focus Mode</span></div><span class="app-arrow">›</span></a>
+      <a href="https://www.instagram.com"   target="_blank" class="app-btn amber"><span class="app-icon">📸</span><div class="app-info"><span class="app-name">Instagram</span><span class="app-desc">Brand &amp; Build</span></div><span class="app-arrow">›</span></a>
+    </div>
+    <div style="margin-top:9px;">
+      <div class="panel-label">Notes</div>
+      <textarea class="note-input" placeholder="Rocky 🐾 — worksite drop 8am&#10;Toneth: invoice HCM Build&#10;Myla: chase Lloyds deposit"></textarea>
+    </div>
+  </div>
+
+  <!-- WEATHER -->
+  <div class="panel weather-panel">
+    <div class="panel-label">Weather — Sutherland Shire</div>
+    <div id="weatherContent" class="weather-loading">Fetching conditions...</div>
+  </div>
+
+  <!-- KAI — 3 Accounts -->
+  <div class="panel kai-panel">
+    <div class="panel-label">KAI — Bank Balances 💵</div>
+    <div class="kai-3grid">
+      <!-- Business -->
+      <div class="kai-acct biz">
+        <div class="kai-acct-icon">🏦</div>
+        <div class="kai-acct-info">
+          <div class="kai-acct-label">Business</div>
+          <div class="kai-acct-val" id="kaiBiz">$—</div>
+          <div class="kai-acct-ts" id="kaiBizTs">Not set</div>
+        </div>
+        <div class="kai-acct-right">
+          <input class="kai-micro-input" id="kaiBizIn" placeholder="$...">
+          <button class="kai-micro-btn" onclick="setKai('biz')">SET</button>
+        </div>
+      </div>
+      <!-- Tax Hold -->
+      <div class="kai-acct tax">
+        <div class="kai-acct-icon">📋</div>
+        <div class="kai-acct-info">
+          <div class="kai-acct-label">Tax Hold</div>
+          <div class="kai-acct-val" id="kaiTax">$—</div>
+          <div class="kai-acct-ts" id="kaiTaxTs">Not set</div>
+        </div>
+        <div class="kai-acct-right">
+          <input class="kai-micro-input" id="kaiTaxIn" placeholder="$...">
+          <button class="kai-micro-btn" onclick="setKai('tax')">SET</button>
+        </div>
+      </div>
+      <!-- Personal -->
+      <div class="kai-acct pers">
+        <div class="kai-acct-icon">👤</div>
+        <div class="kai-acct-info">
+          <div class="kai-acct-label">Personal</div>
+          <div class="kai-acct-val" id="kaiPers">$—</div>
+          <div class="kai-acct-ts" id="kaiPersTs">Not set</div>
+        </div>
+        <div class="kai-acct-right">
+          <input class="kai-micro-input" id="kaiPersIn" placeholder="$...">
+          <button class="kai-micro-btn" onclick="setKai('pers')">SET</button>
+        </div>
+      </div>
+      <!-- Total row -->
+      <div class="kai-total-row">
+        <span class="kai-total-label">Total Across Accounts</span>
+        <span class="kai-total-val" id="kaiTotal">$—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASKS -->
+  <div class="panel tasks-panel">
+    <div class="panel-label">Today's Tasks</div>
+    <div class="task-list" id="taskList">
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><span class="task-text">Lofty's Lloyds quote</span></div>
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><span class="task-text">Mirral Rd — Brett Nash quote</span></div>
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><span class="task-text">HCM Build Jannali quote</span></div>
+    </div>
+  </div>
+
+  <!-- MAHI — Job Tracker -->
+  <div class="panel jobs-panel">
+    <div class="panel-label">MAHI — Live Projects 🔨</div>
+    <div class="jobs-table-wrap">
+      <table id="jobTable">
+        <thead><tr><th>Job / Client</th><th>Address</th><th>Value</th><th>Stage</th><th></th></tr></thead>
+        <tbody id="jobBody">
+          <tr>
+            <td>HCM Build</td>
+            <td style="color:var(--muted);font-size:0.55rem">111 Mansfield St, Rozelle</td>
+            <td>$30,000</td>
+            <td><span class="badge active">Active</span></td>
+            <td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;transition:color 0.15s;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>
+          </tr>
+          <tr>
+            <td>Lloyds</td>
+            <td style="color:var(--muted);font-size:0.55rem">297 Woolooware Rd, Burraneer</td>
+            <td>$42,250</td>
+            <td><span class="badge active">Active</span></td>
+            <td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;transition:color 0.15s;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>
+          </tr>
+          <tr>
+            <td>Brad — Uplift Building</td>
+            <td style="color:var(--muted);font-size:0.55rem">41 Lower Washington Dr</td>
+            <td>$3,850</td>
+            <td><span class="badge active">Active</span></td>
+            <td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;transition:color 0.15s;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="add-row">
+      <input class="add-input" id="jobName" placeholder="Job / Client name..." style="flex:2">
+      <input class="add-input" id="jobAddr" placeholder="Address...">
+      <input class="add-input" id="jobValue" placeholder="$Value...">
+      <select id="jobStage" class="add-input">
+        <option value="quoted">Quoted</option>
+        <option value="active">Active</option>
+        <option value="pending">Pending</option>
+        <option value="complete">Complete</option>
+      </select>
+      <button class="add-btn" onclick="addJob()">+ Add Job</button>
+    </div>
+  </div>
+
+  <!-- MOKO — NEON SCOREBOARD -->
+  <div class="panel moko-panel">
+    <!-- Tāmoko koru SVG background -->
+    <div class="moko-koru-bg">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <!-- Koru spiral 1 -->
+        <g fill="none" stroke="#00ff88" stroke-width="1.5">
+          <path d="M20,160 C20,130 35,115 55,118 C75,121 82,140 72,152 C62,164 45,160 40,148 C35,136 42,122 55,122 C68,122 74,134 68,144"/>
+          <path d="M15,165 C8,145 12,125 28,110"/>
+        </g>
+        <!-- Koru spiral 2 -->
+        <g fill="none" stroke="#00ff88" stroke-width="1.2" transform="translate(100,10) rotate(45)">
+          <path d="M0,50 C0,30 12,18 28,20 C44,22 50,38 42,48 C34,58 20,54 16,44 C12,34 18,22 28,22 C38,22 44,32 38,40"/>
+          <path d="M-4,54 C-9,38 -6,20 6,8"/>
+        </g>
+        <!-- Koru spiral 3 -->
+        <g fill="none" stroke="#00ff88" stroke-width="1" transform="translate(145,120) rotate(-20)">
+          <path d="M0,40 C0,24 10,14 22,16 C34,18 39,30 33,38 C27,46 16,43 13,35 C10,27 15,17 22,17 C29,17 34,25 30,32"/>
+          <path d="M-3,43 C-7,30 -5,16 4,6"/>
+        </g>
+        <!-- Tāmoko diamond pattern top-right -->
+        <g fill="none" stroke="#00ff88" stroke-width="0.8" opacity="0.6">
+          <polygon points="160,5 170,15 160,25 150,15"/>
+          <polygon points="162,7 170,15 162,23 154,15"/>
+        </g>
+        <!-- Tāmoko line pattern bottom -->
+        <g stroke="#00ff88" stroke-width="0.6" opacity="0.4">
+          <line x1="0" y1="175" x2="200" y2="175"/>
+          <line x1="10" y1="171" x2="10" y2="180"/>
+          <line x1="25" y1="171" x2="25" y2="180"/>
+          <line x1="40" y1="171" x2="40" y2="180"/>
+          <line x1="55" y1="171" x2="55" y2="180"/>
+          <line x1="70" y1="171" x2="70" y2="180"/>
+          <line x1="85" y1="171" x2="85" y2="180"/>
+          <line x1="100" y1="169" x2="100" y2="182"/>
+          <line x1="115" y1="171" x2="115" y2="180"/>
+          <line x1="130" y1="171" x2="130" y2="180"/>
+          <line x1="145" y1="171" x2="145" y2="180"/>
+          <line x1="160" y1="171" x2="160" y2="180"/>
+          <line x1="175" y1="171" x2="175" y2="180"/>
+          <line x1="190" y1="171" x2="190" y2="180"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="panel-label" style="position:relative;z-index:1;">MOKO — Ronny's Scoreboard 👑</div>
+
+    <div class="moko-board">
+      <!-- Australia silhouette SVG -->
+      <svg class="aus-silhouette" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18,8 L22,5 L30,4 L40,6 L48,10 L52,8 L58,10 L64,16 L66,24 L62,30 L64,36 L61,44 L56,50 L52,54 L48,52 L44,58 L40,62 L35,60 L30,64 L25,62 L20,56 L15,50 L10,42 L8,34 L10,26 L14,18 Z"
+              fill="#00ff88" stroke="none"/>
+        <!-- Cape York Peninsula -->
+        <path d="M58,10 L62,4 L60,2 L56,6 Z" fill="#00ff88"/>
+      </svg>
+
+      <div class="moko-board-header">
+        <span class="moko-board-title">RONNY'S SCOREBOARD · MARCH 2026</span>
+        <span class="moko-crown">🐾</span>
+      </div>
+      <div class="moko-rev-section">
+        <div class="moko-rev-eyebrow">// Total Revenue</div>
+        <div class="moko-rev" id="mokoRev">$76,100</div>
+        <div class="moko-vibe" id="mokoVibe">Three active jobs — keep pushing! 💪</div>
+      </div>
+      <div class="moko-progress-wrap">
+        <div class="moko-bar-track"><div class="moko-bar-fill" id="mokoBar" style="width:0%"></div></div>
+        <div class="moko-bar-label" id="mokoBarLabel">$76,100 earned — set a target below</div>
+      </div>
+      <div class="moko-stats">
+        <div class="moko-stat">
+          <div class="moko-stat-label">Quotes Out</div>
+          <div class="moko-stat-val neon" id="mokoQuotes">0</div>
+        </div>
+        <div class="moko-stat">
+          <div class="moko-stat-label">Jobs Won</div>
+          <div class="moko-stat-val gold" id="mokoWon">3</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="moko-inputs" style="position:relative;z-index:1;">
+      <div class="moko-row">
+        <input class="moko-input" id="mokoRevInput" placeholder="Revenue $...">
+        <button class="moko-btn" onclick="updateMokoRev()">SET</button>
+      </div>
+      <div class="moko-row">
+        <input class="moko-input" id="mokoTargetInput" placeholder="Target $...">
+        <button class="moko-btn" onclick="updateMokoTarget()">TARGET</button>
+      </div>
+      <div class="moko-row">
+        <input class="moko-input" id="mokoQInput" placeholder="Quotes #">
+        <input class="moko-input" id="mokoWInput" placeholder="Won #">
+        <button class="moko-btn" onclick="updateMokoStats()">UPD</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">RDU Command Centre v3.6 &nbsp;·&nbsp; RoofingDownUnder.net &nbsp;·&nbsp; Est. 2026 &nbsp;·&nbsp; Sydney NSW AU</div>
+    <div class="footer-right">
+      <span class="footer-tag">Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</span>
+      <span class="footer-tag">Myla · Toneth · Harry · Pauly · Josh</span>
+      <span class="footer-tag">🐾 Cattle Dogs. Roofing. Repeat.</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// ── CLOCK ──
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString('en-AU',{hour12:false});
+  document.getElementById('dateDisplay').textContent = now.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
+}
+updateClock(); setInterval(updateClock,1000);
+
+// ── TASKS ──
+function toggleTask(el) { el.classList.toggle('done'); }
+
+// ── WEATHER ──
+async function loadWeather() {
+  try {
+    const res = await fetch('https://wttr.in/Sutherland+NSW+Australia?format=j1');
+    const data = await res.json();
+    const c = data.current_condition[0];
+    const desc=c.weatherDesc[0].value, temp=c.temp_C, feels=c.FeelsLikeC, humidity=c.humidity, wind=c.windspeedKmph;
+    const icons={'Sunny':'☀️','Clear':'🌙','Partly cloudy':'⛅','Cloudy':'☁️','Overcast':'☁️','Mist':'🌫️','Rain':'🌧️','Light rain':'🌦️','Heavy rain':'⛈️','Thunder':'⛈️','Snow':'❄️','Fog':'🌫️','Drizzle':'🌦️'};
+    let icon='🌤️';
+    for(const[k,v]of Object.entries(icons)){if(desc.toLowerCase().includes(k.toLowerCase())){icon=v;break;}}
+    const w=parseInt(wind);
+    const roofing=w>45
+      ?`<span style="color:var(--red-dust);font-weight:700">TOO WINDY ⚠</span>`
+      :w>25
+      ?`<span style="color:var(--dust);font-weight:700">BIT BREEZY</span>`
+      :`<span style="color:var(--green-gum);font-weight:700">GOOD TO GO ✓</span>`;
+    document.getElementById('weatherContent').innerHTML=`
+      <div class="weather-main">
+        <div class="weather-icon">${icon}</div>
+        <div>
+          <div class="weather-temp">${temp}<span>°C</span></div>
+          <div class="weather-desc">${desc}</div>
+          <div class="weather-loc">Sutherland Shire, NSW, Australia</div>
+        </div>
+      </div>
+      <div class="weather-stats">
+        <div class="w-stat"><div class="w-stat-label">Feels Like</div><div class="w-stat-val">${feels}°C</div></div>
+        <div class="w-stat"><div class="w-stat-label">Humidity</div><div class="w-stat-val">${humidity}%</div></div>
+        <div class="w-stat"><div class="w-stat-label">Wind</div><div class="w-stat-val">${wind}km/h</div></div>
+        <div class="w-stat"><div class="w-stat-label">On the Tools</div><div class="w-stat-val" style="font-size:0.62rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${roofing}</div></div>
+      </div>`;
+  } catch(e) {
+    document.getElementById('weatherContent').innerHTML='<div class="weather-loading">No signal — check network</div>';
+  }
+}
+loadWeather(); setInterval(loadWeather,600000);
+
+// ── KAI — 3 Accounts ──
+const kaiAccounts = { biz: 0, tax: 0, pers: 0 };
+const kaiSet = { biz: false, tax: false, pers: false };
+
+function setKai(acct) {
+  const inputMap = { biz:'kaiBizIn', tax:'kaiTaxIn', pers:'kaiPersIn' };
+  const valMap   = { biz:'kaiBiz',   tax:'kaiTax',   pers:'kaiPers'  };
+  const tsMap    = { biz:'kaiBizTs', tax:'kaiTaxTs',  pers:'kaiPersTs' };
+  const raw = document.getElementById(inputMap[acct]).value.replace(/[$,]/g,'');
+  const val = parseFloat(raw);
+  if(isNaN(val)) return;
+  kaiAccounts[acct] = val;
+  kaiSet[acct] = true;
+  document.getElementById(valMap[acct]).textContent = '$' + val.toLocaleString('en-AU');
+  const now = new Date();
+  const ts = now.toLocaleTimeString('en-AU',{hour12:true,hour:'numeric',minute:'2-digit'}) + ' · ' + now.toLocaleDateString('en-AU',{day:'numeric',month:'short'});
+  document.getElementById(tsMap[acct]).textContent = 'Updated ' + ts;
+  document.getElementById(inputMap[acct]).value = '';
+  updateKaiTotal();
+}
+
+function updateKaiTotal() {
+  const anySet = kaiSet.biz || kaiSet.tax || kaiSet.pers;
+  if (!anySet) return;
+  const total = kaiAccounts.biz + kaiAccounts.tax + kaiAccounts.pers;
+  document.getElementById('kaiTotal').textContent = '$' + total.toLocaleString('en-AU');
+}
+
+// Enter key support for KAI inputs
+['kaiBizIn','kaiTaxIn','kaiPersIn'].forEach((id,i)=>{
+  const accts=['biz','tax','pers'];
+  document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')setKai(accts[i]);});
+});
+
+// ── MAHI ──
+function addJob() {
+  const name=document.getElementById('jobName').value.trim(); if(!name)return;
+  const addr=document.getElementById('jobAddr').value.trim()||'—';
+  const value=document.getElementById('jobValue').value.trim()||'TBC';
+  const stage=document.getElementById('jobStage').value;
+  const labels={quoted:'Quoted',active:'Active',pending:'Pending',complete:'Complete'};
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${name}</td><td style="color:var(--muted);font-size:0.55rem">${addr}</td><td>${value}</td><td><span class="badge ${stage}">${labels[stage]}</span></td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
+  document.getElementById('jobBody').appendChild(tr);
+  ['jobName','jobAddr','jobValue'].forEach(id=>document.getElementById(id).value='');
+}
+function removeJob(btn){btn.closest('tr').remove();}
+
+// ── MOKO ──
+const vibes = [
+  "Just getting warmed up, mate! 🔥",
+  "Solid start — keep stackin'! 💪",
+  "Three active — build the pipeline! 🏗",
+  "On fire out there! 🚀",
+  "Halfway there — push hard! 💥",
+  "Almost at target, don't blink! ⚡",
+  "TARGET SMASHED. Bloody legend. 🏆",
+  "OVER TARGET. Absolute unit! 👑"
+];
+let mokoTarget=0, mokoRev=76100;
+
+function getVibe(pct){
+  if(pct===0)return vibes[0]; if(pct<25)return vibes[1]; if(pct<45)return vibes[2];
+  if(pct<60)return vibes[3]; if(pct<75)return vibes[4]; if(pct<95)return vibes[5];
+  if(pct<=105)return vibes[6]; return vibes[7];
+}
+function refreshMoko(){
+  document.getElementById('mokoRev').textContent='$'+mokoRev.toLocaleString('en-AU');
+  const pct=mokoTarget>0?Math.round(mokoRev/mokoTarget*100):0;
+  document.getElementById('mokoVibe').textContent=mokoTarget>0?getVibe(pct):"Three active jobs — keep pushing! 💪";
+}
+function updateMokoRev(){
+  mokoRev=parseFloat(document.getElementById('mokoRevInput').value.replace(/[$,]/g,''))||0;
+  refreshMoko(); updateMokoProgress();
+  document.getElementById('mokoRevInput').value='';
+}
+function updateMokoTarget(){
+  mokoTarget=parseFloat(document.getElementById('mokoTargetInput').value.replace(/[$,]/g,''))||0;
+  updateMokoProgress();
+  document.getElementById('mokoTargetInput').value='';
+}
+function updateMokoProgress(){
+  const pct=mokoTarget>0?Math.min(100,Math.round(mokoRev/mokoTarget*100)):0;
+  document.getElementById('mokoBar').style.width=pct+'%';
+  document.getElementById('mokoBarLabel').textContent=mokoTarget>0
+    ?`$${mokoRev.toLocaleString()} of $${mokoTarget.toLocaleString()} · ${pct}%`
+    :`$${mokoRev.toLocaleString()} earned — set a target`;
+  document.getElementById('mokoVibe').textContent=getVibe(pct);
+}
+function updateMokoStats(){
+  const q=document.getElementById('mokoQInput').value, w=document.getElementById('mokoWInput').value;
+  if(q)document.getElementById('mokoQuotes').textContent=q;
+  if(w)document.getElementById('mokoWon').textContent=w;
+  document.getElementById('mokoQInput').value=''; document.getElementById('mokoWInput').value='';
+}
+refreshMoko();
+</script>
+</body>
+</html>
