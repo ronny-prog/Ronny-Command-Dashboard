@@ -381,30 +381,66 @@
   /* ── MAHI ── */
   .jobs-panel { grid-column:2/4; grid-row:3; animation-delay:0.25s; }
   .jobs-table-wrap { flex:1; overflow-y:auto; }
+
   table { width:100%; border-collapse:collapse; font-size:0.61rem; }
   th {
     font-family:'Bebas Neue',sans-serif; font-size:0.62rem; font-weight:400;
     letter-spacing:0.14em; color:var(--brown); text-transform:uppercase;
-    padding:4px 10px; border-bottom:2px solid var(--border2); text-align:left;
+    padding:4px 8px; border-bottom:2px solid var(--border2); text-align:left;
+    white-space:nowrap;
   }
-  td { padding:5px 10px; border-bottom:1px solid var(--border); color:var(--text-light); vertical-align:middle; font-family:'Barlow',sans-serif; font-weight:500; }
+  td { padding:4px 8px; border-bottom:1px solid var(--border); color:var(--text-light); vertical-align:middle; font-family:'Barlow',sans-serif; font-weight:500; }
   tr:last-child td { border-bottom:none; }
   tr:hover td { background:var(--surface2); color:var(--brown); }
-  .badge {
-    display:inline-block; padding:2px 9px; border-radius:20px;
-    font-family:'Barlow Condensed',sans-serif;
-    font-size:0.44rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700;
-  }
-  .badge.active  { background:rgba(90,138,60,0.12);  color:var(--green-gum); border:1px solid rgba(90,138,60,0.35); }
-  .badge.quoted  { background:var(--blue-dim);        color:var(--blue-bright); border:1px solid rgba(74,159,212,0.35); }
-  .badge.pending { background:var(--tan-dim);         color:var(--dust);      border:1px solid rgba(196,137,58,0.35); }
-  .badge.complete{ background:rgba(92,51,23,0.1);    color:var(--brown-mid); border:1px solid rgba(92,51,23,0.3); }
 
-  .add-row { display:flex; gap:6px; margin-top:7px; flex-shrink:0; }
+  /* ── STATUS DROPDOWN in table rows ── */
+  .status-select {
+    appearance:none;
+    -webkit-appearance:none;
+    border:1.5px solid;
+    border-radius:20px;
+    padding:2px 20px 2px 8px;
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:0.42rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase;
+    cursor:pointer;
+    outline:none;
+    background-repeat:no-repeat;
+    background-position:right 5px center;
+    background-size:8px;
+    transition:all 0.15s;
+  }
+  .status-select:focus { transform:scale(1.03); }
+
+  /* Status colour states */
+  .status-select[data-status="in-progress"] {
+    background-color:rgba(90,138,60,0.12); color:var(--green-gum);
+    border-color:rgba(90,138,60,0.35);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%235a8a3c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  }
+  .status-select[data-status="needs-qdraft"] {
+    background-color:var(--blue-dim); color:var(--blue-bright);
+    border-color:rgba(74,159,212,0.35);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%232e8bc0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  }
+  .status-select[data-status="waiting-ronny"] {
+    background-color:var(--tan-dim); color:var(--dust);
+    border-color:rgba(196,137,58,0.35);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c4893a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  }
+  .status-select[data-status="waiting-client"] {
+    background-color:rgba(192,57,43,0.1); color:var(--red-dust);
+    border-color:rgba(192,57,43,0.3);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c0392b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  }
+  .status-select option { background:var(--surface); color:var(--text); font-size:0.7rem; }
+
+  .add-row { display:flex; gap:6px; margin-top:7px; flex-shrink:0; flex-wrap:nowrap; align-items:center; }
   .add-input {
-    flex:1; background:var(--surface2); border:1.5px solid var(--border);
+    background:var(--surface2); border:1.5px solid var(--border);
     color:var(--text); font-family:'Barlow',sans-serif; font-size:0.58rem;
     padding:5px 9px; outline:none; border-radius:4px; transition:all 0.15s;
+    min-width:0;
   }
   .add-input:focus { border-color:var(--blue-sky); box-shadow:0 0 0 3px rgba(74,159,212,0.12); background:var(--surface); }
   .add-input::placeholder { color:var(--subtle); }
@@ -414,7 +450,7 @@
     border:none; color:var(--tan-light); font-family:'Bebas Neue',sans-serif;
     font-size:0.7rem; padding:5px 14px; cursor:pointer; border-radius:4px;
     letter-spacing:0.1em; transition:all 0.15s; white-space:nowrap;
-    box-shadow:0 2px 8px rgba(61,32,16,0.3);
+    box-shadow:0 2px 8px rgba(61,32,16,0.3); flex-shrink:0;
   }
   .add-btn:hover { background:linear-gradient(135deg, var(--brown-mid), var(--dust)); transform:translateY(-1px); }
 
@@ -433,13 +469,11 @@
   .moko-panel .panel-label { color: var(--neon) !important; text-shadow: 0 0 8px rgba(0,255,136,0.5); }
   .moko-panel .panel-label::after { background:linear-gradient(90deg, rgba(0,255,136,0.3), transparent) !important; }
 
-  /* Koru / Tāmoko SVG background layer */
   .moko-koru-bg {
     position:absolute; inset:0; pointer-events:none; z-index:0; opacity:0.07;
     overflow:hidden;
   }
 
-  /* Australia silhouette in board */
   .aus-silhouette {
     position:absolute; right:-5px; bottom:28px; width:70px; height:55px;
     opacity:0.12; pointer-events:none;
@@ -595,7 +629,7 @@
       <div class="logo-mark">🏠</div>
       <div class="logo-text">
         <div class="logo-title">Roofing Down Under</div>
-        <div class="logo-sub">CMD Centre v3.6 &nbsp;·&nbsp; Ronny Lee Couling &nbsp;·&nbsp; Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</div>
+        <div class="logo-sub">CMD Centre v3.7 &nbsp;·&nbsp; Ronny Lee Couling &nbsp;·&nbsp; Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</div>
       </div>
       <div class="colorbond-badge">
         <span class="cb-word">COLORBOND<sup style="font-size:0.5em">®</sup></span>
@@ -643,7 +677,6 @@
   <div class="panel kai-panel">
     <div class="panel-label">KAI — Bank Balances 💵</div>
     <div class="kai-3grid">
-      <!-- Business -->
       <div class="kai-acct biz">
         <div class="kai-acct-icon">🏦</div>
         <div class="kai-acct-info">
@@ -656,7 +689,6 @@
           <button class="kai-micro-btn" onclick="setKai('biz')">SET</button>
         </div>
       </div>
-      <!-- Tax Hold -->
       <div class="kai-acct tax">
         <div class="kai-acct-icon">📋</div>
         <div class="kai-acct-info">
@@ -669,7 +701,6 @@
           <button class="kai-micro-btn" onclick="setKai('tax')">SET</button>
         </div>
       </div>
-      <!-- Personal -->
       <div class="kai-acct pers">
         <div class="kai-acct-icon">👤</div>
         <div class="kai-acct-info">
@@ -682,7 +713,6 @@
           <button class="kai-micro-btn" onclick="setKai('pers')">SET</button>
         </div>
       </div>
-      <!-- Total row -->
       <div class="kai-total-row">
         <span class="kai-total-label">Total Across Accounts</span>
         <span class="kai-total-val" id="kaiTotal">$—</span>
@@ -700,46 +730,74 @@
     </div>
   </div>
 
-  <!-- MAHI — Job Tracker -->
+  <!-- MAHI — Job Tracker v3.7 -->
   <div class="panel jobs-panel">
     <div class="panel-label">MAHI — Live Projects 🔨</div>
     <div class="jobs-table-wrap">
       <table id="jobTable">
-        <thead><tr><th>Job / Client</th><th>Address</th><th>Value</th><th>Stage</th><th></th></tr></thead>
+        <thead>
+          <tr>
+            <th style="width:70px">Quote No.</th>
+            <th>Client Name</th>
+            <th>Address</th>
+            <th>Value</th>
+            <th>Status</th>
+            <th style="width:22px"></th>
+          </tr>
+        </thead>
         <tbody id="jobBody">
           <tr>
+            <td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">—</td>
             <td>HCM Build</td>
             <td style="color:var(--muted);font-size:0.55rem">111 Mansfield St, Rozelle</td>
             <td>$30,000</td>
-            <td><span class="badge active">Active</span></td>
+            <td><select class="status-select" data-status="in-progress" onchange="updateStatusStyle(this)">
+              <option value="in-progress" selected>In Progress</option>
+              <option value="needs-qdraft">Needs Q-Draft</option>
+              <option value="waiting-ronny">Waiting Ronny Approval</option>
+              <option value="waiting-client">Waiting Client Approval</option>
+            </select></td>
             <td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;transition:color 0.15s;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>
           </tr>
           <tr>
+            <td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">—</td>
             <td>Lloyds</td>
             <td style="color:var(--muted);font-size:0.55rem">297 Woolooware Rd, Burraneer</td>
             <td>$42,250</td>
-            <td><span class="badge active">Active</span></td>
+            <td><select class="status-select" data-status="in-progress" onchange="updateStatusStyle(this)">
+              <option value="in-progress" selected>In Progress</option>
+              <option value="needs-qdraft">Needs Q-Draft</option>
+              <option value="waiting-ronny">Waiting Ronny Approval</option>
+              <option value="waiting-client">Waiting Client Approval</option>
+            </select></td>
             <td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;transition:color 0.15s;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>
           </tr>
           <tr>
+            <td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">—</td>
             <td>Brad — Uplift Building</td>
             <td style="color:var(--muted);font-size:0.55rem">41 Lower Washington Dr</td>
             <td>$3,850</td>
-            <td><span class="badge active">Active</span></td>
+            <td><select class="status-select" data-status="in-progress" onchange="updateStatusStyle(this)">
+              <option value="in-progress" selected>In Progress</option>
+              <option value="needs-qdraft">Needs Q-Draft</option>
+              <option value="waiting-ronny">Waiting Ronny Approval</option>
+              <option value="waiting-client">Waiting Client Approval</option>
+            </select></td>
             <td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;transition:color 0.15s;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="add-row">
-      <input class="add-input" id="jobName" placeholder="Job / Client name..." style="flex:2">
-      <input class="add-input" id="jobAddr" placeholder="Address...">
-      <input class="add-input" id="jobValue" placeholder="$Value...">
-      <select id="jobStage" class="add-input">
-        <option value="quoted">Quoted</option>
-        <option value="active">Active</option>
-        <option value="pending">Pending</option>
-        <option value="complete">Complete</option>
+      <input class="add-input" id="jobQuote" placeholder="Quote No." style="width:80px;flex:none;">
+      <input class="add-input" id="jobName" placeholder="Client name..." style="flex:2">
+      <input class="add-input" id="jobAddr" placeholder="Address..." style="flex:2">
+      <input class="add-input" id="jobValue" placeholder="$Value..." style="width:80px;flex:none;">
+      <select id="jobStage" class="add-input" style="flex:1.5">
+        <option value="in-progress">In Progress</option>
+        <option value="needs-qdraft">Needs Q-Draft</option>
+        <option value="waiting-ronny">Waiting Ronny Approval</option>
+        <option value="waiting-client">Waiting Client Approval</option>
       </select>
       <button class="add-btn" onclick="addJob()">+ Add Job</button>
     </div>
@@ -747,30 +805,24 @@
 
   <!-- MOKO — NEON SCOREBOARD -->
   <div class="panel moko-panel">
-    <!-- Tāmoko koru SVG background -->
     <div class="moko-koru-bg">
       <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <!-- Koru spiral 1 -->
         <g fill="none" stroke="#00ff88" stroke-width="1.5">
           <path d="M20,160 C20,130 35,115 55,118 C75,121 82,140 72,152 C62,164 45,160 40,148 C35,136 42,122 55,122 C68,122 74,134 68,144"/>
           <path d="M15,165 C8,145 12,125 28,110"/>
         </g>
-        <!-- Koru spiral 2 -->
         <g fill="none" stroke="#00ff88" stroke-width="1.2" transform="translate(100,10) rotate(45)">
           <path d="M0,50 C0,30 12,18 28,20 C44,22 50,38 42,48 C34,58 20,54 16,44 C12,34 18,22 28,22 C38,22 44,32 38,40"/>
           <path d="M-4,54 C-9,38 -6,20 6,8"/>
         </g>
-        <!-- Koru spiral 3 -->
         <g fill="none" stroke="#00ff88" stroke-width="1" transform="translate(145,120) rotate(-20)">
           <path d="M0,40 C0,24 10,14 22,16 C34,18 39,30 33,38 C27,46 16,43 13,35 C10,27 15,17 22,17 C29,17 34,25 30,32"/>
           <path d="M-3,43 C-7,30 -5,16 4,6"/>
         </g>
-        <!-- Tāmoko diamond pattern top-right -->
         <g fill="none" stroke="#00ff88" stroke-width="0.8" opacity="0.6">
           <polygon points="160,5 170,15 160,25 150,15"/>
           <polygon points="162,7 170,15 162,23 154,15"/>
         </g>
-        <!-- Tāmoko line pattern bottom -->
         <g stroke="#00ff88" stroke-width="0.6" opacity="0.4">
           <line x1="0" y1="175" x2="200" y2="175"/>
           <line x1="10" y1="171" x2="10" y2="180"/>
@@ -793,14 +845,10 @@
     <div class="panel-label" style="position:relative;z-index:1;">MOKO — Ronny's Scoreboard 👑</div>
 
     <div class="moko-board">
-      <!-- Australia silhouette SVG -->
       <svg class="aus-silhouette" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
-        <path d="M18,8 L22,5 L30,4 L40,6 L48,10 L52,8 L58,10 L64,16 L66,24 L62,30 L64,36 L61,44 L56,50 L52,54 L48,52 L44,58 L40,62 L35,60 L30,64 L25,62 L20,56 L15,50 L10,42 L8,34 L10,26 L14,18 Z"
-              fill="#00ff88" stroke="none"/>
-        <!-- Cape York Peninsula -->
+        <path d="M18,8 L22,5 L30,4 L40,6 L48,10 L52,8 L58,10 L64,16 L66,24 L62,30 L64,36 L61,44 L56,50 L52,54 L48,52 L44,58 L40,62 L35,60 L30,64 L25,62 L20,56 L15,50 L10,42 L8,34 L10,26 L14,18 Z" fill="#00ff88" stroke="none"/>
         <path d="M58,10 L62,4 L60,2 L56,6 Z" fill="#00ff88"/>
       </svg>
-
       <div class="moko-board-header">
         <span class="moko-board-title">RONNY'S SCOREBOARD · MARCH 2026</span>
         <span class="moko-crown">🐾</span>
@@ -845,7 +893,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-left">RDU Command Centre v3.6 &nbsp;·&nbsp; RoofingDownUnder.net &nbsp;·&nbsp; Est. 2026 &nbsp;·&nbsp; Sydney NSW AU</div>
+    <div class="footer-left">RDU Command Centre v3.7 &nbsp;·&nbsp; RoofingDownUnder.net &nbsp;·&nbsp; Est. 2026 &nbsp;·&nbsp; Sydney NSW AU</div>
     <div class="footer-right">
       <span class="footer-tag">Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</span>
       <span class="footer-tag">Myla · Toneth · Harry · Pauly · Josh</span>
@@ -932,24 +980,45 @@ function updateKaiTotal() {
   document.getElementById('kaiTotal').textContent = '$' + total.toLocaleString('en-AU');
 }
 
-// Enter key support for KAI inputs
 ['kaiBizIn','kaiTaxIn','kaiPersIn'].forEach((id,i)=>{
   const accts=['biz','tax','pers'];
   document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')setKai(accts[i]);});
 });
 
-// ── MAHI ──
+// ── MAHI — Status Dropdown ──
+function updateStatusStyle(sel) {
+  sel.setAttribute('data-status', sel.value);
+}
+
+function makeStatusDropdown(selectedVal) {
+  const opts = [
+    { val:'in-progress',    label:'In Progress' },
+    { val:'needs-qdraft',   label:'Needs Q-Draft' },
+    { val:'waiting-ronny',  label:'Waiting Ronny Approval' },
+    { val:'waiting-client', label:'Waiting Client Approval' },
+  ];
+  const optHtml = opts.map(o=>`<option value="${o.val}"${o.val===selectedVal?' selected':''}>${o.label}</option>`).join('');
+  return `<select class="status-select" data-status="${selectedVal}" onchange="updateStatusStyle(this)">${optHtml}</select>`;
+}
+
 function addJob() {
   const name=document.getElementById('jobName').value.trim(); if(!name)return;
+  const quote=document.getElementById('jobQuote').value.trim()||'—';
   const addr=document.getElementById('jobAddr').value.trim()||'—';
   const value=document.getElementById('jobValue').value.trim()||'TBC';
   const stage=document.getElementById('jobStage').value;
-  const labels={quoted:'Quoted',active:'Active',pending:'Pending',complete:'Complete'};
   const tr=document.createElement('tr');
-  tr.innerHTML=`<td>${name}</td><td style="color:var(--muted);font-size:0.55rem">${addr}</td><td>${value}</td><td><span class="badge ${stage}">${labels[stage]}</span></td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
+  tr.innerHTML=`
+    <td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">${quote}</td>
+    <td>${name}</td>
+    <td style="color:var(--muted);font-size:0.55rem">${addr}</td>
+    <td>${value}</td>
+    <td>${makeStatusDropdown(stage)}</td>
+    <td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
   document.getElementById('jobBody').appendChild(tr);
-  ['jobName','jobAddr','jobValue'].forEach(id=>document.getElementById(id).value='');
+  ['jobName','jobAddr','jobValue','jobQuote'].forEach(id=>document.getElementById(id).value='');
 }
+
 function removeJob(btn){btn.closest('tr').remove();}
 
 // ── MOKO ──
