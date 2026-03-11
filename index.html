@@ -89,7 +89,7 @@
   .note-input:focus{border-color:var(--blue-sky);box-shadow:0 0 0 3px rgba(74,159,212,0.15);background:var(--surface);}
   .note-input::placeholder{color:var(--subtle);}
 
-  /* ROW 2 COL 2 — WEATHER (left) + VA COL (right) */
+  /* ROW 2 COL 2 */
   .weather-va-row{grid-column:2;grid-row:2;display:flex;gap:8px;overflow:hidden;}
   .weather-panel{flex:1.4;animation-delay:0.1s;}
   .weather-main{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
@@ -104,7 +104,7 @@
   .w-stat-val{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;color:var(--brown);letter-spacing:0.04em;}
   .weather-loading{color:var(--muted);font-size:0.58rem;text-align:center;margin:auto;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:0.1em;}
 
-  /* VA TASKS COLUMN */
+  /* VA TASKS */
   .va-col{flex:1;display:flex;flex-direction:column;gap:8px;min-width:0;}
   .va-panel{flex:1;animation-delay:0.12s;min-height:0;}
   .va-panel::before{background:linear-gradient(90deg,var(--purple-va),#b39ddb,var(--purple-va));opacity:0.7;}
@@ -126,7 +126,7 @@
   .va-add-btn{background:var(--purple-dim);border:1px solid rgba(124,92,191,0.4);color:var(--purple-va);font-family:'Bebas Neue',sans-serif;font-size:0.58rem;padding:3px 7px;cursor:pointer;border-radius:3px;letter-spacing:0.1em;transition:all 0.15s;white-space:nowrap;}
   .va-add-btn:hover{background:rgba(124,92,191,0.2);filter:brightness(1.2);}
 
-  /* ROW 2 COL 3 — KAI (left, scrollable) + DEVOTIONAL (right) */
+  /* KAI + DEVOTIONAL */
   .kai-dev-row{grid-column:3;grid-row:2;display:flex;gap:8px;overflow:hidden;}
   .kai-panel{flex:1.2;animation-delay:0.15s;min-height:0;}
   .kai-panel::before{background:linear-gradient(90deg,var(--blue-bright),var(--blue-sky),var(--blue-bright));opacity:0.7;}
@@ -187,7 +187,7 @@
   .task-add-btn{background:linear-gradient(135deg,var(--brown),var(--brown-mid));border:none;color:var(--tan-light);font-family:'Bebas Neue',sans-serif;font-size:0.65rem;padding:5px 10px;cursor:pointer;border-radius:4px;letter-spacing:0.1em;transition:all 0.15s;white-space:nowrap;}
   .task-add-btn:hover{background:linear-gradient(135deg,var(--brown-mid),var(--dust));transform:translateY(-1px);}
 
-  /* MAHI + PO side by side */
+  /* MAHI + PO */
   .mahi-po-row{grid-column:2/4;grid-row:3;display:flex;gap:8px;overflow:hidden;}
   .jobs-panel{flex:3;animation-delay:0.25s;}
   .jobs-table-wrap{flex:1;overflow-y:auto;}
@@ -210,7 +210,7 @@
   .add-btn{background:linear-gradient(135deg,var(--brown),var(--brown-mid));border:none;color:var(--tan-light);font-family:'Bebas Neue',sans-serif;font-size:0.7rem;padding:5px 14px;cursor:pointer;border-radius:4px;letter-spacing:0.1em;transition:all 0.15s;white-space:nowrap;box-shadow:0 2px 8px rgba(61,32,16,0.3);flex-shrink:0;}
   .add-btn:hover{background:linear-gradient(135deg,var(--brown-mid),var(--dust));transform:translateY(-1px);}
 
-  /* PO PANEL */
+  /* PO */
   .po-panel{flex:1;animation-delay:0.27s;}
   .po-panel::before{background:linear-gradient(90deg,#6b3a2a,#c4893a,#6b3a2a);opacity:0.7;}
   .po-table-wrap{flex:1;overflow-y:auto;}
@@ -314,7 +314,7 @@
       <div class="logo-mark">🏠</div>
       <div class="logo-text">
         <div class="logo-title">Roofing Down Under</div>
-        <div class="logo-sub">CMD Centre v3.9 &nbsp;·&nbsp; Ronny Lee Couling &nbsp;·&nbsp; Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</div>
+        <div class="logo-sub">CMD Centre v4.0 &nbsp;·&nbsp; Ronny Lee Couling &nbsp;·&nbsp; Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</div>
       </div>
       <div class="colorbond-badge">
         <span class="cb-word">COLORBOND<sup style="font-size:0.5em">®</sup></span>
@@ -348,38 +348,28 @@
     </div>
     <div style="margin-top:9px;">
       <div class="panel-label">Notes</div>
-      <textarea class="note-input" placeholder="Rocky 🐾 — worksite drop 8am&#10;Toneth: invoice HCM Build&#10;Myla: chase Lloyds deposit"></textarea>
+      <textarea class="note-input" id="notesArea" placeholder="Rocky 🐾 — worksite drop 8am&#10;Toneth: invoice HCM Build&#10;Myla: chase Lloyds deposit"></textarea>
     </div>
   </div>
 
-  <!-- ROW 2 COL 2: WEATHER (left) + VA TASKS (right stacked) -->
+  <!-- ROW 2 COL 2: WEATHER + VA TASKS -->
   <div class="weather-va-row">
     <div class="panel weather-panel">
       <div class="panel-label">Weather — Sutherland Shire</div>
       <div id="weatherContent" class="weather-loading">Fetching conditions...</div>
     </div>
     <div class="va-col">
-      <!-- MYLA -->
       <div class="panel va-panel">
         <div class="panel-label">Myla Tasks 🟣</div>
-        <div class="va-task-list" id="mylaTaskList">
-          <div class="va-task-item"><div class="va-task-check" onclick="toggleVaTask(this.parentElement)">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement)">Chase Lloyds deposit</span><button class="va-task-del" onclick="this.parentElement.remove()">✕</button></div>
-          <div class="va-task-item"><div class="va-task-check" onclick="toggleVaTask(this.parentElement)">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement)">Update job tracker</span><button class="va-task-del" onclick="this.parentElement.remove()">✕</button></div>
-          <div class="va-task-item"><div class="va-task-check" onclick="toggleVaTask(this.parentElement)">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement)">Follow up Uplift Building</span><button class="va-task-del" onclick="this.parentElement.remove()">✕</button></div>
-        </div>
+        <div class="va-task-list" id="mylaTaskList"></div>
         <div class="va-add-row">
           <input class="va-add-input" id="mylaInput" placeholder="Add task..." onkeydown="if(event.key==='Enter')addVaTask('myla')">
           <button class="va-add-btn" onclick="addVaTask('myla')">+ Add</button>
         </div>
       </div>
-      <!-- TONETH -->
       <div class="panel va-panel">
         <div class="panel-label">Toneth Tasks 🟣</div>
-        <div class="va-task-list" id="tonethTaskList">
-          <div class="va-task-item"><div class="va-task-check" onclick="toggleVaTask(this.parentElement)">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement)">Invoice HCM Build</span><button class="va-task-del" onclick="this.parentElement.remove()">✕</button></div>
-          <div class="va-task-item"><div class="va-task-check" onclick="toggleVaTask(this.parentElement)">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement)">Xero reconciliation</span><button class="va-task-del" onclick="this.parentElement.remove()">✕</button></div>
-          <div class="va-task-item"><div class="va-task-check" onclick="toggleVaTask(this.parentElement)">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement)">Send weekly P&amp;L</span><button class="va-task-del" onclick="this.parentElement.remove()">✕</button></div>
-        </div>
+        <div class="va-task-list" id="tonethTaskList"></div>
         <div class="va-add-row">
           <input class="va-add-input" id="tonethInput" placeholder="Add task..." onkeydown="if(event.key==='Enter')addVaTask('toneth')">
           <button class="va-add-btn" onclick="addVaTask('toneth')">+ Add</button>
@@ -388,9 +378,8 @@
     </div>
   </div>
 
-  <!-- ROW 2 COL 3: KAI (left scrollable) + DEVOTIONAL (right) -->
+  <!-- ROW 2 COL 3: KAI + DEVOTIONAL -->
   <div class="kai-dev-row">
-    <!-- KAI -->
     <div class="panel kai-panel">
       <div class="panel-label">KAI — Bank Balances 💵</div>
       <div class="kai-scroll">
@@ -415,7 +404,6 @@
         </div>
       </div>
     </div>
-    <!-- DEVOTIONAL -->
     <div class="panel devotional-panel">
       <div class="panel-label">Daily Devotional 📖</div>
       <div class="devotional-body" id="devotionalBody"><div class="devotional-loading">Loading today's verse...</div></div>
@@ -425,30 +413,21 @@
   <!-- SUPER HUMAN TASKS -->
   <div class="panel tasks-panel">
     <div class="panel-label">⚡ Super Human Tasks</div>
-    <div class="task-list" id="taskList">
-      <div class="task-item"><div class="task-check" onclick="toggleTask(this.parentElement)">✓</div><span class="task-text" onclick="toggleTask(this.parentElement)">Lofty's Lloyds quote</span><button class="task-del" onclick="this.parentElement.remove()">✕</button></div>
-      <div class="task-item"><div class="task-check" onclick="toggleTask(this.parentElement)">✓</div><span class="task-text" onclick="toggleTask(this.parentElement)">Mirral Rd — Brett Nash quote</span><button class="task-del" onclick="this.parentElement.remove()">✕</button></div>
-      <div class="task-item"><div class="task-check" onclick="toggleTask(this.parentElement)">✓</div><span class="task-text" onclick="toggleTask(this.parentElement)">HCM Build Jannali quote</span><button class="task-del" onclick="this.parentElement.remove()">✕</button></div>
-    </div>
+    <div class="task-list" id="taskList"></div>
     <div class="task-add-row">
       <input class="task-add-input" id="newTaskInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTask()">
       <button class="task-add-btn" onclick="addTask()">+ Add</button>
     </div>
   </div>
 
-  <!-- MAHI + PO side by side -->
+  <!-- MAHI + PO -->
   <div class="mahi-po-row">
-    <!-- MAHI -->
     <div class="panel jobs-panel">
       <div class="panel-label">MAHI — Live Projects 🔨</div>
       <div class="jobs-table-wrap">
         <table id="jobTable">
           <thead><tr><th style="width:65px">Quote No.</th><th>Client Name</th><th>Address</th><th>Value</th><th>Status</th><th style="width:22px"></th></tr></thead>
-          <tbody id="jobBody">
-            <tr><td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">—</td><td>HCM Build</td><td style="color:var(--muted);font-size:0.55rem">111 Mansfield St, Rozelle</td><td>$30,000</td><td><select class="status-select" data-status="in-progress" onchange="updateStatusStyle(this)"><option value="in-progress" selected>In Progress</option><option value="needs-qdraft">Needs Q-Draft</option><option value="waiting-ronny">Waiting Ronny Approval</option><option value="waiting-client">Waiting Client Approval</option></select></td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;transition:color 0.15s;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td></tr>
-            <tr><td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">—</td><td>Lloyds</td><td style="color:var(--muted);font-size:0.55rem">297 Woolooware Rd, Burraneer</td><td>$42,250</td><td><select class="status-select" data-status="in-progress" onchange="updateStatusStyle(this)"><option value="in-progress" selected>In Progress</option><option value="needs-qdraft">Needs Q-Draft</option><option value="waiting-ronny">Waiting Ronny Approval</option><option value="waiting-client">Waiting Client Approval</option></select></td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;transition:color 0.15s;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td></tr>
-            <tr><td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">—</td><td>Brad — Uplift Building</td><td style="color:var(--muted);font-size:0.55rem">41 Lower Washington Dr</td><td>$3,850</td><td><select class="status-select" data-status="in-progress" onchange="updateStatusStyle(this)"><option value="in-progress" selected>In Progress</option><option value="needs-qdraft">Needs Q-Draft</option><option value="waiting-ronny">Waiting Ronny Approval</option><option value="waiting-client">Waiting Client Approval</option></select></td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;transition:color 0.15s;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td></tr>
-          </tbody>
+          <tbody id="jobBody"></tbody>
         </table>
       </div>
       <div class="add-row">
@@ -461,15 +440,12 @@
       </div>
     </div>
 
-    <!-- PO SUBCONTRACTOR -->
     <div class="panel po-panel">
       <div class="panel-label">PO — Subcontractors 📄</div>
       <div class="po-table-wrap">
         <table class="po-table">
           <thead><tr><th>PO #</th><th>Address</th><th>Name</th><th>Status</th><th style="width:16px"></th></tr></thead>
-          <tbody id="poBody">
-            <tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>
-          </tbody>
+          <tbody id="poBody"></tbody>
         </table>
       </div>
       <div class="po-add-row">
@@ -495,9 +471,9 @@
     <div class="moko-board">
       <svg class="aus-silhouette" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><path d="M18,8 L22,5 L30,4 L40,6 L48,10 L52,8 L58,10 L64,16 L66,24 L62,30 L64,36 L61,44 L56,50 L52,54 L48,52 L44,58 L40,62 L35,60 L30,64 L25,62 L20,56 L15,50 L10,42 L8,34 L10,26 L14,18 Z" fill="#00ff88"/><path d="M58,10 L62,4 L60,2 L56,6 Z" fill="#00ff88"/></svg>
       <div class="moko-board-header"><span class="moko-board-title">RONNY'S SCOREBOARD · MARCH 2026</span><span>🐾</span></div>
-      <div class="moko-rev-section"><div class="moko-rev-eyebrow">// Total Revenue</div><div class="moko-rev" id="mokoRev">$76,100</div><div class="moko-vibe" id="mokoVibe">Three active jobs — keep pushing! 💪</div></div>
-      <div class="moko-progress-wrap"><div class="moko-bar-track"><div class="moko-bar-fill" id="mokoBar" style="width:0%"></div></div><div class="moko-bar-label" id="mokoBarLabel">$76,100 earned — set a target below</div></div>
-      <div class="moko-stats"><div class="moko-stat"><div class="moko-stat-label">Quotes Out</div><div class="moko-stat-val neon" id="mokoQuotes">0</div></div><div class="moko-stat"><div class="moko-stat-label">Jobs Won</div><div class="moko-stat-val gold" id="mokoWon">3</div></div></div>
+      <div class="moko-rev-section"><div class="moko-rev-eyebrow">// Total Revenue</div><div class="moko-rev" id="mokoRev">$0</div><div class="moko-vibe" id="mokoVibe">Set your revenue below to track progress! 🔥</div></div>
+      <div class="moko-progress-wrap"><div class="moko-bar-track"><div class="moko-bar-fill" id="mokoBar" style="width:0%"></div></div><div class="moko-bar-label" id="mokoBarLabel">Set a revenue and target below</div></div>
+      <div class="moko-stats"><div class="moko-stat"><div class="moko-stat-label">Quotes Out</div><div class="moko-stat-val neon" id="mokoQuotes">0</div></div><div class="moko-stat"><div class="moko-stat-label">Jobs Won</div><div class="moko-stat-val gold" id="mokoWon">0</div></div></div>
     </div>
     <div class="moko-inputs" style="position:relative;z-index:1;">
       <div class="moko-row"><input class="moko-input" id="mokoRevInput" placeholder="Revenue $..."><button class="moko-btn" onclick="updateMokoRev()">SET</button></div>
@@ -508,7 +484,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-left">RDU Command Centre v3.9 &nbsp;·&nbsp; RoofingDownUnder.net &nbsp;·&nbsp; Est. 2026 &nbsp;·&nbsp; Sydney NSW AU</div>
+    <div class="footer-left">RDU Command Centre v4.0 &nbsp;·&nbsp; RoofingDownUnder.net &nbsp;·&nbsp; Est. 2026 &nbsp;·&nbsp; Sydney NSW AU</div>
     <div class="footer-right">
       <span class="footer-tag">Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</span>
       <span class="footer-tag">Myla · Toneth · Harry · Pauly · Josh</span>
@@ -519,44 +495,141 @@
 </div>
 
 <script>
+// ═══════════════════════════════════════════════
+// STORAGE HELPERS
+// ═══════════════════════════════════════════════
+const LS = {
+  get: (k, fallback) => { try { const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : fallback; } catch(e) { return fallback; } },
+  set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
+};
+
+// ═══════════════════════════════════════════════
 // CLOCK
-function updateClock(){const n=new Date();document.getElementById('clock').textContent=n.toLocaleTimeString('en-AU',{hour12:false});document.getElementById('dateDisplay').textContent=n.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();}
-updateClock();setInterval(updateClock,1000);
+// ═══════════════════════════════════════════════
+function updateClock() {
+  const n = new Date();
+  document.getElementById('clock').textContent = n.toLocaleTimeString('en-AU', {hour12: false});
+  document.getElementById('dateDisplay').textContent = n.toLocaleDateString('en-AU', {weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
+}
+updateClock(); setInterval(updateClock, 1000);
 
-// SUPER HUMAN TASKS
-function toggleTask(el){el.classList.toggle('done');}
-function addTask(){
-  const input=document.getElementById('newTaskInput');const text=input.value.trim();if(!text)return;
-  const item=document.createElement('div');item.className='task-item';
-  item.innerHTML=`<div class="task-check" onclick="toggleTask(this.parentElement)">✓</div><span class="task-text" onclick="toggleTask(this.parentElement)">${text}</span><button class="task-del" onclick="this.parentElement.remove()">✕</button>`;
-  document.getElementById('taskList').appendChild(item);input.value='';
+// ═══════════════════════════════════════════════
+// SUPER HUMAN TASKS — with localStorage
+// ═══════════════════════════════════════════════
+const DEFAULT_TASKS = [
+  {text:"Lofty's Lloyds quote", done:false},
+  {text:"Mirral Rd — Brett Nash quote", done:false},
+  {text:"HCM Build Jannali quote", done:false}
+];
+
+function saveTasks() {
+  const items = document.querySelectorAll('#taskList .task-item');
+  const data = Array.from(items).map(el => ({
+    text: el.querySelector('.task-text').textContent,
+    done: el.classList.contains('done')
+  }));
+  LS.set('rdu_tasks', data);
 }
 
-// VA TASKS
-function toggleVaTask(el){el.classList.toggle('done');}
-function addVaTask(who){
-  const id=who==='myla'?'mylaInput':'tonethInput';const lid=who==='myla'?'mylaTaskList':'tonethTaskList';
-  const input=document.getElementById(id);const text=input.value.trim();if(!text)return;
-  const item=document.createElement('div');item.className='va-task-item';
-  item.innerHTML=`<div class="va-task-check" onclick="toggleVaTask(this.parentElement)">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement)">${text}</span><button class="va-task-del" onclick="this.parentElement.remove()">✕</button>`;
-  document.getElementById(lid).appendChild(item);input.value='';
+function renderTask(t) {
+  const item = document.createElement('div');
+  item.className = 'task-item' + (t.done ? ' done' : '');
+  item.innerHTML = `<div class="task-check" onclick="toggleTask(this.parentElement)">✓</div><span class="task-text" onclick="toggleTask(this.parentElement)">${t.text}</span><button class="task-del" onclick="removeTask(this)">✕</button>`;
+  document.getElementById('taskList').appendChild(item);
 }
 
+function loadTasks() {
+  const data = LS.get('rdu_tasks', DEFAULT_TASKS);
+  data.forEach(renderTask);
+}
+
+function toggleTask(el) { el.classList.toggle('done'); saveTasks(); }
+
+function removeTask(btn) { btn.closest('.task-item').remove(); saveTasks(); }
+
+function addTask() {
+  const input = document.getElementById('newTaskInput');
+  const text = input.value.trim(); if (!text) return;
+  renderTask({text, done: false});
+  input.value = '';
+  saveTasks();
+}
+
+// ═══════════════════════════════════════════════
+// VA TASKS (Myla + Toneth) — with localStorage
+// ═══════════════════════════════════════════════
+const DEFAULT_MYLA = [
+  {text:"Chase Lloyds deposit", done:false},
+  {text:"Update job tracker", done:false},
+  {text:"Follow up Uplift Building", done:false}
+];
+const DEFAULT_TONETH = [
+  {text:"Invoice HCM Build", done:false},
+  {text:"Xero reconciliation", done:false},
+  {text:"Send weekly P&L", done:false}
+];
+
+function saveVaTasks(who) {
+  const listId = who === 'myla' ? 'mylaTaskList' : 'tonethTaskList';
+  const items = document.querySelectorAll('#' + listId + ' .va-task-item');
+  const data = Array.from(items).map(el => ({
+    text: el.querySelector('.va-task-text').textContent,
+    done: el.classList.contains('done')
+  }));
+  LS.set('rdu_va_' + who, data);
+}
+
+function renderVaTask(who, t) {
+  const listId = who === 'myla' ? 'mylaTaskList' : 'tonethTaskList';
+  const item = document.createElement('div');
+  item.className = 'va-task-item' + (t.done ? ' done' : '');
+  item.innerHTML = `<div class="va-task-check" onclick="toggleVaTask(this.parentElement,'${who}')">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement,'${who}')">${t.text}</span><button class="va-task-del" onclick="removeVaTask(this,'${who}')">✕</button>`;
+  document.getElementById(listId).appendChild(item);
+}
+
+function loadVaTasks() {
+  LS.get('rdu_va_myla', DEFAULT_MYLA).forEach(t => renderVaTask('myla', t));
+  LS.get('rdu_va_toneth', DEFAULT_TONETH).forEach(t => renderVaTask('toneth', t));
+}
+
+function toggleVaTask(el, who) { el.classList.toggle('done'); saveVaTasks(who); }
+
+function removeVaTask(btn, who) { btn.closest('.va-task-item').remove(); saveVaTasks(who); }
+
+function addVaTask(who) {
+  const inputId = who === 'myla' ? 'mylaInput' : 'tonethInput';
+  const input = document.getElementById(inputId);
+  const text = input.value.trim(); if (!text) return;
+  renderVaTask(who, {text, done: false});
+  input.value = '';
+  saveVaTasks(who);
+}
+
+// ═══════════════════════════════════════════════
 // WEATHER
-async function loadWeather(){
-  try{
-    const res=await fetch('https://wttr.in/Sutherland+NSW+Australia?format=j1');const data=await res.json();
-    const c=data.current_condition[0];const desc=c.weatherDesc[0].value,temp=c.temp_C,feels=c.FeelsLikeC,humidity=c.humidity,wind=c.windspeedKmph;
-    const icons={'Sunny':'☀️','Clear':'🌙','Partly cloudy':'⛅','Cloudy':'☁️','Overcast':'☁️','Mist':'🌫️','Rain':'🌧️','Light rain':'🌦️','Heavy rain':'⛈️','Thunder':'⛈️','Snow':'❄️','Fog':'🌫️','Drizzle':'🌦️'};
-    let icon='🌤️';for(const[k,v]of Object.entries(icons)){if(desc.toLowerCase().includes(k.toLowerCase())){icon=v;break;}}
-    const w=parseInt(wind);const roofing=w>45?`<span style="color:var(--red-dust);font-weight:700">TOO WINDY ⚠</span>`:w>25?`<span style="color:var(--dust);font-weight:700">BIT BREEZY</span>`:`<span style="color:var(--green-gum);font-weight:700">GOOD TO GO ✓</span>`;
-    document.getElementById('weatherContent').innerHTML=`<div class="weather-main"><div class="weather-icon">${icon}</div><div><div class="weather-temp">${temp}<span>°C</span></div><div class="weather-desc">${desc}</div><div class="weather-loc">Sutherland Shire, NSW, Australia</div></div></div><div class="weather-stats"><div class="w-stat"><div class="w-stat-label">Feels Like</div><div class="w-stat-val">${feels}°C</div></div><div class="w-stat"><div class="w-stat-label">Humidity</div><div class="w-stat-val">${humidity}%</div></div><div class="w-stat"><div class="w-stat-label">Wind</div><div class="w-stat-val">${wind}km/h</div></div><div class="w-stat"><div class="w-stat-label">On the Tools</div><div class="w-stat-val" style="font-size:0.6rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${roofing}</div></div></div>`;
-  }catch(e){document.getElementById('weatherContent').innerHTML='<div class="weather-loading">No signal — check network</div>';}
+// ═══════════════════════════════════════════════
+async function loadWeather() {
+  try {
+    const res = await fetch('https://wttr.in/Sutherland+NSW+Australia?format=j1');
+    const data = await res.json();
+    const c = data.current_condition[0];
+    const desc = c.weatherDesc[0].value, temp = c.temp_C, feels = c.FeelsLikeC, humidity = c.humidity, wind = c.windspeedKmph;
+    const icons = {'Sunny':'☀️','Clear':'🌙','Partly cloudy':'⛅','Cloudy':'☁️','Overcast':'☁️','Mist':'🌫️','Rain':'🌧️','Light rain':'🌦️','Heavy rain':'⛈️','Thunder':'⛈️','Snow':'❄️','Fog':'🌫️','Drizzle':'🌦️'};
+    let icon = '🌤️';
+    for (const [k, v] of Object.entries(icons)) { if (desc.toLowerCase().includes(k.toLowerCase())) { icon = v; break; } }
+    const w = parseInt(wind);
+    const roofing = w > 45 ? `<span style="color:var(--red-dust);font-weight:700">TOO WINDY ⚠</span>` : w > 25 ? `<span style="color:var(--dust);font-weight:700">BIT BREEZY</span>` : `<span style="color:var(--green-gum);font-weight:700">GOOD TO GO ✓</span>`;
+    document.getElementById('weatherContent').innerHTML = `<div class="weather-main"><div class="weather-icon">${icon}</div><div><div class="weather-temp">${temp}<span>°C</span></div><div class="weather-desc">${desc}</div><div class="weather-loc">Sutherland Shire, NSW, Australia</div></div></div><div class="weather-stats"><div class="w-stat"><div class="w-stat-label">Feels Like</div><div class="w-stat-val">${feels}°C</div></div><div class="w-stat"><div class="w-stat-label">Humidity</div><div class="w-stat-val">${humidity}%</div></div><div class="w-stat"><div class="w-stat-label">Wind</div><div class="w-stat-val">${wind}km/h</div></div><div class="w-stat"><div class="w-stat-label">On the Tools</div><div class="w-stat-val" style="font-size:0.6rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${roofing}</div></div></div>`;
+  } catch(e) {
+    document.getElementById('weatherContent').innerHTML = '<div class="weather-loading">No signal — check network</div>';
+  }
 }
-loadWeather();setInterval(loadWeather,600000);
+loadWeather(); setInterval(loadWeather, 600000);
 
-// DAILY DEVOTIONAL
-const verses=[
+// ═══════════════════════════════════════════════
+// DEVOTIONAL
+// ═══════════════════════════════════════════════
+const verses = [
   {v:"I can do all things through Christ who strengthens me.",r:"Philippians 4:13"},
   {v:"For I know the plans I have for you — plans to prosper you and not to harm you, plans to give you hope and a future.",r:"Jeremiah 29:11"},
   {v:"The Lord is my shepherd; I shall not want.",r:"Psalm 23:1"},
@@ -589,61 +662,284 @@ const verses=[
   {v:"I have learned, in whatever state I am, to be content.",r:"Philippians 4:11"},
   {v:"The Lord bless you and keep you; the Lord make his face shine on you.",r:"Numbers 6:24-25"}
 ];
-function loadDevotion(){
-  const now=new Date();const day=Math.floor((now-new Date(now.getFullYear(),0,0))/(1000*60*60*24));
-  const {v,r}=verses[day%verses.length];
-  const ds=now.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
-  document.getElementById('devotionalBody').innerHTML=`<div class="devotional-verse">"${v}"</div><div class="devotional-ref">— ${r}</div><div class="devotional-date">📖 ${ds}</div>`;
+function loadDevotion() {
+  const now = new Date();
+  const day = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+  const {v, r} = verses[day % verses.length];
+  const ds = now.toLocaleDateString('en-AU', {weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
+  document.getElementById('devotionalBody').innerHTML = `<div class="devotional-verse">"${v}"</div><div class="devotional-ref">— ${r}</div><div class="devotional-date">📖 ${ds}</div>`;
 }
 loadDevotion();
 
-// KAI
-const kA={biz:0,tax:0,pers:0};const kS={biz:false,tax:false,pers:false};
-function setKai(a){
-  const iM={biz:'kaiBizIn',tax:'kaiTaxIn',pers:'kaiPersIn'};const vM={biz:'kaiBiz',tax:'kaiTax',pers:'kaiPers'};const tM={biz:'kaiBizTs',tax:'kaiTaxTs',pers:'kaiPersTs'};
-  const raw=document.getElementById(iM[a]).value.replace(/[$,]/g,'');const val=parseFloat(raw);if(isNaN(val))return;
-  kA[a]=val;kS[a]=true;document.getElementById(vM[a]).textContent='$'+val.toLocaleString('en-AU');
-  const now=new Date();document.getElementById(tM[a]).textContent='Updated '+now.toLocaleTimeString('en-AU',{hour12:true,hour:'numeric',minute:'2-digit'})+' · '+now.toLocaleDateString('en-AU',{day:'numeric',month:'short'});
-  document.getElementById(iM[a]).value='';updateKaiTotal();
-}
-function updateKaiTotal(){if(!kS.biz&&!kS.tax&&!kS.pers)return;document.getElementById('kaiTotal').textContent='$'+(kA.biz+kA.tax+kA.pers).toLocaleString('en-AU');}
-['kaiBizIn','kaiTaxIn','kaiPersIn'].forEach((id,i)=>{const ac=['biz','tax','pers'];document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')setKai(ac[i]);});});
+// ═══════════════════════════════════════════════
+// KAI — with localStorage
+// ═══════════════════════════════════════════════
+const kA = {biz: 0, tax: 0, pers: 0};
+const kS = {biz: false, tax: false, pers: false};
 
-// MAHI
-function updateStatusStyle(sel){sel.setAttribute('data-status',sel.value);}
-function makeStatusDropdown(val){const opts=[{v:'in-progress',l:'In Progress'},{v:'needs-qdraft',l:'Needs Q-Draft'},{v:'waiting-ronny',l:'Waiting Ronny Approval'},{v:'waiting-client',l:'Waiting Client Approval'}];return `<select class="status-select" data-status="${val}" onchange="updateStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;}
-function addJob(){
-  const name=document.getElementById('jobName').value.trim();if(!name)return;
-  const quote=document.getElementById('jobQuote').value.trim()||'—';const addr=document.getElementById('jobAddr').value.trim()||'—';const value=document.getElementById('jobValue').value.trim()||'TBC';const stage=document.getElementById('jobStage').value;
-  const tr=document.createElement('tr');
-  tr.innerHTML=`<td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">${quote}</td><td>${name}</td><td style="color:var(--muted);font-size:0.55rem">${addr}</td><td>${value}</td><td>${makeStatusDropdown(stage)}</td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
-  document.getElementById('jobBody').appendChild(tr);['jobName','jobAddr','jobValue','jobQuote'].forEach(id=>document.getElementById(id).value='');
+function loadKai() {
+  const saved = LS.get('rdu_kai', null);
+  if (!saved) return;
+  ['biz','tax','pers'].forEach(a => {
+    if (saved[a] !== undefined) {
+      kA[a] = saved[a].val; kS[a] = saved[a].set;
+      if (kS[a]) {
+        const vMap = {biz:'kaiBiz', tax:'kaiTax', pers:'kaiPers'};
+        const tMap = {biz:'kaiBizTs', tax:'kaiTaxTs', pers:'kaiPersTs'};
+        document.getElementById(vMap[a]).textContent = '$' + kA[a].toLocaleString('en-AU');
+        document.getElementById(tMap[a]).textContent = saved[a].ts || 'Previously set';
+      }
+    }
+  });
+  updateKaiTotal();
 }
-function removeJob(btn){btn.closest('tr').remove();}
 
-// PO
-function updatePoStatusStyle(sel){sel.setAttribute('data-status',sel.value);}
-function makePOStatusDropdown(val){const opts=[{v:'sent',l:'Sent'},{v:'drafted',l:'Drafted'},{v:'in-progress',l:'In Progress'}];return `<select class="po-status-select" data-status="${val}" onchange="updatePoStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;}
-function addPO(){
-  const num=document.getElementById('poNum').value.trim();if(!num)return;
-  const addr=document.getElementById('poAddr').value.trim()||'—';const name=document.getElementById('poName').value.trim()||'—';const status=document.getElementById('poStatus').value;
-  const tbody=document.getElementById('poBody');const empty=document.getElementById('poEmpty');if(empty)empty.remove();
-  const tr=document.createElement('tr');
-  tr.innerHTML=`<td style="color:var(--muted);font-size:0.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${num}</td><td style="font-size:0.52rem">${addr}</td><td style="font-size:0.52rem">${name}</td><td>${makePOStatusDropdown(status)}</td><td><button onclick="removePO(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.7rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
-  tbody.appendChild(tr);['poNum','poAddr','poName'].forEach(id=>document.getElementById(id).value='');
+function saveKai() {
+  const data = {};
+  const tMap = {biz:'kaiBizTs', tax:'kaiTaxTs', pers:'kaiPersTs'};
+  ['biz','tax','pers'].forEach(a => {
+    data[a] = {val: kA[a], set: kS[a], ts: document.getElementById(tMap[a]).textContent};
+  });
+  LS.set('rdu_kai', data);
 }
-function removePO(btn){const tbody=document.getElementById('poBody');btn.closest('tr').remove();if(tbody.rows.length===0)tbody.innerHTML='<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';}
 
-// MOKO
-const vibes=["Just getting warmed up, mate! 🔥","Solid start — keep stackin'! 💪","Three active — build the pipeline! 🏗","On fire out there! 🚀","Halfway there — push hard! 💥","Almost at target, don't blink! ⚡","TARGET SMASHED. Bloody legend. 🏆","OVER TARGET. Absolute unit! 👑"];
-let mokoTarget=0,mokoRev=76100;
-function getVibe(p){if(p===0)return vibes[0];if(p<25)return vibes[1];if(p<45)return vibes[2];if(p<60)return vibes[3];if(p<75)return vibes[4];if(p<95)return vibes[5];if(p<=105)return vibes[6];return vibes[7];}
-function refreshMoko(){document.getElementById('mokoRev').textContent='$'+mokoRev.toLocaleString('en-AU');const p=mokoTarget>0?Math.round(mokoRev/mokoTarget*100):0;document.getElementById('mokoVibe').textContent=mokoTarget>0?getVibe(p):"Three active jobs — keep pushing! 💪";}
-function updateMokoRev(){mokoRev=parseFloat(document.getElementById('mokoRevInput').value.replace(/[$,]/g,''))||0;refreshMoko();updateMokoProgress();document.getElementById('mokoRevInput').value='';}
-function updateMokoTarget(){mokoTarget=parseFloat(document.getElementById('mokoTargetInput').value.replace(/[$,]/g,''))||0;updateMokoProgress();document.getElementById('mokoTargetInput').value='';}
-function updateMokoProgress(){const p=mokoTarget>0?Math.min(100,Math.round(mokoRev/mokoTarget*100)):0;document.getElementById('mokoBar').style.width=p+'%';document.getElementById('mokoBarLabel').textContent=mokoTarget>0?`$${mokoRev.toLocaleString()} of $${mokoTarget.toLocaleString()} · ${p}%`:`$${mokoRev.toLocaleString()} earned — set a target`;document.getElementById('mokoVibe').textContent=getVibe(p);}
-function updateMokoStats(){const q=document.getElementById('mokoQInput').value,w=document.getElementById('mokoWInput').value;if(q)document.getElementById('mokoQuotes').textContent=q;if(w)document.getElementById('mokoWon').textContent=w;document.getElementById('mokoQInput').value='';document.getElementById('mokoWInput').value='';}
-refreshMoko();
+function setKai(a) {
+  const iMap = {biz:'kaiBizIn', tax:'kaiTaxIn', pers:'kaiPersIn'};
+  const vMap = {biz:'kaiBiz', tax:'kaiTax', pers:'kaiPers'};
+  const tMap = {biz:'kaiBizTs', tax:'kaiTaxTs', pers:'kaiPersTs'};
+  const raw = document.getElementById(iMap[a]).value.replace(/[$,]/g, '');
+  const val = parseFloat(raw); if (isNaN(val)) return;
+  kA[a] = val; kS[a] = true;
+  document.getElementById(vMap[a]).textContent = '$' + val.toLocaleString('en-AU');
+  const now = new Date();
+  const ts = 'Updated ' + now.toLocaleTimeString('en-AU', {hour12:true, hour:'numeric', minute:'2-digit'}) + ' · ' + now.toLocaleDateString('en-AU', {day:'numeric', month:'short'});
+  document.getElementById(tMap[a]).textContent = ts;
+  document.getElementById(iMap[a]).value = '';
+  updateKaiTotal(); saveKai();
+}
+
+function updateKaiTotal() {
+  if (!kS.biz && !kS.tax && !kS.pers) return;
+  document.getElementById('kaiTotal').textContent = '$' + (kA.biz + kA.tax + kA.pers).toLocaleString('en-AU');
+}
+
+['kaiBizIn','kaiTaxIn','kaiPersIn'].forEach((id, i) => {
+  const ac = ['biz','tax','pers'];
+  document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') setKai(ac[i]); });
+});
+
+// ═══════════════════════════════════════════════
+// MAHI — Live Projects — with localStorage
+// ═══════════════════════════════════════════════
+const DEFAULT_JOBS = [
+  {quote:'—', name:'HCM Build', addr:'111 Mansfield St, Rozelle', value:'$30,000', stage:'in-progress'},
+  {quote:'—', name:'Lloyds', addr:'297 Woolooware Rd, Burraneer', value:'$42,250', stage:'in-progress'},
+  {quote:'—', name:'Brad — Uplift Building', addr:'41 Lower Washington Dr', value:'$3,850', stage:'in-progress'}
+];
+
+function saveJobs() {
+  const rows = document.querySelectorAll('#jobBody tr');
+  const data = Array.from(rows).map(tr => {
+    const tds = tr.querySelectorAll('td');
+    const sel = tr.querySelector('.status-select');
+    return {
+      quote: tds[0].textContent,
+      name: tds[1].textContent,
+      addr: tds[2].textContent,
+      value: tds[3].textContent,
+      stage: sel ? sel.value : 'in-progress'
+    };
+  });
+  LS.set('rdu_jobs', data);
+}
+
+function updateStatusStyle(sel) { sel.setAttribute('data-status', sel.value); saveJobs(); }
+
+function makeStatusDropdown(val) {
+  const opts = [{v:'in-progress',l:'In Progress'},{v:'needs-qdraft',l:'Needs Q-Draft'},{v:'waiting-ronny',l:'Waiting Ronny Approval'},{v:'waiting-client',l:'Waiting Client Approval'}];
+  return `<select class="status-select" data-status="${val}" onchange="updateStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;
+}
+
+function renderJob(j) {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">${j.quote}</td><td>${j.name}</td><td style="color:var(--muted);font-size:0.55rem">${j.addr}</td><td>${j.value}</td><td>${makeStatusDropdown(j.stage)}</td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;transition:color 0.15s;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
+  document.getElementById('jobBody').appendChild(tr);
+}
+
+function loadJobs() {
+  LS.get('rdu_jobs', DEFAULT_JOBS).forEach(renderJob);
+}
+
+function addJob() {
+  const name = document.getElementById('jobName').value.trim(); if (!name) return;
+  const j = {
+    quote: document.getElementById('jobQuote').value.trim() || '—',
+    name,
+    addr: document.getElementById('jobAddr').value.trim() || '—',
+    value: document.getElementById('jobValue').value.trim() || 'TBC',
+    stage: document.getElementById('jobStage').value
+  };
+  renderJob(j);
+  ['jobName','jobAddr','jobValue','jobQuote'].forEach(id => document.getElementById(id).value = '');
+  saveJobs();
+}
+
+function removeJob(btn) { btn.closest('tr').remove(); saveJobs(); }
+
+// ═══════════════════════════════════════════════
+// PO — Subcontractors — with localStorage
+// ═══════════════════════════════════════════════
+function savePOs() {
+  const rows = document.querySelectorAll('#poBody tr:not(#poEmpty)');
+  const data = Array.from(rows).map(tr => {
+    const tds = tr.querySelectorAll('td');
+    const sel = tr.querySelector('.po-status-select');
+    return {
+      num: tds[0].textContent,
+      addr: tds[1].textContent,
+      name: tds[2].textContent,
+      status: sel ? sel.value : 'sent'
+    };
+  });
+  LS.set('rdu_pos', data);
+}
+
+function updatePoStatusStyle(sel) { sel.setAttribute('data-status', sel.value); savePOs(); }
+
+function makePOStatusDropdown(val) {
+  const opts = [{v:'sent',l:'Sent'},{v:'drafted',l:'Drafted'},{v:'in-progress',l:'In Progress'}];
+  return `<select class="po-status-select" data-status="${val}" onchange="updatePoStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;
+}
+
+function renderPO(p) {
+  const tbody = document.getElementById('poBody');
+  const empty = document.getElementById('poEmpty');
+  if (empty) empty.remove();
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td style="color:var(--muted);font-size:0.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${p.num}</td><td style="font-size:0.52rem">${p.addr}</td><td style="font-size:0.52rem">${p.name}</td><td>${makePOStatusDropdown(p.status)}</td><td><button onclick="removePO(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.7rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
+  tbody.appendChild(tr);
+}
+
+function loadPOs() {
+  const data = LS.get('rdu_pos', []);
+  if (data.length === 0) {
+    document.getElementById('poBody').innerHTML = '<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';
+  } else {
+    data.forEach(renderPO);
+  }
+}
+
+function addPO() {
+  const num = document.getElementById('poNum').value.trim(); if (!num) return;
+  const p = {
+    num,
+    addr: document.getElementById('poAddr').value.trim() || '—',
+    name: document.getElementById('poName').value.trim() || '—',
+    status: document.getElementById('poStatus').value
+  };
+  renderPO(p);
+  ['poNum','poAddr','poName'].forEach(id => document.getElementById(id).value = '');
+  savePOs();
+}
+
+function removePO(btn) {
+  const tbody = document.getElementById('poBody');
+  btn.closest('tr').remove();
+  if (tbody.rows.length === 0) {
+    tbody.innerHTML = '<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';
+  }
+  savePOs();
+}
+
+// ═══════════════════════════════════════════════
+// MOKO — with localStorage
+// ═══════════════════════════════════════════════
+const vibes = ["Just getting warmed up, mate! 🔥","Solid start — keep stackin'! 💪","Three active — build the pipeline! 🏗","On fire out there! 🚀","Halfway there — push hard! 💥","Almost at target, don't blink! ⚡","TARGET SMASHED. Bloody legend. 🏆","OVER TARGET. Absolute unit! 👑"];
+let mokoTarget = 0, mokoRev = 0;
+
+function getVibe(p) {
+  if (p === 0) return vibes[0]; if (p < 25) return vibes[1]; if (p < 45) return vibes[2];
+  if (p < 60) return vibes[3]; if (p < 75) return vibes[4]; if (p < 95) return vibes[5];
+  if (p <= 105) return vibes[6]; return vibes[7];
+}
+
+function saveMoko() {
+  LS.set('rdu_moko', {
+    rev: mokoRev, target: mokoTarget,
+    quotes: document.getElementById('mokoQuotes').textContent,
+    won: document.getElementById('mokoWon').textContent
+  });
+}
+
+function loadMoko() {
+  const saved = LS.get('rdu_moko', null);
+  if (!saved) return;
+  mokoRev = saved.rev || 0;
+  mokoTarget = saved.target || 0;
+  if (saved.quotes) document.getElementById('mokoQuotes').textContent = saved.quotes;
+  if (saved.won) document.getElementById('mokoWon').textContent = saved.won;
+  refreshMoko(); updateMokoProgress();
+}
+
+function refreshMoko() {
+  document.getElementById('mokoRev').textContent = '$' + mokoRev.toLocaleString('en-AU');
+  const p = mokoTarget > 0 ? Math.round(mokoRev / mokoTarget * 100) : 0;
+  document.getElementById('mokoVibe').textContent = mokoTarget > 0 ? getVibe(p) : (mokoRev > 0 ? "Set a target to track your progress! 🎯" : "Set your revenue below to track progress! 🔥");
+}
+
+function updateMokoRev() {
+  mokoRev = parseFloat(document.getElementById('mokoRevInput').value.replace(/[$,]/g,'')) || 0;
+  refreshMoko(); updateMokoProgress(); saveMoko();
+  document.getElementById('mokoRevInput').value = '';
+}
+
+function updateMokoTarget() {
+  mokoTarget = parseFloat(document.getElementById('mokoTargetInput').value.replace(/[$,]/g,'')) || 0;
+  updateMokoProgress(); saveMoko();
+  document.getElementById('mokoTargetInput').value = '';
+}
+
+function updateMokoProgress() {
+  const p = mokoTarget > 0 ? Math.min(100, Math.round(mokoRev / mokoTarget * 100)) : 0;
+  document.getElementById('mokoBar').style.width = p + '%';
+  document.getElementById('mokoBarLabel').textContent = mokoTarget > 0
+    ? `$${mokoRev.toLocaleString()} of $${mokoTarget.toLocaleString()} · ${p}%`
+    : `$${mokoRev.toLocaleString()} earned — set a target`;
+  document.getElementById('mokoVibe').textContent = mokoTarget > 0 ? getVibe(p) : (mokoRev > 0 ? "Set a target to track your progress! 🎯" : "Set your revenue below to track progress! 🔥");
+}
+
+function updateMokoStats() {
+  const q = document.getElementById('mokoQInput').value, w = document.getElementById('mokoWInput').value;
+  if (q) document.getElementById('mokoQuotes').textContent = q;
+  if (w) document.getElementById('mokoWon').textContent = w;
+  document.getElementById('mokoQInput').value = '';
+  document.getElementById('mokoWInput').value = '';
+  saveMoko();
+}
+
+// ═══════════════════════════════════════════════
+// NOTES — with localStorage
+// ═══════════════════════════════════════════════
+function loadNotes() {
+  const saved = LS.get('rdu_notes', '');
+  if (saved) document.getElementById('notesArea').value = saved;
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('notesArea').addEventListener('input', function() {
+    LS.set('rdu_notes', this.value);
+  });
+});
+
+// ═══════════════════════════════════════════════
+// INIT — load everything from localStorage
+// ═══════════════════════════════════════════════
+loadTasks();
+loadVaTasks();
+loadJobs();
+loadPOs();
+loadKai();
+loadMoko();
+loadNotes();
 </script>
 </body>
 </html>
