@@ -7,21 +7,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --sky-top:#1a3a5c; --sky-mid:#2e6ea6; --sky-light:#6aaed6;
-    --horizon:#e8b86d; --dust:#c4893a; --earth:#7a4a1e;
-    --earth-dark:#3d2010; --earth-deep:#1e0f06;
-    --tan:#d4a96a; --tan-light:#f0d5a0; --tan-dim:rgba(212,169,106,0.12);
-    --brown:#5c3317; --brown-mid:#8b4f22; --brown-light:#b8722e;
-    --blue-sky:#4a9fd4; --blue-bright:#2e8bc0; --blue-dim:rgba(74,159,212,0.12);
-    --red-dust:#c0392b; --green-gum:#5a8a3c;
-    --purple-va:#7c5cbf; --purple-dim:rgba(124,92,191,0.12);
-    --text:#1e0f06; --text-light:#5c3317; --muted:#8b6f4a; --subtle:#b8956a;
-    --surface:#fdf6e8; --surface2:#f5e8cc; --border:#d4b896; --border2:#c4a070;
+    --sky-top:#1a3a5c;--sky-mid:#2e6ea6;--sky-light:#6aaed6;
+    --horizon:#e8b86d;--dust:#c4893a;--earth:#7a4a1e;
+    --earth-dark:#3d2010;--earth-deep:#1e0f06;
+    --tan:#d4a96a;--tan-light:#f0d5a0;--tan-dim:rgba(212,169,106,0.12);
+    --brown:#5c3317;--brown-mid:#8b4f22;--brown-light:#b8722e;
+    --blue-sky:#4a9fd4;--blue-bright:#2e8bc0;--blue-dim:rgba(74,159,212,0.12);
+    --red-dust:#c0392b;--green-gum:#5a8a3c;
+    --purple-va:#7c5cbf;--purple-dim:rgba(124,92,191,0.12);
+    --text:#1e0f06;--text-light:#5c3317;--muted:#8b6f4a;--subtle:#b8956a;
+    --surface:#fdf6e8;--surface2:#f5e8cc;--border:#d4b896;--border2:#c4a070;
     --shadow:0 2px 12px rgba(61,32,16,0.15),0 1px 4px rgba(61,32,16,0.1);
     --shadow-lg:0 6px 30px rgba(61,32,16,0.2),0 2px 8px rgba(61,32,16,0.12);
-    --neon:#00ff88; --neon-glow:0 0 12px rgba(0,255,136,0.6),0 0 30px rgba(0,255,136,0.25);
-    --neon-gold:#ffd700; --neon-gold-glow:0 0 10px rgba(255,215,0,0.7),0 0 25px rgba(255,215,0,0.3);
-    --moko-bg:#060e0a; --moko-bg2:#0a1410; --moko-border:rgba(0,255,136,0.35);
+    --neon:#00ff88;--neon-glow:0 0 12px rgba(0,255,136,0.6),0 0 30px rgba(0,255,136,0.25);
+    --neon-gold:#ffd700;--neon-gold-glow:0 0 10px rgba(255,215,0,0.7),0 0 25px rgba(255,215,0,0.3);
+    --moko-bg:#060e0a;--moko-bg2:#0a1410;--moko-border:rgba(0,255,136,0.35);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:var(--earth-deep);font-family:'Barlow',sans-serif;color:var(--text);height:100vh;overflow:hidden;}
@@ -32,20 +32,17 @@
   .silhouette svg{width:100%;height:100%;}
   .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");}
   .wrap{position:relative;z-index:3;width:100vw;height:100vh;display:grid;grid-template-rows:62px 1fr 1fr 26px;grid-template-columns:200px 1fr 1fr 200px;gap:8px;padding:12px 14px;}
-  .sync-bar{position:fixed;bottom:32px;right:18px;z-index:100;display:flex;align-items:center;gap:6px;background:rgba(30,15,6,0.85);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-family:'Barlow Condensed',sans-serif;font-size:0.44rem;letter-spacing:0.12em;color:var(--subtle);text-transform:uppercase;backdrop-filter:blur(6px);transition:all 0.3s;}
-  .sync-bar.saving{border-color:var(--tan);color:var(--tan);}
-  .sync-bar.saved{border-color:var(--green-gum);color:var(--green-gum);}
-  .sync-bar.error{border-color:var(--red-dust);color:var(--red-dust);}
-  .sync-dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
-  .sync-bar.saving .sync-dot{animation:pulse 0.8s infinite;}
-  header{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,var(--earth-dark) 0%,var(--brown) 50%,var(--earth-dark) 100%);border:2px solid var(--tan);border-radius:6px;padding:0 18px;box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(240,213,160,0.2);animation:fadeDown 0.5s ease both;position:relative;overflow:hidden;}
-  header::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--horizon),var(--tan-light),var(--horizon),transparent);}
-  header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--tan),transparent);opacity:0.4;}
+  .save-bar{position:fixed;bottom:32px;right:18px;z-index:100;display:flex;align-items:center;gap:6px;background:rgba(30,15,6,0.85);border:1px solid var(--green-gum);border-radius:20px;padding:4px 12px;font-family:'Barlow Condensed',sans-serif;font-size:0.44rem;letter-spacing:0.12em;color:var(--green-gum);text-transform:uppercase;backdrop-filter:blur(6px);transition:all 0.4s;}
+  .save-bar.saving{border-color:var(--tan);color:var(--tan);}
+  .save-dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
   @keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   @keyframes neonPulse{0%,100%{opacity:1;text-shadow:var(--neon-glow)}50%{opacity:0.8;text-shadow:none}}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
   @keyframes devFade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+  header{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,var(--earth-dark) 0%,var(--brown) 50%,var(--earth-dark) 100%);border:2px solid var(--tan);border-radius:6px;padding:0 18px;box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(240,213,160,0.2);animation:fadeDown 0.5s ease both;position:relative;overflow:hidden;}
+  header::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--horizon),var(--tan-light),var(--horizon),transparent);}
+  header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--tan),transparent);opacity:0.4;}
   .logo-block{display:flex;align-items:center;gap:10px;}
   .logo-mark{width:40px;height:40px;background:linear-gradient(135deg,var(--blue-sky),var(--blue-bright));border-radius:6px;border:1px solid var(--tan);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;box-shadow:0 2px 10px rgba(46,139,192,0.4);}
   .logo-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--tan-light);letter-spacing:0.08em;line-height:1;text-shadow:0 2px 8px rgba(0,0,0,0.5);}
@@ -112,7 +109,7 @@
   .va-task-text{flex:1;line-height:1.3;cursor:pointer;}
   .va-task-del{background:none;border:none;color:transparent;cursor:pointer;font-size:0.58rem;padding:0 1px;transition:color 0.15s;flex-shrink:0;line-height:1;}
   .va-task-item:hover .va-task-del{color:var(--subtle);}
-  .va-task-del:hover{color:var(--red-dust) !important;}
+  .va-task-del:hover{color:var(--red-dust)!important;}
   .va-add-row{display:flex;gap:4px;margin-top:4px;flex-shrink:0;}
   .va-add-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:0.5rem;padding:3px 6px;outline:none;border-radius:3px;min-width:0;}
   .va-add-input:focus{border-color:var(--purple-va);box-shadow:0 0 0 2px var(--purple-dim);background:var(--surface);}
@@ -166,7 +163,7 @@
   .task-text{flex:1;line-height:1.4;cursor:pointer;}
   .task-del{background:none;border:none;color:transparent;cursor:pointer;font-size:0.65rem;padding:0 2px;transition:color 0.15s;flex-shrink:0;line-height:1;}
   .task-item:hover .task-del{color:var(--subtle);}
-  .task-del:hover{color:var(--red-dust) !important;}
+  .task-del:hover{color:var(--red-dust)!important;}
   .task-add-row{display:flex;gap:5px;margin-top:7px;flex-shrink:0;}
   .task-add-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:0.56rem;padding:5px 8px;outline:none;border-radius:4px;transition:all 0.15s;}
   .task-add-input:focus{border-color:var(--blue-sky);background:var(--surface);}
@@ -214,11 +211,11 @@
   .po-add-input option{background:var(--surface);color:var(--text);}
   .po-add-btn{background:linear-gradient(135deg,#6b3a2a,#8b4f22);border:none;color:var(--tan-light);font-family:'Bebas Neue',sans-serif;font-size:0.62rem;padding:4px 8px;cursor:pointer;border-radius:3px;letter-spacing:0.1em;transition:all 0.15s;white-space:nowrap;flex-shrink:0;}
   .po-add-btn:hover{background:linear-gradient(135deg,#8b4f22,var(--dust));transform:translateY(-1px);}
-  .moko-panel{grid-column:4;grid-row:3;animation-delay:0.3s;background:linear-gradient(160deg,var(--moko-bg) 0%,var(--moko-bg2) 100%) !important;border-color:var(--moko-border) !important;backdrop-filter:blur(8px);}
-  .moko-panel:hover{border-color:rgba(0,255,136,0.6) !important;box-shadow:0 0 30px rgba(0,255,136,0.1),var(--shadow-lg) !important;}
-  .moko-panel::before{background:linear-gradient(90deg,transparent,var(--neon),#39ff14,var(--neon),transparent) !important;opacity:0.9 !important;}
-  .moko-panel .panel-label{color:var(--neon) !important;text-shadow:0 0 8px rgba(0,255,136,0.5);}
-  .moko-panel .panel-label::after{background:linear-gradient(90deg,rgba(0,255,136,0.3),transparent) !important;}
+  .moko-panel{grid-column:4;grid-row:3;animation-delay:0.3s;background:linear-gradient(160deg,var(--moko-bg) 0%,var(--moko-bg2) 100%)!important;border-color:var(--moko-border)!important;backdrop-filter:blur(8px);}
+  .moko-panel:hover{border-color:rgba(0,255,136,0.6)!important;box-shadow:0 0 30px rgba(0,255,136,0.1),var(--shadow-lg)!important;}
+  .moko-panel::before{background:linear-gradient(90deg,transparent,var(--neon),#39ff14,var(--neon),transparent)!important;opacity:0.9!important;}
+  .moko-panel .panel-label{color:var(--neon)!important;text-shadow:0 0 8px rgba(0,255,136,0.5);}
+  .moko-panel .panel-label::after{background:linear-gradient(90deg,rgba(0,255,136,0.3),transparent)!important;}
   .moko-koru-bg{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0.07;overflow:hidden;}
   .aus-silhouette{position:absolute;right:-5px;bottom:28px;width:70px;height:55px;opacity:0.12;pointer-events:none;}
   .moko-board{background:linear-gradient(160deg,#020808 0%,#061008 100%);border-radius:6px;padding:0;overflow:hidden;margin-bottom:6px;border:1px solid rgba(0,255,136,0.2);flex-shrink:0;box-shadow:0 0 20px rgba(0,255,136,0.08);position:relative;}
@@ -264,10 +261,7 @@
 </div>
 <div class="grain"></div>
 
-<div class="sync-bar" id="syncBar">
-  <div class="sync-dot"></div>
-  <span id="syncLabel">Loading cloud data...</span>
-</div>
+<div class="save-bar" id="saveBar"><div class="save-dot"></div><span id="saveLabel">✓ Data saved</span></div>
 
 <div class="wrap">
   <header>
@@ -275,7 +269,7 @@
       <div class="logo-mark">🏠</div>
       <div class="logo-text">
         <div class="logo-title">Roofing Down Under</div>
-        <div class="logo-sub">CMD Centre v4.1 — Cloud Sync &nbsp;·&nbsp; Ronny Lee Couling &nbsp;·&nbsp; Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</div>
+        <div class="logo-sub">CMD Centre v4.4 &nbsp;·&nbsp; Ronny Lee Couling &nbsp;·&nbsp; Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</div>
       </div>
       <div class="colorbond-badge"><span class="cb-word">COLORBOND<sup style="font-size:0.5em">®</sup></span><span class="cb-reg">Accredited</span></div>
     </div>
@@ -318,18 +312,12 @@
       <div class="panel va-panel">
         <div class="panel-label">Myla Tasks 🟣</div>
         <div class="va-task-list" id="mylaTaskList"></div>
-        <div class="va-add-row">
-          <input class="va-add-input" id="mylaInput" placeholder="Add task..." onkeydown="if(event.key==='Enter')addVaTask('myla')">
-          <button class="va-add-btn" onclick="addVaTask('myla')">+ Add</button>
-        </div>
+        <div class="va-add-row"><input class="va-add-input" id="mylaInput" placeholder="Add task..." onkeydown="if(event.key==='Enter')addVaTask('myla')"><button class="va-add-btn" onclick="addVaTask('myla')">+ Add</button></div>
       </div>
       <div class="panel va-panel">
         <div class="panel-label">Toneth Tasks 🟣</div>
         <div class="va-task-list" id="tonethTaskList"></div>
-        <div class="va-add-row">
-          <input class="va-add-input" id="tonethInput" placeholder="Add task..." onkeydown="if(event.key==='Enter')addVaTask('toneth')">
-          <button class="va-add-btn" onclick="addVaTask('toneth')">+ Add</button>
-        </div>
+        <div class="va-add-row"><input class="va-add-input" id="tonethInput" placeholder="Add task..." onkeydown="if(event.key==='Enter')addVaTask('toneth')"><button class="va-add-btn" onclick="addVaTask('toneth')">+ Add</button></div>
       </div>
     </div>
   </div>
@@ -346,25 +334,20 @@
     </div>
     <div class="panel devotional-panel">
       <div class="panel-label">Daily Devotional 📖</div>
-      <div class="devotional-body" id="devotionalBody"><div style="color:var(--muted);font-size:0.52rem;text-align:center;margin:auto;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:0.1em;">Loading...</div></div>
+      <div class="devotional-body" id="devotionalBody"></div>
     </div>
   </div>
 
   <div class="panel tasks-panel">
     <div class="panel-label">⚡ Super Human Tasks</div>
     <div class="task-list" id="taskList"></div>
-    <div class="task-add-row">
-      <input class="task-add-input" id="newTaskInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTask()">
-      <button class="task-add-btn" onclick="addTask()">+ Add</button>
-    </div>
+    <div class="task-add-row"><input class="task-add-input" id="newTaskInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTask()"><button class="task-add-btn" onclick="addTask()">+ Add</button></div>
   </div>
 
   <div class="mahi-po-row">
     <div class="panel jobs-panel">
       <div class="panel-label">MAHI — Live Projects 🔨</div>
-      <div class="jobs-table-wrap">
-        <table><thead><tr><th style="width:65px">Quote No.</th><th>Client Name</th><th>Address</th><th>Value</th><th>Status</th><th style="width:22px"></th></tr></thead><tbody id="jobBody"></tbody></table>
-      </div>
+      <div class="jobs-table-wrap"><table><thead><tr><th style="width:65px">Quote No.</th><th>Client Name</th><th>Address</th><th>Value</th><th>Status</th><th style="width:22px"></th></tr></thead><tbody id="jobBody"></tbody></table></div>
       <div class="add-row">
         <input class="add-input" id="jobQuote" placeholder="Quote No." style="width:75px;flex:none;">
         <input class="add-input" id="jobName" placeholder="Client name..." style="flex:2">
@@ -376,9 +359,7 @@
     </div>
     <div class="panel po-panel">
       <div class="panel-label">PO — Subcontractors 📄</div>
-      <div class="po-table-wrap">
-        <table class="po-table"><thead><tr><th>PO #</th><th>Address</th><th>Name</th><th>Status</th><th style="width:16px"></th></tr></thead><tbody id="poBody"></tbody></table>
-      </div>
+      <div class="po-table-wrap"><table class="po-table"><thead><tr><th>PO #</th><th>Address</th><th>Name</th><th>Status</th><th style="width:16px"></th></tr></thead><tbody id="poBody"></tbody></table></div>
       <div class="po-add-row">
         <input class="po-add-input" id="poNum" placeholder="PO #" style="width:46px;flex:none;">
         <input class="po-add-input" id="poAddr" placeholder="Address..." style="flex:2;">
@@ -390,12 +371,7 @@
   </div>
 
   <div class="panel moko-panel">
-    <div class="moko-koru-bg">
-      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <g fill="none" stroke="#00ff88" stroke-width="1.5"><path d="M20,160 C20,130 35,115 55,118 C75,121 82,140 72,152 C62,164 45,160 40,148 C35,136 42,122 55,122 C68,122 74,134 68,144"/><path d="M15,165 C8,145 12,125 28,110"/></g>
-        <g fill="none" stroke="#00ff88" stroke-width="1.2" transform="translate(100,10) rotate(45)"><path d="M0,50 C0,30 12,18 28,20 C44,22 50,38 42,48 C34,58 20,54 16,44 C12,34 18,22 28,22 C38,22 44,32 38,40"/><path d="M-4,54 C-9,38 -6,20 6,8"/></g>
-      </svg>
-    </div>
+    <div class="moko-koru-bg"><svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#00ff88" stroke-width="1.5"><path d="M20,160 C20,130 35,115 55,118 C75,121 82,140 72,152 C62,164 45,160 40,148 C35,136 42,122 55,122 C68,122 74,134 68,144"/><path d="M15,165 C8,145 12,125 28,110"/></g></svg></div>
     <div class="panel-label" style="position:relative;z-index:1;">MOKO — Ronny's Scoreboard 👑</div>
     <div class="moko-board">
       <svg class="aus-silhouette" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><path d="M18,8 L22,5 L30,4 L40,6 L48,10 L52,8 L58,10 L64,16 L66,24 L62,30 L64,36 L61,44 L56,50 L52,54 L48,52 L44,58 L40,62 L35,60 L30,64 L25,62 L20,56 L15,50 L10,42 L8,34 L10,26 L14,18 Z" fill="#00ff88"/><path d="M58,10 L62,4 L60,2 L56,6 Z" fill="#00ff88"/></svg>
@@ -412,7 +388,7 @@
   </div>
 
   <footer>
-    <div class="footer-left">RDU Command Centre v4.1 &nbsp;·&nbsp; Cloud Sync Active &nbsp;·&nbsp; RoofingDownUnder.net &nbsp;·&nbsp; Sydney NSW AU</div>
+    <div class="footer-left">RDU Command Centre v4.4 &nbsp;·&nbsp; RoofingDownUnder.net &nbsp;·&nbsp; Est. 2026 &nbsp;·&nbsp; Sydney NSW AU</div>
     <div class="footer-right">
       <span class="footer-tag">Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</span>
       <span class="footer-tag">Myla · Toneth · Harry · Pauly · Josh</span>
@@ -422,155 +398,307 @@
 </div>
 
 <script>
+// ═══════════════════════════════════════════════════════════════════
+// RDU v4.3 — localStorage ONLY. No cloud pull. Data NEVER vanishes.
+// Cloud push is fire-and-forget in background (never overwrites local).
+// ═══════════════════════════════════════════════════════════════════
+
+const STORE_KEY = 'rdu_data'; // PERMANENT — never change this
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwko1p3AahESixudkk_UbJa8yQSaDllWBcQ0r0J1wSPU0tXQhXnwzgk8FqMMvXJLhDN/exec';
-let cloudData = {};
-let saveTimer = null;
-let isSaving = false;
 
-function setSyncStatus(state, msg) {
-  const bar = document.getElementById('syncBar');
-  bar.className = 'sync-bar ' + state;
-  document.getElementById('syncLabel').textContent = msg;
-}
-
-async function loadFromCloud() {
+// ─── Load/Save to localStorage ────────────────────────────────────
+function load() {
   try {
-    setSyncStatus('saving', 'Loading cloud data...');
-    const res = await fetch(SHEET_URL + '?t=' + Date.now());
-    const text = await res.text();
-    cloudData = (text && text.trim() !== '{}' && text.trim() !== '') ? JSON.parse(text) : {};
-    renderAll();
-    setSyncStatus('saved', '☁ Cloud synced');
-    setTimeout(() => setSyncStatus('', 'Cloud sync active'), 2500);
-  } catch(e) {
-    cloudData = {};
-    renderAll();
-    setSyncStatus('error', '⚠ Cloud offline');
-  }
+    // Try current key first
+    let raw = localStorage.getItem(STORE_KEY);
+    if (raw) return JSON.parse(raw);
+    // Migrate from any old version keys (one-time migration)
+    const oldKeys = ['rdu_v43','rdu_v42','rdu_v41','rdu_dashboard_data'];
+    for (const k of oldKeys) {
+      raw = localStorage.getItem(k);
+      if (raw) {
+        try {
+          const d = JSON.parse(raw);
+          localStorage.setItem(STORE_KEY, raw); // migrate to new key
+          localStorage.removeItem(k);           // clean up old key
+          return d;
+        } catch(e) {}
+      }
+    }
+    return null;
+  } catch(e) { return null; }
 }
 
-async function saveToCloud() {
-  if (isSaving) return;
-  isSaving = true;
-  setSyncStatus('saving', 'Saving...');
-  try {
-    await fetch(SHEET_URL, {method:'POST', body:JSON.stringify(cloudData), headers:{'Content-Type':'application/json'}});
-    setSyncStatus('saved', '✓ Saved to cloud');
-    setTimeout(() => setSyncStatus('', 'Cloud sync active'), 2000);
-  } catch(e) {
-    setSyncStatus('error', '⚠ Save failed — retrying...');
-    setTimeout(saveToCloud, 3000);
-  }
-  isSaving = false;
+let _saveTimer = null;
+function save(data) {
+  // Write to localStorage immediately — synchronous, bulletproof
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch(e) {}
+  // Flash save indicator
+  const bar = document.getElementById('saveBar');
+  bar.className = 'save-bar saving';
+  document.getElementById('saveLabel').textContent = 'Saving...';
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    bar.className = 'save-bar';
+    document.getElementById('saveLabel').textContent = '✓ Data saved';
+    // Background cloud push — no await, never blocks, never overwrites
+    try {
+      fetch(SHEET_URL, { method:'POST', mode:'no-cors', body:JSON.stringify(data), headers:{'Content-Type':'text/plain'} }).catch(()=>{});
+    } catch(e) {}
+  }, 300);
 }
 
-function scheduleSave() {
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveToCloud, 800);
-}
+// ─── App state ─────────────────────────────────────────────────────
+const DEF_TASKS = [{text:"Lofty's Lloyds quote",done:false},{text:"Mirral Rd — Brett Nash quote",done:false},{text:"HCM Build Jannali quote",done:false}];
+const DEF_MYLA  = [{text:"Chase Lloyds deposit",done:false},{text:"Update job tracker",done:false},{text:"Follow up Uplift Building",done:false}];
+const DEF_TON   = [{text:"Invoice HCM Build",done:false},{text:"Xero reconciliation",done:false},{text:"Send weekly P&L",done:false}];
+const DEF_JOBS  = [{quote:'—',name:'HCM Build',addr:'111 Mansfield St, Rozelle',value:'$30,000',stage:'in-progress'},{quote:'—',name:'Lloyds',addr:'297 Woolooware Rd, Burraneer',value:'$42,250',stage:'in-progress'},{quote:'—',name:'Brad — Uplift Building',addr:'41 Lower Washington Dr',value:'$3,850',stage:'in-progress'}];
 
-const DEFAULT_TASKS = [{text:"Lofty's Lloyds quote",done:false},{text:"Mirral Rd — Brett Nash quote",done:false},{text:"HCM Build Jannali quote",done:false}];
-const DEFAULT_MYLA = [{text:"Chase Lloyds deposit",done:false},{text:"Update job tracker",done:false},{text:"Follow up Uplift Building",done:false}];
-const DEFAULT_TONETH = [{text:"Invoice HCM Build",done:false},{text:"Xero reconciliation",done:false},{text:"Send weekly P&L",done:false}];
-const DEFAULT_JOBS = [{quote:'—',name:'HCM Build',addr:'111 Mansfield St, Rozelle',value:'$30,000',stage:'in-progress'},{quote:'—',name:'Lloyds',addr:'297 Woolooware Rd, Burraneer',value:'$42,250',stage:'in-progress'},{quote:'—',name:'Brad — Uplift Building',addr:'41 Lower Washington Dr',value:'$3,850',stage:'in-progress'}];
+// Load saved data or use defaults
+let D = load() || {
+  tasks: DEF_TASKS,
+  va_myla: DEF_MYLA,
+  va_toneth: DEF_TON,
+  jobs: DEF_JOBS,
+  pos: [],
+  kai: {},
+  moko: {},
+  notes: ''
+};
 
+// ─── Render everything ────────────────────────────────────────────
 function renderAll() {
+  // Tasks
   document.getElementById('taskList').innerHTML = '';
-  (cloudData.tasks || DEFAULT_TASKS).forEach(renderTask);
+  D.tasks.forEach(renderTask);
+  // VA
   document.getElementById('mylaTaskList').innerHTML = '';
   document.getElementById('tonethTaskList').innerHTML = '';
-  (cloudData.va_myla || DEFAULT_MYLA).forEach(t => renderVaTask('myla', t));
-  (cloudData.va_toneth || DEFAULT_TONETH).forEach(t => renderVaTask('toneth', t));
+  D.va_myla.forEach(t => renderVaTask('myla', t));
+  D.va_toneth.forEach(t => renderVaTask('toneth', t));
+  // Jobs
   document.getElementById('jobBody').innerHTML = '';
-  (cloudData.jobs || DEFAULT_JOBS).forEach(renderJob);
+  D.jobs.forEach(renderJob);
+  // POs
   document.getElementById('poBody').innerHTML = '';
-  const pos = cloudData.pos || [];
-  if (!pos.length) document.getElementById('poBody').innerHTML = '<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';
-  else pos.forEach(renderPO);
-  if (cloudData.kai) {
+  if (!D.pos.length) {
+    document.getElementById('poBody').innerHTML = '<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';
+  } else {
+    D.pos.forEach(renderPO);
+  }
+  // KAI
+  if (D.kai) {
+    const kM = {biz:'kaiBiz',tax:'kaiTax',pers:'kaiPers'};
+    const tM = {biz:'kaiBizTs',tax:'kaiTaxTs',pers:'kaiPersTs'};
     ['biz','tax','pers'].forEach(a => {
-      const d = cloudData.kai[a];
+      const d = D.kai[a];
       if (d && d.set) {
-        kA[a]=d.val; kS[a]=true;
-        document.getElementById({biz:'kaiBiz',tax:'kaiTax',pers:'kaiPers'}[a]).textContent='$'+d.val.toLocaleString('en-AU');
-        document.getElementById({biz:'kaiBizTs',tax:'kaiTaxTs',pers:'kaiPersTs'}[a]).textContent=d.ts||'Previously set';
+        kA[a] = d.val; kS[a] = true;
+        document.getElementById(kM[a]).textContent = '$' + d.val.toLocaleString('en-AU');
+        document.getElementById(tM[a]).textContent = d.ts || 'Previously set';
       }
     });
     updateKaiTotal();
   }
-  if (cloudData.moko) {
-    mokoRev=cloudData.moko.rev||0; mokoTarget=cloudData.moko.target||0;
-    if (cloudData.moko.quotes) document.getElementById('mokoQuotes').textContent=cloudData.moko.quotes;
-    if (cloudData.moko.won) document.getElementById('mokoWon').textContent=cloudData.moko.won;
+  // MOKO
+  if (D.moko && D.moko.rev !== undefined) {
+    mokoRev = D.moko.rev || 0;
+    mokoTarget = D.moko.target || 0;
+    if (D.moko.quotes) document.getElementById('mokoQuotes').textContent = D.moko.quotes;
+    if (D.moko.won)    document.getElementById('mokoWon').textContent    = D.moko.won;
     refreshMoko(); updateMokoProgress();
   }
-  if (cloudData.notes) document.getElementById('notesArea').value=cloudData.notes;
+  // Notes
+  document.getElementById('notesArea').value = D.notes || '';
 }
 
+// ─── Clock ────────────────────────────────────────────────────────
 function updateClock() {
   const n = new Date();
   document.getElementById('clock').textContent = n.toLocaleTimeString('en-AU',{hour12:false});
   document.getElementById('dateDisplay').textContent = n.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
 }
-updateClock(); setInterval(updateClock,1000);
+updateClock(); setInterval(updateClock, 1000);
 
-function collectTasks(){return Array.from(document.querySelectorAll('#taskList .task-item')).map(el=>({text:el.querySelector('.task-text').textContent,done:el.classList.contains('done')}));}
-function saveTasksCloud(){cloudData.tasks=collectTasks();scheduleSave();}
-function renderTask(t){const item=document.createElement('div');item.className='task-item'+(t.done?' done':'');item.innerHTML=`<div class="task-check" onclick="toggleTask(this.parentElement)">✓</div><span class="task-text" onclick="toggleTask(this.parentElement)">${t.text}</span><button class="task-del" onclick="removeTask(this)">✕</button>`;document.getElementById('taskList').appendChild(item);}
-function toggleTask(el){el.classList.toggle('done');saveTasksCloud();}
-function removeTask(btn){btn.closest('.task-item').remove();saveTasksCloud();}
-function addTask(){const input=document.getElementById('newTaskInput');const text=input.value.trim();if(!text)return;renderTask({text,done:false});input.value='';saveTasksCloud();}
+// ─── Super Human Tasks ────────────────────────────────────────────
+function collectTasks() {
+  return Array.from(document.querySelectorAll('#taskList .task-item')).map(el => ({
+    text: el.querySelector('.task-text').textContent,
+    done: el.classList.contains('done')
+  }));
+}
+function renderTask(t) {
+  const el = document.createElement('div');
+  el.className = 'task-item' + (t.done ? ' done' : '');
+  el.innerHTML = `<div class="task-check" onclick="toggleTask(this.parentElement)">✓</div><span class="task-text" onclick="toggleTask(this.parentElement)">${t.text}</span><button class="task-del" onclick="removeTask(this)">✕</button>`;
+  document.getElementById('taskList').appendChild(el);
+}
+function toggleTask(el) { el.classList.toggle('done'); D.tasks = collectTasks(); save(D); }
+function removeTask(btn) { btn.closest('.task-item').remove(); D.tasks = collectTasks(); save(D); }
+function addTask() {
+  const inp = document.getElementById('newTaskInput');
+  const t = inp.value.trim(); if (!t) return;
+  renderTask({text:t,done:false}); inp.value = '';
+  D.tasks = collectTasks(); save(D);
+}
 
-function collectVaTasks(who){const listId=who==='myla'?'mylaTaskList':'tonethTaskList';return Array.from(document.querySelectorAll('#'+listId+' .va-task-item')).map(el=>({text:el.querySelector('.va-task-text').textContent,done:el.classList.contains('done')}));}
-function saveVaCloud(who){cloudData['va_'+who]=collectVaTasks(who);scheduleSave();}
-function renderVaTask(who,t){const listId=who==='myla'?'mylaTaskList':'tonethTaskList';const item=document.createElement('div');item.className='va-task-item'+(t.done?' done':'');item.innerHTML=`<div class="va-task-check" onclick="toggleVaTask(this.parentElement,'${who}')">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement,'${who}')">${t.text}</span><button class="va-task-del" onclick="removeVaTask(this,'${who}')">✕</button>`;document.getElementById(listId).appendChild(item);}
-function toggleVaTask(el,who){el.classList.toggle('done');saveVaCloud(who);}
-function removeVaTask(btn,who){btn.closest('.va-task-item').remove();saveVaCloud(who);}
-function addVaTask(who){const inputId=who==='myla'?'mylaInput':'tonethInput';const input=document.getElementById(inputId);const text=input.value.trim();if(!text)return;renderVaTask(who,{text,done:false});input.value='';saveVaCloud(who);}
+// ─── VA Tasks ─────────────────────────────────────────────────────
+function collectVa(who) {
+  return Array.from(document.querySelectorAll('#' + (who==='myla' ? 'mylaTaskList' : 'tonethTaskList') + ' .va-task-item')).map(el => ({
+    text: el.querySelector('.va-task-text').textContent,
+    done: el.classList.contains('done')
+  }));
+}
+function renderVaTask(who, t) {
+  const lid = who === 'myla' ? 'mylaTaskList' : 'tonethTaskList';
+  const el = document.createElement('div');
+  el.className = 'va-task-item' + (t.done ? ' done' : '');
+  el.innerHTML = `<div class="va-task-check" onclick="toggleVaTask(this.parentElement,'${who}')">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement,'${who}')">${t.text}</span><button class="va-task-del" onclick="removeVaTask(this,'${who}')">✕</button>`;
+  document.getElementById(lid).appendChild(el);
+}
+function toggleVaTask(el, who) { el.classList.toggle('done'); D['va_'+who] = collectVa(who); save(D); }
+function removeVaTask(btn, who) { btn.closest('.va-task-item').remove(); D['va_'+who] = collectVa(who); save(D); }
+function addVaTask(who) {
+  const inp = document.getElementById(who === 'myla' ? 'mylaInput' : 'tonethInput');
+  const t = inp.value.trim(); if (!t) return;
+  renderVaTask(who, {text:t,done:false}); inp.value = '';
+  D['va_'+who] = collectVa(who); save(D);
+}
 
-async function loadWeather(){try{const res=await fetch('https://wttr.in/Sutherland+NSW+Australia?format=j1');const data=await res.json();const c=data.current_condition[0];const desc=c.weatherDesc[0].value,temp=c.temp_C,feels=c.FeelsLikeC,humidity=c.humidity,wind=c.windspeedKmph;const icons={'Sunny':'☀️','Clear':'🌙','Partly cloudy':'⛅','Cloudy':'☁️','Overcast':'☁️','Mist':'🌫️','Rain':'🌧️','Light rain':'🌦️','Heavy rain':'⛈️','Thunder':'⛈️','Snow':'❄️','Fog':'🌫️','Drizzle':'🌦️'};let icon='🌤️';for(const[k,v]of Object.entries(icons)){if(desc.toLowerCase().includes(k.toLowerCase())){icon=v;break;}}const w=parseInt(wind);const roofing=w>45?`<span style="color:var(--red-dust);font-weight:700">TOO WINDY ⚠</span>`:w>25?`<span style="color:var(--dust);font-weight:700">BIT BREEZY</span>`:`<span style="color:var(--green-gum);font-weight:700">GOOD TO GO ✓</span>`;document.getElementById('weatherContent').innerHTML=`<div class="weather-main"><div class="weather-icon">${icon}</div><div><div class="weather-temp">${temp}<span>°C</span></div><div class="weather-desc">${desc}</div><div class="weather-loc">Sutherland Shire, NSW, Australia</div></div></div><div class="weather-stats"><div class="w-stat"><div class="w-stat-label">Feels Like</div><div class="w-stat-val">${feels}°C</div></div><div class="w-stat"><div class="w-stat-label">Humidity</div><div class="w-stat-val">${humidity}%</div></div><div class="w-stat"><div class="w-stat-label">Wind</div><div class="w-stat-val">${wind}km/h</div></div><div class="w-stat"><div class="w-stat-label">On the Tools</div><div class="w-stat-val" style="font-size:0.6rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${roofing}</div></div></div>`;}catch(e){document.getElementById('weatherContent').innerHTML='<div class="weather-loading">No signal — check network</div>';}}
-loadWeather();setInterval(loadWeather,600000);
+// ─── Weather ─────────────────────────────────────────────────────
+async function loadWeather() {
+  try {
+    const r = await fetch('https://wttr.in/Sutherland+NSW+Australia?format=j1');
+    const d = await r.json();
+    const c = d.current_condition[0];
+    const desc = c.weatherDesc[0].value, temp = c.temp_C, feels = c.FeelsLikeC, hum = c.humidity, wind = c.windspeedKmph;
+    const ic = {'Sunny':'☀️','Clear':'🌙','Partly cloudy':'⛅','Cloudy':'☁️','Overcast':'☁️','Mist':'🌫️','Rain':'🌧️','Light rain':'🌦️','Heavy rain':'⛈️','Thunder':'⛈️','Snow':'❄️','Fog':'🌫️','Drizzle':'🌦️'};
+    let icon = '🌤️';
+    for (const [k,v] of Object.entries(ic)) { if (desc.toLowerCase().includes(k.toLowerCase())) { icon = v; break; } }
+    const w = parseInt(wind);
+    const rf = w > 45 ? `<span style="color:var(--red-dust);font-weight:700">TOO WINDY ⚠</span>` : w > 25 ? `<span style="color:var(--dust);font-weight:700">BIT BREEZY</span>` : `<span style="color:var(--green-gum);font-weight:700">GOOD TO GO ✓</span>`;
+    document.getElementById('weatherContent').innerHTML = `<div class="weather-main"><div class="weather-icon">${icon}</div><div><div class="weather-temp">${temp}<span>°C</span></div><div class="weather-desc">${desc}</div><div class="weather-loc">Sutherland Shire, NSW, Australia</div></div></div><div class="weather-stats"><div class="w-stat"><div class="w-stat-label">Feels Like</div><div class="w-stat-val">${feels}°C</div></div><div class="w-stat"><div class="w-stat-label">Humidity</div><div class="w-stat-val">${hum}%</div></div><div class="w-stat"><div class="w-stat-label">Wind</div><div class="w-stat-val">${wind}km/h</div></div><div class="w-stat"><div class="w-stat-label">On the Tools</div><div class="w-stat-val" style="font-size:0.6rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${rf}</div></div></div>`;
+  } catch(e) {
+    document.getElementById('weatherContent').innerHTML = '<div class="weather-loading">No signal — check network</div>';
+  }
+}
+loadWeather(); setInterval(loadWeather, 600000);
 
-const verses=[{v:"I can do all things through Christ who strengthens me.",r:"Philippians 4:13"},{v:"For I know the plans I have for you — plans to prosper you and not to harm you.",r:"Jeremiah 29:11"},{v:"The Lord is my shepherd; I shall not want.",r:"Psalm 23:1"},{v:"Trust in the Lord with all your heart and lean not on your own understanding.",r:"Proverbs 3:5"},{v:"Be strong and courageous. Do not be afraid; do not be discouraged.",r:"Joshua 1:9"},{v:"And we know that in all things God works for the good of those who love him.",r:"Romans 8:28"},{v:"The Lord will fight for you; you need only to be still.",r:"Exodus 14:14"},{v:"Cast all your anxiety on him because he cares for you.",r:"1 Peter 5:7"},{v:"God is our refuge and strength, an ever-present help in trouble.",r:"Psalm 46:1"},{v:"With God all things are possible.",r:"Matthew 19:26"},{v:"Do not be anxious about anything, but in every situation present your requests to God.",r:"Philippians 4:6"},{v:"The Lord your God is with you, the Mighty Warrior who saves.",r:"Zephaniah 3:17"},{v:"Commit to the Lord whatever you do, and he will establish your plans.",r:"Proverbs 16:3"},{v:"Be still and know that I am God.",r:"Psalm 46:10"},{v:"Give thanks to the Lord, for he is good; his love endures forever.",r:"Psalm 107:1"},{v:"Delight yourself in the Lord, and he will give you the desires of your heart.",r:"Psalm 37:4"},{v:"Let us not become weary in doing good, for at the proper time we will reap a harvest.",r:"Galatians 6:9"},{v:"He gives strength to the weary and increases the power of the weak.",r:"Isaiah 40:29"},{v:"Seek first his kingdom and his righteousness, and all these things will be given to you.",r:"Matthew 6:33"},{v:"For nothing will be impossible with God.",r:"Luke 1:37"},{v:"My grace is sufficient for you, for my power is made perfect in weakness.",r:"2 Corinthians 12:9"},{v:"The Lord is close to the brokenhearted and saves those who are crushed in spirit.",r:"Psalm 34:18"},{v:"Your word is a lamp for my feet, a light on my path.",r:"Psalm 119:105"},{v:"This is the day the Lord has made; let us rejoice and be glad in it.",r:"Psalm 118:24"},{v:"Ask and it will be given to you; seek and you will find.",r:"Matthew 7:7"},{v:"The righteous person may have many troubles, but the Lord delivers him from them all.",r:"Psalm 34:19"},{v:"For God so loved the world that he gave his one and only Son.",r:"John 3:16"},{v:"I am the way, the truth, and the life.",r:"John 14:6"},{v:"The name of the Lord is a fortified tower; the righteous run to it and are safe.",r:"Proverbs 18:10"},{v:"I have learned, in whatever state I am, to be content.",r:"Philippians 4:11"},{v:"The Lord bless you and keep you; the Lord make his face shine on you.",r:"Numbers 6:24-25"}];
-function loadDevotion(){const now=new Date();const day=Math.floor((now-new Date(now.getFullYear(),0,0))/86400000);const{v,r}=verses[day%verses.length];const ds=now.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();document.getElementById('devotionalBody').innerHTML=`<div class="devotional-verse">"${v}"</div><div class="devotional-ref">— ${r}</div><div class="devotional-date">📖 ${ds}</div>`;}
-loadDevotion();
+// ─── Devotional ───────────────────────────────────────────────────
+const VV=[{v:"I can do all things through Christ who strengthens me.",r:"Philippians 4:13"},{v:"For I know the plans I have for you — plans to prosper you and not to harm you.",r:"Jeremiah 29:11"},{v:"The Lord is my shepherd; I shall not want.",r:"Psalm 23:1"},{v:"Trust in the Lord with all your heart and lean not on your own understanding.",r:"Proverbs 3:5"},{v:"Be strong and courageous. Do not be afraid; do not be discouraged.",r:"Joshua 1:9"},{v:"And we know that in all things God works for the good of those who love him.",r:"Romans 8:28"},{v:"The Lord will fight for you; you need only to be still.",r:"Exodus 14:14"},{v:"Cast all your anxiety on him because he cares for you.",r:"1 Peter 5:7"},{v:"God is our refuge and strength, an ever-present help in trouble.",r:"Psalm 46:1"},{v:"With God all things are possible.",r:"Matthew 19:26"},{v:"Do not be anxious about anything, but in every situation present your requests to God.",r:"Philippians 4:6"},{v:"The Lord your God is with you, the Mighty Warrior who saves.",r:"Zephaniah 3:17"},{v:"Commit to the Lord whatever you do, and he will establish your plans.",r:"Proverbs 16:3"},{v:"Be still and know that I am God.",r:"Psalm 46:10"},{v:"Give thanks to the Lord, for he is good; his love endures forever.",r:"Psalm 107:1"},{v:"Delight yourself in the Lord, and he will give you the desires of your heart.",r:"Psalm 37:4"},{v:"Let us not become weary in doing good, for at the proper time we will reap a harvest.",r:"Galatians 6:9"},{v:"He gives strength to the weary and increases the power of the weak.",r:"Isaiah 40:29"},{v:"Seek first his kingdom and his righteousness, and all these things will be given to you.",r:"Matthew 6:33"},{v:"For nothing will be impossible with God.",r:"Luke 1:37"},{v:"My grace is sufficient for you, for my power is made perfect in weakness.",r:"2 Corinthians 12:9"},{v:"The Lord is close to the brokenhearted and saves those who are crushed in spirit.",r:"Psalm 34:18"},{v:"Your word is a lamp for my feet, a light on my path.",r:"Psalm 119:105"},{v:"This is the day the Lord has made; let us rejoice and be glad in it.",r:"Psalm 118:24"},{v:"Ask and it will be given to you; seek and you will find.",r:"Matthew 7:7"},{v:"The righteous person may have many troubles, but the Lord delivers him from them all.",r:"Psalm 34:19"},{v:"For God so loved the world that he gave his one and only Son.",r:"John 3:16"},{v:"I am the way, the truth, and the life.",r:"John 14:6"},{v:"The name of the Lord is a fortified tower; the righteous run to it and are safe.",r:"Proverbs 18:10"},{v:"I have learned, in whatever state I am, to be content.",r:"Philippians 4:11"},{v:"The Lord bless you and keep you; the Lord make his face shine on you.",r:"Numbers 6:24-25"}];
+(function(){const n=new Date();const day=Math.floor((n-new Date(n.getFullYear(),0,0))/86400000);const{v,r}=VV[day%VV.length];const ds=n.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();document.getElementById('devotionalBody').innerHTML=`<div class="devotional-verse">"${v}"</div><div class="devotional-ref">— ${r}</div><div class="devotional-date">📖 ${ds}</div>`;})();
 
-const kA={biz:0,tax:0,pers:0};
-const kS={biz:false,tax:false,pers:false};
-function setKai(a){const iMap={biz:'kaiBizIn',tax:'kaiTaxIn',pers:'kaiPersIn'};const vMap={biz:'kaiBiz',tax:'kaiTax',pers:'kaiPers'};const tMap={biz:'kaiBizTs',tax:'kaiTaxTs',pers:'kaiPersTs'};const raw=document.getElementById(iMap[a]).value.replace(/[$,]/g,'');const val=parseFloat(raw);if(isNaN(val))return;kA[a]=val;kS[a]=true;document.getElementById(vMap[a]).textContent='$'+val.toLocaleString('en-AU');const now=new Date();const ts='Updated '+now.toLocaleTimeString('en-AU',{hour12:true,hour:'numeric',minute:'2-digit'})+' · '+now.toLocaleDateString('en-AU',{day:'numeric',month:'short'});document.getElementById(tMap[a]).textContent=ts;document.getElementById(iMap[a]).value='';updateKaiTotal();if(!cloudData.kai)cloudData.kai={};cloudData.kai[a]={val,set:true,ts};scheduleSave();}
-function updateKaiTotal(){if(!kS.biz&&!kS.tax&&!kS.pers)return;document.getElementById('kaiTotal').textContent='$'+(kA.biz+kA.tax+kA.pers).toLocaleString('en-AU');}
-['kaiBizIn','kaiTaxIn','kaiPersIn'].forEach((id,i)=>{document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')setKai(['biz','tax','pers'][i]);});});
+// ─── KAI ──────────────────────────────────────────────────────────
+const kA = {biz:0,tax:0,pers:0}, kS = {biz:false,tax:false,pers:false};
+function setKai(a) {
+  const iM={biz:'kaiBizIn',tax:'kaiTaxIn',pers:'kaiPersIn'}, vM={biz:'kaiBiz',tax:'kaiTax',pers:'kaiPers'}, tM={biz:'kaiBizTs',tax:'kaiTaxTs',pers:'kaiPersTs'};
+  const val = parseFloat(document.getElementById(iM[a]).value.replace(/[$,]/g,'')); if (isNaN(val)) return;
+  kA[a] = val; kS[a] = true;
+  document.getElementById(vM[a]).textContent = '$' + val.toLocaleString('en-AU');
+  const n = new Date();
+  const ts = 'Updated ' + n.toLocaleTimeString('en-AU',{hour12:true,hour:'numeric',minute:'2-digit'}) + ' · ' + n.toLocaleDateString('en-AU',{day:'numeric',month:'short'});
+  document.getElementById(tM[a]).textContent = ts;
+  document.getElementById(iM[a]).value = '';
+  updateKaiTotal();
+  if (!D.kai) D.kai = {};
+  D.kai[a] = {val, set:true, ts};
+  save(D);
+}
+function updateKaiTotal() {
+  if (!kS.biz && !kS.tax && !kS.pers) return;
+  document.getElementById('kaiTotal').textContent = '$' + (kA.biz + kA.tax + kA.pers).toLocaleString('en-AU');
+}
+['kaiBizIn','kaiTaxIn','kaiPersIn'].forEach((id,i) => {
+  document.getElementById(id).addEventListener('keydown', e => { if (e.key==='Enter') setKai(['biz','tax','pers'][i]); });
+});
 
-function collectJobs(){return Array.from(document.querySelectorAll('#jobBody tr')).map(tr=>{const tds=tr.querySelectorAll('td');const sel=tr.querySelector('.status-select');return{quote:tds[0].textContent,name:tds[1].textContent,addr:tds[2].textContent,value:tds[3].textContent,stage:sel?sel.value:'in-progress'};});}
-function saveJobsCloud(){cloudData.jobs=collectJobs();scheduleSave();}
-function updateStatusStyle(sel){sel.setAttribute('data-status',sel.value);saveJobsCloud();}
-function makeStatusDropdown(val){const opts=[{v:'in-progress',l:'In Progress'},{v:'needs-qdraft',l:'Needs Q-Draft'},{v:'waiting-ronny',l:'Waiting Ronny'},{v:'waiting-client',l:'Waiting Client'}];return `<select class="status-select" data-status="${val}" onchange="updateStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;}
-function renderJob(j){const tr=document.createElement('tr');tr.innerHTML=`<td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">${j.quote}</td><td>${j.name}</td><td style="color:var(--muted);font-size:0.55rem">${j.addr}</td><td>${j.value}</td><td>${makeStatusDropdown(j.stage)}</td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;document.getElementById('jobBody').appendChild(tr);}
-function addJob(){const name=document.getElementById('jobName').value.trim();if(!name)return;renderJob({quote:document.getElementById('jobQuote').value.trim()||'—',name,addr:document.getElementById('jobAddr').value.trim()||'—',value:document.getElementById('jobValue').value.trim()||'TBC',stage:document.getElementById('jobStage').value});['jobName','jobAddr','jobValue','jobQuote'].forEach(id=>document.getElementById(id).value='');saveJobsCloud();}
-function removeJob(btn){btn.closest('tr').remove();saveJobsCloud();}
+// ─── MAHI Jobs ────────────────────────────────────────────────────
+function collectJobs() {
+  return Array.from(document.querySelectorAll('#jobBody tr')).map(tr => {
+    const tds = tr.querySelectorAll('td'), sel = tr.querySelector('.status-select');
+    return {quote:tds[0].textContent, name:tds[1].textContent, addr:tds[2].textContent, value:tds[3].textContent, stage:sel?sel.value:'in-progress'};
+  });
+}
+function updateStatusStyle(sel) { sel.setAttribute('data-status', sel.value); D.jobs = collectJobs(); save(D); }
+function makeSD(val) {
+  const opts = [{v:'in-progress',l:'In Progress'},{v:'needs-qdraft',l:'Needs Q-Draft'},{v:'waiting-ronny',l:'Waiting Ronny'},{v:'waiting-client',l:'Waiting Client'}];
+  return `<select class="status-select" data-status="${val}" onchange="updateStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;
+}
+function renderJob(j) {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">${j.quote}</td><td>${j.name}</td><td style="color:var(--muted);font-size:0.55rem">${j.addr}</td><td>${j.value}</td><td>${makeSD(j.stage)}</td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
+  document.getElementById('jobBody').appendChild(tr);
+}
+function addJob() {
+  const name = document.getElementById('jobName').value.trim(); if (!name) return;
+  renderJob({quote:document.getElementById('jobQuote').value.trim()||'—', name, addr:document.getElementById('jobAddr').value.trim()||'—', value:document.getElementById('jobValue').value.trim()||'TBC', stage:document.getElementById('jobStage').value});
+  ['jobName','jobAddr','jobValue','jobQuote'].forEach(id => document.getElementById(id).value = '');
+  D.jobs = collectJobs(); save(D);
+}
+function removeJob(btn) { btn.closest('tr').remove(); D.jobs = collectJobs(); save(D); }
 
-function collectPOs(){return Array.from(document.querySelectorAll('#poBody tr:not(#poEmpty)')).map(tr=>{const tds=tr.querySelectorAll('td');const sel=tr.querySelector('.po-status-select');return{num:tds[0].textContent,addr:tds[1].textContent,name:tds[2].textContent,status:sel?sel.value:'sent'};});}
-function savePOsCloud(){cloudData.pos=collectPOs();scheduleSave();}
-function updatePoStatusStyle(sel){sel.setAttribute('data-status',sel.value);savePOsCloud();}
-function makePOStatusDropdown(val){const opts=[{v:'sent',l:'Sent'},{v:'drafted',l:'Drafted'},{v:'in-progress',l:'In Progress'}];return `<select class="po-status-select" data-status="${val}" onchange="updatePoStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;}
-function renderPO(p){const tbody=document.getElementById('poBody');const empty=document.getElementById('poEmpty');if(empty)empty.remove();const tr=document.createElement('tr');tr.innerHTML=`<td style="color:var(--muted);font-size:0.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${p.num}</td><td style="font-size:0.52rem">${p.addr}</td><td style="font-size:0.52rem">${p.name}</td><td>${makePOStatusDropdown(p.status)}</td><td><button onclick="removePO(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.7rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;tbody.appendChild(tr);}
-function addPO(){const num=document.getElementById('poNum').value.trim();if(!num)return;renderPO({num,addr:document.getElementById('poAddr').value.trim()||'—',name:document.getElementById('poName').value.trim()||'—',status:document.getElementById('poStatus').value});['poNum','poAddr','poName'].forEach(id=>document.getElementById(id).value='');savePOsCloud();}
-function removePO(btn){const tbody=document.getElementById('poBody');btn.closest('tr').remove();if(tbody.rows.length===0)tbody.innerHTML='<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';savePOsCloud();}
+// ─── POs ──────────────────────────────────────────────────────────
+function collectPOs() {
+  return Array.from(document.querySelectorAll('#poBody tr:not(#poEmpty)')).map(tr => {
+    const tds = tr.querySelectorAll('td'), sel = tr.querySelector('.po-status-select');
+    return {num:tds[0].textContent, addr:tds[1].textContent, name:tds[2].textContent, status:sel?sel.value:'sent'};
+  });
+}
+function updatePoStatusStyle(sel) { sel.setAttribute('data-status', sel.value); D.pos = collectPOs(); save(D); }
+function makePSD(val) {
+  const opts = [{v:'sent',l:'Sent'},{v:'drafted',l:'Drafted'},{v:'in-progress',l:'In Progress'}];
+  return `<select class="po-status-select" data-status="${val}" onchange="updatePoStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;
+}
+function renderPO(p) {
+  const emp = document.getElementById('poEmpty'); if (emp) emp.remove();
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td style="color:var(--muted);font-size:0.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${p.num}</td><td style="font-size:0.52rem">${p.addr}</td><td style="font-size:0.52rem">${p.name}</td><td>${makePSD(p.status)}</td><td><button onclick="removePO(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.7rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
+  document.getElementById('poBody').appendChild(tr);
+}
+function addPO() {
+  const num = document.getElementById('poNum').value.trim(); if (!num) return;
+  renderPO({num, addr:document.getElementById('poAddr').value.trim()||'—', name:document.getElementById('poName').value.trim()||'—', status:document.getElementById('poStatus').value});
+  ['poNum','poAddr','poName'].forEach(id => document.getElementById(id).value = '');
+  D.pos = collectPOs(); save(D);
+}
+function removePO(btn) {
+  const tbody = document.getElementById('poBody');
+  btn.closest('tr').remove();
+  if (tbody.rows.length === 0) tbody.innerHTML = '<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';
+  D.pos = collectPOs(); save(D);
+}
 
-const vibes=["Just getting warmed up, mate! 🔥","Solid start — keep stackin'! 💪","Three active — build the pipeline! 🏗","On fire out there! 🚀","Halfway there — push hard! 💥","Almost at target, don't blink! ⚡","TARGET SMASHED. Bloody legend. 🏆","OVER TARGET. Absolute unit! 👑"];
-let mokoTarget=0,mokoRev=0;
-function getVibe(p){if(p===0)return vibes[0];if(p<25)return vibes[1];if(p<45)return vibes[2];if(p<60)return vibes[3];if(p<75)return vibes[4];if(p<95)return vibes[5];if(p<=105)return vibes[6];return vibes[7];}
-function saveMokoCloud(){cloudData.moko={rev:mokoRev,target:mokoTarget,quotes:document.getElementById('mokoQuotes').textContent,won:document.getElementById('mokoWon').textContent};scheduleSave();}
-function refreshMoko(){document.getElementById('mokoRev').textContent='$'+mokoRev.toLocaleString('en-AU');const p=mokoTarget>0?Math.round(mokoRev/mokoTarget*100):0;document.getElementById('mokoVibe').textContent=mokoTarget>0?getVibe(p):(mokoRev>0?"Set a target to track your progress! 🎯":"Set your revenue below to track progress! 🔥");}
-function updateMokoRev(){mokoRev=parseFloat(document.getElementById('mokoRevInput').value.replace(/[$,]/g,''))||0;refreshMoko();updateMokoProgress();saveMokoCloud();document.getElementById('mokoRevInput').value='';}
-function updateMokoTarget(){mokoTarget=parseFloat(document.getElementById('mokoTargetInput').value.replace(/[$,]/g,''))||0;updateMokoProgress();saveMokoCloud();document.getElementById('mokoTargetInput').value='';}
-function updateMokoProgress(){const p=mokoTarget>0?Math.min(100,Math.round(mokoRev/mokoTarget*100)):0;document.getElementById('mokoBar').style.width=p+'%';document.getElementById('mokoBarLabel').textContent=mokoTarget>0?`$${mokoRev.toLocaleString()} of $${mokoTarget.toLocaleString()} · ${p}%`:`$${mokoRev.toLocaleString()} earned — set a target`;document.getElementById('mokoVibe').textContent=mokoTarget>0?getVibe(p):(mokoRev>0?"Set a target to track your progress! 🎯":"Set your revenue below to track progress! 🔥");}
-function updateMokoStats(){const q=document.getElementById('mokoQInput').value,w=document.getElementById('mokoWInput').value;if(q)document.getElementById('mokoQuotes').textContent=q;if(w)document.getElementById('mokoWon').textContent=w;document.getElementById('mokoQInput').value='';document.getElementById('mokoWInput').value='';saveMokoCloud();}
+// ─── MOKO ─────────────────────────────────────────────────────────
+const vibes = ["Just getting warmed up, mate! 🔥","Solid start — keep stackin'! 💪","Three active — build the pipeline! 🏗","On fire out there! 🚀","Halfway there — push hard! 💥","Almost at target, don't blink! ⚡","TARGET SMASHED. Bloody legend. 🏆","OVER TARGET. Absolute unit! 👑"];
+let mokoTarget = 0, mokoRev = 0;
+function getVibe(p) { if(p===0)return vibes[0];if(p<25)return vibes[1];if(p<45)return vibes[2];if(p<60)return vibes[3];if(p<75)return vibes[4];if(p<95)return vibes[5];if(p<=105)return vibes[6];return vibes[7]; }
+function saveMoko() { D.moko = {rev:mokoRev,target:mokoTarget,quotes:document.getElementById('mokoQuotes').textContent,won:document.getElementById('mokoWon').textContent}; save(D); }
+function refreshMoko() {
+  document.getElementById('mokoRev').textContent = '$' + mokoRev.toLocaleString('en-AU');
+  const p = mokoTarget > 0 ? Math.round(mokoRev/mokoTarget*100) : 0;
+  document.getElementById('mokoVibe').textContent = mokoTarget > 0 ? getVibe(p) : (mokoRev > 0 ? "Set a target to track your progress! 🎯" : "Set your revenue below to track progress! 🔥");
+}
+function updateMokoRev() { mokoRev = parseFloat(document.getElementById('mokoRevInput').value.replace(/[$,]/g,''))||0; refreshMoko(); updateMokoProgress(); saveMoko(); document.getElementById('mokoRevInput').value=''; }
+function updateMokoTarget() { mokoTarget = parseFloat(document.getElementById('mokoTargetInput').value.replace(/[$,]/g,''))||0; updateMokoProgress(); saveMoko(); document.getElementById('mokoTargetInput').value=''; }
+function updateMokoProgress() {
+  const p = mokoTarget > 0 ? Math.min(100,Math.round(mokoRev/mokoTarget*100)) : 0;
+  document.getElementById('mokoBar').style.width = p + '%';
+  document.getElementById('mokoBarLabel').textContent = mokoTarget > 0 ? `$${mokoRev.toLocaleString()} of $${mokoTarget.toLocaleString()} · ${p}%` : `$${mokoRev.toLocaleString()} earned — set a target`;
+  document.getElementById('mokoVibe').textContent = mokoTarget > 0 ? getVibe(p) : (mokoRev > 0 ? "Set a target to track your progress! 🎯" : "Set your revenue below to track progress! 🔥");
+}
+function updateMokoStats() {
+  const q = document.getElementById('mokoQInput').value, w = document.getElementById('mokoWInput').value;
+  if (q) document.getElementById('mokoQuotes').textContent = q;
+  if (w) document.getElementById('mokoWon').textContent = w;
+  document.getElementById('mokoQInput').value = ''; document.getElementById('mokoWInput').value = '';
+  saveMoko();
+}
 
-document.getElementById('notesArea').addEventListener('input',function(){cloudData.notes=this.value;scheduleSave();});
+// ─── Notes ────────────────────────────────────────────────────────
+document.getElementById('notesArea').addEventListener('input', function() { D.notes = this.value; save(D); });
 
-loadFromCloud();
-setInterval(loadFromCloud, 60000);
+// ─── INIT — render from localStorage immediately ──────────────────
+renderAll();
 </script>
 </body>
 </html>
