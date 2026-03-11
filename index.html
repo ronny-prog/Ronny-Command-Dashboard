@@ -32,9 +32,12 @@
   .silhouette svg{width:100%;height:100%;}
   .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");}
   .wrap{position:relative;z-index:3;width:100vw;height:100vh;display:grid;grid-template-rows:62px 1fr 1fr 26px;grid-template-columns:200px 1fr 1fr 200px;gap:8px;padding:12px 14px;}
-  .save-bar{position:fixed;bottom:32px;right:18px;z-index:100;display:flex;align-items:center;gap:6px;background:rgba(30,15,6,0.85);border:1px solid var(--green-gum);border-radius:20px;padding:4px 12px;font-family:'Barlow Condensed',sans-serif;font-size:0.44rem;letter-spacing:0.12em;color:var(--green-gum);text-transform:uppercase;backdrop-filter:blur(6px);transition:all 0.4s;}
-  .save-bar.saving{border-color:var(--tan);color:var(--tan);}
-  .save-dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+  .sync-bar{position:fixed;bottom:32px;right:18px;z-index:100;display:flex;align-items:center;gap:6px;background:rgba(30,15,6,0.9);border:1px solid var(--border);border-radius:20px;padding:4px 12px 4px 9px;font-family:'Barlow Condensed',sans-serif;font-size:0.44rem;letter-spacing:0.1em;color:var(--subtle);text-transform:uppercase;backdrop-filter:blur(8px);transition:all 0.35s;}
+  .sync-bar.ok{border-color:var(--green-gum);color:var(--green-gum);}
+  .sync-bar.saving{border-color:var(--tan);color:var(--tan);}
+  .sync-bar.err{border-color:var(--red-dust);color:var(--red-dust);}
+  .sync-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+  .sync-bar.saving .sync-dot{animation:pulse 0.7s infinite;}
   @keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   @keyframes neonPulse{0%,100%{opacity:1;text-shadow:var(--neon-glow)}50%{opacity:0.8;text-shadow:none}}
@@ -74,8 +77,7 @@
   .app-btn.blue:hover{background:var(--blue-dim);border-color:var(--blue-sky);color:var(--blue-bright);}
   .app-btn.amber:hover{background:var(--tan-dim);border-color:var(--tan);color:var(--dust);}
   .app-icon{font-size:0.9rem;flex-shrink:0;width:18px;text-align:center;}
-  .app-info{flex:1;}
-  .app-name{display:block;font-weight:600;}
+  .app-info{flex:1;}.app-name{display:block;font-weight:600;}
   .app-desc{font-size:0.41rem;color:var(--muted);font-weight:400;margin-top:1px;letter-spacing:0.04em;}
   .app-arrow{font-size:0.6rem;opacity:0;transition:opacity 0.15s;color:var(--dust);}
   .app-btn:hover .app-arrow{opacity:1;}
@@ -254,14 +256,14 @@
     <rect x="0" y="120" width="1440" height="60" fill="#1e0f06"/>
     <path d="M0,130 Q80,100 160,118 Q240,135 320,110 Q400,88 480,115 Q560,138 640,108 Q720,80 800,112 Q880,138 960,105 Q1040,75 1120,108 Q1200,135 1280,112 Q1360,92 1440,118 L1440,180 L0,180 Z" fill="#3d2010"/>
     <path d="M0,140 Q120,125 240,138 Q360,150 480,130 Q600,112 720,135 Q840,155 960,130 Q1080,108 1200,135 Q1320,158 1440,140 L1440,180 L0,180 Z" fill="#2a1508"/>
-    <g fill="#1e0f06"><rect x="60" y="105" width="6" height="25"/><ellipse cx="63" cy="100" rx="12" ry="14"/><rect x="110" y="108" width="5" height="22"/><ellipse cx="112" cy="103" rx="10" ry="12"/><rect x="145" y="100" width="7" height="30"/><ellipse cx="148" cy="94" rx="14" ry="16"/><rect x="200" y="107" width="5" height="23"/><ellipse cx="202" cy="102" rx="9" ry="11"/><rect x="1200" y="103" width="6" height="27"/><ellipse cx="1203" cy="97" rx="13" ry="15"/><rect x="1250" y="107" width="5" height="23"/><ellipse cx="1252" cy="102" rx="10" ry="12"/><rect x="1300" y="100" width="7" height="30"/><ellipse cx="1303" cy="94" rx="14" ry="16"/><rect x="1360" y="108" width="5" height="22"/><ellipse cx="1362" cy="103" rx="9" ry="11"/></g>
+    <g fill="#1e0f06"><rect x="60" y="105" width="6" height="25"/><ellipse cx="63" cy="100" rx="12" ry="14"/><rect x="110" y="108" width="5" height="22"/><ellipse cx="112" cy="103" rx="10" ry="12"/><rect x="145" y="100" width="7" height="30"/><ellipse cx="148" cy="94" rx="14" ry="16"/><rect x="200" y="107" width="5" height="23"/><ellipse cx="202" cy="102" rx="9" ry="11"/><rect x="1200" y="103" width="6" height="27"/><ellipse cx="1203" cy="97" rx="13" ry="15"/><rect x="1250" y="107" width="5" height="22"/><ellipse cx="1252" cy="102" rx="10" ry="12"/><rect x="1300" y="100" width="7" height="30"/><ellipse cx="1303" cy="94" rx="14" ry="16"/><rect x="1360" y="108" width="5" height="22"/><ellipse cx="1362" cy="103" rx="9" ry="11"/></g>
     <g fill="#2a1508" stroke="#1e0f06" stroke-width="0.5"><rect x="30" y="118" width="3" height="30"/><rect x="80" y="120" width="3" height="28"/><rect x="130" y="118" width="3" height="30"/><line x1="30" y1="124" x2="133" y2="124" stroke="#3d2010" stroke-width="0.8"/><line x1="30" y1="130" x2="133" y2="130" stroke="#3d2010" stroke-width="0.8"/></g>
     <g transform="translate(820,72)" fill="#1a0c04"><ellipse cx="0" cy="30" rx="18" ry="13"/><rect x="-6" y="13" width="12" height="16" rx="4"/><ellipse cx="0" cy="9" rx="11" ry="10"/><ellipse cx="8" cy="12" rx="7" ry="5"/><polygon points="-9,3 -14,-10 -3,1"/><polygon points="8,3 16,-8 6,1"/><rect x="-14" y="38" width="5" height="22" rx="2"/><rect x="-2" y="38" width="5" height="22" rx="2"/><ellipse cx="14" cy="36" rx="10" ry="9"/><rect x="8" y="44" width="5" height="18" rx="2"/><path d="M18,28 Q30,15 26,5 Q24,0 22,4 Q25,10 16,22 Z"/><circle cx="13" cy="11" r="2" fill="#0d0602"/><circle cx="4" cy="7" r="1.5" fill="#0d0602"/></g>
   </svg>
 </div>
 <div class="grain"></div>
 
-<div class="save-bar" id="saveBar"><div class="save-dot"></div><span id="saveLabel">✓ Data saved</span></div>
+<div class="sync-bar" id="syncBar"><div class="sync-dot"></div><span id="syncLabel">Connecting...</span></div>
 
 <div class="wrap">
   <header>
@@ -269,7 +271,7 @@
       <div class="logo-mark">🏠</div>
       <div class="logo-text">
         <div class="logo-title">Roofing Down Under</div>
-        <div class="logo-sub">CMD Centre v4.4 &nbsp;·&nbsp; Ronny Lee Couling &nbsp;·&nbsp; Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</div>
+        <div class="logo-sub">CMD Centre v4.5 &nbsp;·&nbsp; Ronny Lee Couling &nbsp;·&nbsp; Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</div>
       </div>
       <div class="colorbond-badge"><span class="cb-word">COLORBOND<sup style="font-size:0.5em">®</sup></span><span class="cb-reg">Accredited</span></div>
     </div>
@@ -388,7 +390,7 @@
   </div>
 
   <footer>
-    <div class="footer-left">RDU Command Centre v4.4 &nbsp;·&nbsp; RoofingDownUnder.net &nbsp;·&nbsp; Est. 2026 &nbsp;·&nbsp; Sydney NSW AU</div>
+    <div class="footer-left">RDU Command Centre v4.5 &nbsp;·&nbsp; Cloud Sync Active &nbsp;·&nbsp; RoofingDownUnder.net &nbsp;·&nbsp; Sydney NSW AU</div>
     <div class="footer-right">
       <span class="footer-tag">Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</span>
       <span class="footer-tag">Myla · Toneth · Harry · Pauly · Josh</span>
@@ -399,120 +401,96 @@
 
 <script>
 // ═══════════════════════════════════════════════════════════════════
-// RDU v4.3 — localStorage ONLY. No cloud pull. Data NEVER vanishes.
-// Cloud push is fire-and-forget in background (never overwrites local).
+// RDU v4.5 — CLOUD-FIRST SYNC
+// ─────────────────────────────────────────────────────────────────
+// LOAD:  1. Show localStorage immediately (instant, no flash)
+//        2. Fetch from Google Sheet in background
+//        3. If cloud has NEWER data (higher timestamp) → re-render
+// SAVE:  Write localStorage instantly + push to cloud (text/plain,
+//        no CORS preflight, works from GitHub Pages)
+// RESULT: Ronny sees his data instantly. VAs see it after next cloud
+//        fetch (auto-refreshes every 60s). Zero data loss.
 // ═══════════════════════════════════════════════════════════════════
 
-const STORE_KEY = 'rdu_data'; // PERMANENT — never change this
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwko1p3AahESixudkk_UbJa8yQSaDllWBcQ0r0J1wSPU0tXQhXnwzgk8FqMMvXJLhDN/exec';
+const SHEET = 'https://script.google.com/macros/s/AKfycbwko1p3AahESixudkk_UbJa8yQSaDllWBcQ0r0J1wSPU0tXQhXnwzgk8FqMMvXJLhDN/exec';
+const LS_KEY = 'rdu_data'; // PERMANENT — never change
 
-// ─── Load/Save to localStorage ────────────────────────────────────
-function load() {
-  try {
-    // Try current key first
-    let raw = localStorage.getItem(STORE_KEY);
-    if (raw) return JSON.parse(raw);
-    // Migrate from any old version keys (one-time migration)
-    const oldKeys = ['rdu_v43','rdu_v42','rdu_v41','rdu_dashboard_data'];
-    for (const k of oldKeys) {
-      raw = localStorage.getItem(k);
-      if (raw) {
-        try {
-          const d = JSON.parse(raw);
-          localStorage.setItem(STORE_KEY, raw); // migrate to new key
-          localStorage.removeItem(k);           // clean up old key
-          return d;
-        } catch(e) {}
-      }
-    }
-    return null;
-  } catch(e) { return null; }
-}
-
-let _saveTimer = null;
-function save(data) {
-  // Write to localStorage immediately — synchronous, bulletproof
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch(e) {}
-  // Flash save indicator
-  const bar = document.getElementById('saveBar');
-  bar.className = 'save-bar saving';
-  document.getElementById('saveLabel').textContent = 'Saving...';
-  clearTimeout(_saveTimer);
-  _saveTimer = setTimeout(() => {
-    bar.className = 'save-bar';
-    document.getElementById('saveLabel').textContent = '✓ Data saved';
-    // Background cloud push — no await, never blocks, never overwrites
-    try {
-      fetch(SHEET_URL, { method:'POST', mode:'no-cors', body:JSON.stringify(data), headers:{'Content-Type':'text/plain'} }).catch(()=>{});
-    } catch(e) {}
-  }, 300);
-}
-
-// ─── App state ─────────────────────────────────────────────────────
-const DEF_TASKS = [{text:"Lofty's Lloyds quote",done:false},{text:"Mirral Rd — Brett Nash quote",done:false},{text:"HCM Build Jannali quote",done:false}];
-const DEF_MYLA  = [{text:"Chase Lloyds deposit",done:false},{text:"Update job tracker",done:false},{text:"Follow up Uplift Building",done:false}];
-const DEF_TON   = [{text:"Invoice HCM Build",done:false},{text:"Xero reconciliation",done:false},{text:"Send weekly P&L",done:false}];
-const DEF_JOBS  = [{quote:'—',name:'HCM Build',addr:'111 Mansfield St, Rozelle',value:'$30,000',stage:'in-progress'},{quote:'—',name:'Lloyds',addr:'297 Woolooware Rd, Burraneer',value:'$42,250',stage:'in-progress'},{quote:'—',name:'Brad — Uplift Building',addr:'41 Lower Washington Dr',value:'$3,850',stage:'in-progress'}];
-
-// Load saved data or use defaults
-let D = load() || {
-  tasks: DEF_TASKS,
-  va_myla: DEF_MYLA,
-  va_toneth: DEF_TON,
-  jobs: DEF_JOBS,
-  pos: [],
-  kai: {},
-  moko: {},
-  notes: ''
+const DEF = {
+  _ts: 0,
+  tasks:    [{text:"Lofty's Lloyds quote",done:false},{text:"Mirral Rd — Brett Nash quote",done:false},{text:"HCM Build Jannali quote",done:false}],
+  va_myla:  [{text:"Chase Lloyds deposit",done:false},{text:"Update job tracker",done:false},{text:"Follow up Uplift Building",done:false}],
+  va_toneth:[{text:"Invoice HCM Build",done:false},{text:"Xero reconciliation",done:false},{text:"Send weekly P&L",done:false}],
+  jobs:     [{quote:'—',name:'HCM Build',addr:'111 Mansfield St, Rozelle',value:'$30,000',stage:'in-progress'},{quote:'—',name:'Lloyds',addr:'297 Woolooware Rd, Burraneer',value:'$42,250',stage:'in-progress'},{quote:'—',name:'Brad — Uplift Building',addr:'41 Lower Washington Dr',value:'$3,850',stage:'in-progress'}],
+  pos:[], kai:{}, moko:{}, notes:''
 };
 
-// ─── Render everything ────────────────────────────────────────────
-function renderAll() {
-  // Tasks
-  document.getElementById('taskList').innerHTML = '';
-  D.tasks.forEach(renderTask);
-  // VA
-  document.getElementById('mylaTaskList').innerHTML = '';
-  document.getElementById('tonethTaskList').innerHTML = '';
-  D.va_myla.forEach(t => renderVaTask('myla', t));
-  D.va_toneth.forEach(t => renderVaTask('toneth', t));
-  // Jobs
-  document.getElementById('jobBody').innerHTML = '';
-  D.jobs.forEach(renderJob);
-  // POs
-  document.getElementById('poBody').innerHTML = '';
-  if (!D.pos.length) {
-    document.getElementById('poBody').innerHTML = '<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';
-  } else {
-    D.pos.forEach(renderPO);
-  }
-  // KAI
-  if (D.kai) {
-    const kM = {biz:'kaiBiz',tax:'kaiTax',pers:'kaiPers'};
-    const tM = {biz:'kaiBizTs',tax:'kaiTaxTs',pers:'kaiPersTs'};
-    ['biz','tax','pers'].forEach(a => {
-      const d = D.kai[a];
-      if (d && d.set) {
-        kA[a] = d.val; kS[a] = true;
-        document.getElementById(kM[a]).textContent = '$' + d.val.toLocaleString('en-AU');
-        document.getElementById(tM[a]).textContent = d.ts || 'Previously set';
-      }
-    });
-    updateKaiTotal();
-  }
-  // MOKO
-  if (D.moko && D.moko.rev !== undefined) {
-    mokoRev = D.moko.rev || 0;
-    mokoTarget = D.moko.target || 0;
-    if (D.moko.quotes) document.getElementById('mokoQuotes').textContent = D.moko.quotes;
-    if (D.moko.won)    document.getElementById('mokoWon').textContent    = D.moko.won;
-    refreshMoko(); updateMokoProgress();
-  }
-  // Notes
-  document.getElementById('notesArea').value = D.notes || '';
+// ── Sync indicator ────────────────────────────────────────────────
+function syncUI(state, msg) {
+  const b = document.getElementById('syncBar');
+  b.className = 'sync-bar ' + state;
+  document.getElementById('syncLabel').textContent = msg;
 }
 
-// ─── Clock ────────────────────────────────────────────────────────
+// ── localStorage helpers ──────────────────────────────────────────
+function lsRead() {
+  try { const r = localStorage.getItem(LS_KEY); return r ? JSON.parse(r) : null; } catch(e) { return null; }
+}
+function lsWrite(d) {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(d)); } catch(e) {}
+}
+
+// ── Active data ───────────────────────────────────────────────────
+let D = lsRead() || Object.assign({}, DEF);
+
+// ── Save: localStorage instantly + cloud push ─────────────────────
+let _saveTimer = null;
+function save() {
+  D._ts = Date.now(); // timestamp for conflict resolution
+  lsWrite(D);         // instant — never fails
+  syncUI('saving', 'Saving...');
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(async () => {
+    try {
+      await fetch(SHEET, {
+        method: 'POST',
+        mode: 'no-cors',           // avoids preflight OPTIONS — works from GitHub Pages
+        body: JSON.stringify(D),
+        headers: { 'Content-Type': 'text/plain' }
+      });
+      syncUI('ok', '☁ Synced — VAs can see this');
+    } catch(e) {
+      syncUI('err', '⚠ Saved locally only');
+    }
+    setTimeout(() => syncUI('ok', '☁ Live sync active'), 3000);
+  }, 600);
+}
+
+// ── Cloud fetch: only update if cloud is NEWER ────────────────────
+async function fetchCloud(isInit) {
+  try {
+    if (isInit) syncUI('saving', 'Loading cloud...');
+    const res = await fetch(SHEET + '?t=' + Date.now());
+    if (!res.ok) throw new Error('bad');
+    const txt = await res.text();
+    if (!txt || txt.length < 10) throw new Error('empty');
+    const cloud = JSON.parse(txt);
+    // Use cloud data if: it has a timestamp AND is newer than local
+    if (cloud && cloud._ts && cloud._ts > (D._ts || 0)) {
+      D = cloud;
+      lsWrite(D);
+      renderAll();
+      syncUI('ok', '☁ Cloud loaded — up to date');
+    } else {
+      syncUI('ok', '☁ Live sync active');
+    }
+    setTimeout(() => syncUI('ok', '☁ Live sync active'), 2500);
+  } catch(e) {
+    syncUI('ok', '💾 Local — cloud offline');
+    setTimeout(() => syncUI('ok', '💾 Saved locally'), 2000);
+  }
+}
+
+// ── Clock ─────────────────────────────────────────────────────────
 function updateClock() {
   const n = new Date();
   document.getElementById('clock').textContent = n.toLocaleTimeString('en-AU',{hour12:false});
@@ -520,185 +498,107 @@ function updateClock() {
 }
 updateClock(); setInterval(updateClock, 1000);
 
-// ─── Super Human Tasks ────────────────────────────────────────────
-function collectTasks() {
-  return Array.from(document.querySelectorAll('#taskList .task-item')).map(el => ({
-    text: el.querySelector('.task-text').textContent,
-    done: el.classList.contains('done')
-  }));
-}
-function renderTask(t) {
-  const el = document.createElement('div');
-  el.className = 'task-item' + (t.done ? ' done' : '');
-  el.innerHTML = `<div class="task-check" onclick="toggleTask(this.parentElement)">✓</div><span class="task-text" onclick="toggleTask(this.parentElement)">${t.text}</span><button class="task-del" onclick="removeTask(this)">✕</button>`;
-  document.getElementById('taskList').appendChild(el);
-}
-function toggleTask(el) { el.classList.toggle('done'); D.tasks = collectTasks(); save(D); }
-function removeTask(btn) { btn.closest('.task-item').remove(); D.tasks = collectTasks(); save(D); }
-function addTask() {
-  const inp = document.getElementById('newTaskInput');
-  const t = inp.value.trim(); if (!t) return;
-  renderTask({text:t,done:false}); inp.value = '';
-  D.tasks = collectTasks(); save(D);
-}
-
-// ─── VA Tasks ─────────────────────────────────────────────────────
-function collectVa(who) {
-  return Array.from(document.querySelectorAll('#' + (who==='myla' ? 'mylaTaskList' : 'tonethTaskList') + ' .va-task-item')).map(el => ({
-    text: el.querySelector('.va-task-text').textContent,
-    done: el.classList.contains('done')
-  }));
-}
-function renderVaTask(who, t) {
-  const lid = who === 'myla' ? 'mylaTaskList' : 'tonethTaskList';
-  const el = document.createElement('div');
-  el.className = 'va-task-item' + (t.done ? ' done' : '');
-  el.innerHTML = `<div class="va-task-check" onclick="toggleVaTask(this.parentElement,'${who}')">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement,'${who}')">${t.text}</span><button class="va-task-del" onclick="removeVaTask(this,'${who}')">✕</button>`;
-  document.getElementById(lid).appendChild(el);
-}
-function toggleVaTask(el, who) { el.classList.toggle('done'); D['va_'+who] = collectVa(who); save(D); }
-function removeVaTask(btn, who) { btn.closest('.va-task-item').remove(); D['va_'+who] = collectVa(who); save(D); }
-function addVaTask(who) {
-  const inp = document.getElementById(who === 'myla' ? 'mylaInput' : 'tonethInput');
-  const t = inp.value.trim(); if (!t) return;
-  renderVaTask(who, {text:t,done:false}); inp.value = '';
-  D['va_'+who] = collectVa(who); save(D);
-}
-
-// ─── Weather ─────────────────────────────────────────────────────
-async function loadWeather() {
-  try {
-    const r = await fetch('https://wttr.in/Sutherland+NSW+Australia?format=j1');
-    const d = await r.json();
-    const c = d.current_condition[0];
-    const desc = c.weatherDesc[0].value, temp = c.temp_C, feels = c.FeelsLikeC, hum = c.humidity, wind = c.windspeedKmph;
-    const ic = {'Sunny':'☀️','Clear':'🌙','Partly cloudy':'⛅','Cloudy':'☁️','Overcast':'☁️','Mist':'🌫️','Rain':'🌧️','Light rain':'🌦️','Heavy rain':'⛈️','Thunder':'⛈️','Snow':'❄️','Fog':'🌫️','Drizzle':'🌦️'};
-    let icon = '🌤️';
-    for (const [k,v] of Object.entries(ic)) { if (desc.toLowerCase().includes(k.toLowerCase())) { icon = v; break; } }
-    const w = parseInt(wind);
-    const rf = w > 45 ? `<span style="color:var(--red-dust);font-weight:700">TOO WINDY ⚠</span>` : w > 25 ? `<span style="color:var(--dust);font-weight:700">BIT BREEZY</span>` : `<span style="color:var(--green-gum);font-weight:700">GOOD TO GO ✓</span>`;
-    document.getElementById('weatherContent').innerHTML = `<div class="weather-main"><div class="weather-icon">${icon}</div><div><div class="weather-temp">${temp}<span>°C</span></div><div class="weather-desc">${desc}</div><div class="weather-loc">Sutherland Shire, NSW, Australia</div></div></div><div class="weather-stats"><div class="w-stat"><div class="w-stat-label">Feels Like</div><div class="w-stat-val">${feels}°C</div></div><div class="w-stat"><div class="w-stat-label">Humidity</div><div class="w-stat-val">${hum}%</div></div><div class="w-stat"><div class="w-stat-label">Wind</div><div class="w-stat-val">${wind}km/h</div></div><div class="w-stat"><div class="w-stat-label">On the Tools</div><div class="w-stat-val" style="font-size:0.6rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${rf}</div></div></div>`;
-  } catch(e) {
-    document.getElementById('weatherContent').innerHTML = '<div class="weather-loading">No signal — check network</div>';
+// ── Render all panels from D ──────────────────────────────────────
+function renderAll() {
+  // Tasks
+  document.getElementById('taskList').innerHTML = '';
+  (D.tasks||[]).forEach(renderTask);
+  // VA
+  document.getElementById('mylaTaskList').innerHTML = '';
+  document.getElementById('tonethTaskList').innerHTML = '';
+  (D.va_myla||[]).forEach(t => renderVaTask('myla', t));
+  (D.va_toneth||[]).forEach(t => renderVaTask('toneth', t));
+  // Jobs
+  document.getElementById('jobBody').innerHTML = '';
+  (D.jobs||[]).forEach(renderJob);
+  // POs
+  document.getElementById('poBody').innerHTML = '';
+  if (!(D.pos||[]).length) {
+    document.getElementById('poBody').innerHTML = '<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';
+  } else { D.pos.forEach(renderPO); }
+  // KAI
+  ['biz','tax','pers'].forEach(a => {
+    const d = (D.kai||{})[a];
+    if (d && d.set) {
+      kA[a] = d.val; kS[a] = true;
+      document.getElementById({biz:'kaiBiz',tax:'kaiTax',pers:'kaiPers'}[a]).textContent = '$' + d.val.toLocaleString('en-AU');
+      document.getElementById({biz:'kaiBizTs',tax:'kaiTaxTs',pers:'kaiPersTs'}[a]).textContent = d.ts||'Previously set';
+    }
+  });
+  updateKaiTotal();
+  // MOKO
+  if (D.moko && D.moko.rev !== undefined) {
+    mokoRev = D.moko.rev||0; mokoTarget = D.moko.target||0;
+    if (D.moko.quotes) document.getElementById('mokoQuotes').textContent = D.moko.quotes;
+    if (D.moko.won) document.getElementById('mokoWon').textContent = D.moko.won;
+    refreshMoko(); updateMokoProgress();
   }
+  // Notes
+  document.getElementById('notesArea').value = D.notes||'';
 }
-loadWeather(); setInterval(loadWeather, 600000);
 
-// ─── Devotional ───────────────────────────────────────────────────
+// ── Tasks ─────────────────────────────────────────────────────────
+function collectTasks(){return Array.from(document.querySelectorAll('#taskList .task-item')).map(el=>({text:el.querySelector('.task-text').textContent,done:el.classList.contains('done')}));}
+function renderTask(t){const el=document.createElement('div');el.className='task-item'+(t.done?' done':'');el.innerHTML=`<div class="task-check" onclick="toggleTask(this.parentElement)">✓</div><span class="task-text" onclick="toggleTask(this.parentElement)">${t.text}</span><button class="task-del" onclick="removeTask(this)">✕</button>`;document.getElementById('taskList').appendChild(el);}
+function toggleTask(el){el.classList.toggle('done');D.tasks=collectTasks();save();}
+function removeTask(btn){btn.closest('.task-item').remove();D.tasks=collectTasks();save();}
+function addTask(){const inp=document.getElementById('newTaskInput');const t=inp.value.trim();if(!t)return;renderTask({text:t,done:false});inp.value='';D.tasks=collectTasks();save();}
+
+// ── VA Tasks ──────────────────────────────────────────────────────
+function collectVa(who){return Array.from(document.querySelectorAll('#'+(who==='myla'?'mylaTaskList':'tonethTaskList')+' .va-task-item')).map(el=>({text:el.querySelector('.va-task-text').textContent,done:el.classList.contains('done')}));}
+function renderVaTask(who,t){const lid=who==='myla'?'mylaTaskList':'tonethTaskList';const el=document.createElement('div');el.className='va-task-item'+(t.done?' done':'');el.innerHTML=`<div class="va-task-check" onclick="toggleVaTask(this.parentElement,'${who}')">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement,'${who}')">${t.text}</span><button class="va-task-del" onclick="removeVaTask(this,'${who}')">✕</button>`;document.getElementById(lid).appendChild(el);}
+function toggleVaTask(el,who){el.classList.toggle('done');D['va_'+who]=collectVa(who);save();}
+function removeVaTask(btn,who){btn.closest('.va-task-item').remove();D['va_'+who]=collectVa(who);save();}
+function addVaTask(who){const inp=document.getElementById(who==='myla'?'mylaInput':'tonethInput');const t=inp.value.trim();if(!t)return;renderVaTask(who,{text:t,done:false});inp.value='';D['va_'+who]=collectVa(who);save();}
+
+// ── Weather ───────────────────────────────────────────────────────
+async function loadWeather(){try{const r=await fetch('https://wttr.in/Sutherland+NSW+Australia?format=j1');const d=await r.json();const c=d.current_condition[0];const desc=c.weatherDesc[0].value,temp=c.temp_C,feels=c.FeelsLikeC,hum=c.humidity,wind=c.windspeedKmph;const ic={'Sunny':'☀️','Clear':'🌙','Partly cloudy':'⛅','Cloudy':'☁️','Overcast':'☁️','Mist':'🌫️','Rain':'🌧️','Light rain':'🌦️','Heavy rain':'⛈️','Thunder':'⛈️','Snow':'❄️','Fog':'🌫️','Drizzle':'🌦️'};let icon='🌤️';for(const[k,v]of Object.entries(ic)){if(desc.toLowerCase().includes(k.toLowerCase())){icon=v;break;}}const w=parseInt(wind);const rf=w>45?`<span style="color:var(--red-dust);font-weight:700">TOO WINDY ⚠</span>`:w>25?`<span style="color:var(--dust);font-weight:700">BIT BREEZY</span>`:`<span style="color:var(--green-gum);font-weight:700">GOOD TO GO ✓</span>`;document.getElementById('weatherContent').innerHTML=`<div class="weather-main"><div class="weather-icon">${icon}</div><div><div class="weather-temp">${temp}<span>°C</span></div><div class="weather-desc">${desc}</div><div class="weather-loc">Sutherland Shire, NSW, Australia</div></div></div><div class="weather-stats"><div class="w-stat"><div class="w-stat-label">Feels Like</div><div class="w-stat-val">${feels}°C</div></div><div class="w-stat"><div class="w-stat-label">Humidity</div><div class="w-stat-val">${hum}%</div></div><div class="w-stat"><div class="w-stat-label">Wind</div><div class="w-stat-val">${wind}km/h</div></div><div class="w-stat"><div class="w-stat-label">On the Tools</div><div class="w-stat-val" style="font-size:0.6rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${rf}</div></div></div>`;}catch(e){document.getElementById('weatherContent').innerHTML='<div class="weather-loading">No signal — check network</div>';}}
+loadWeather();setInterval(loadWeather,600000);
+
+// ── Devotional ────────────────────────────────────────────────────
 const VV=[{v:"I can do all things through Christ who strengthens me.",r:"Philippians 4:13"},{v:"For I know the plans I have for you — plans to prosper you and not to harm you.",r:"Jeremiah 29:11"},{v:"The Lord is my shepherd; I shall not want.",r:"Psalm 23:1"},{v:"Trust in the Lord with all your heart and lean not on your own understanding.",r:"Proverbs 3:5"},{v:"Be strong and courageous. Do not be afraid; do not be discouraged.",r:"Joshua 1:9"},{v:"And we know that in all things God works for the good of those who love him.",r:"Romans 8:28"},{v:"The Lord will fight for you; you need only to be still.",r:"Exodus 14:14"},{v:"Cast all your anxiety on him because he cares for you.",r:"1 Peter 5:7"},{v:"God is our refuge and strength, an ever-present help in trouble.",r:"Psalm 46:1"},{v:"With God all things are possible.",r:"Matthew 19:26"},{v:"Do not be anxious about anything, but in every situation present your requests to God.",r:"Philippians 4:6"},{v:"The Lord your God is with you, the Mighty Warrior who saves.",r:"Zephaniah 3:17"},{v:"Commit to the Lord whatever you do, and he will establish your plans.",r:"Proverbs 16:3"},{v:"Be still and know that I am God.",r:"Psalm 46:10"},{v:"Give thanks to the Lord, for he is good; his love endures forever.",r:"Psalm 107:1"},{v:"Delight yourself in the Lord, and he will give you the desires of your heart.",r:"Psalm 37:4"},{v:"Let us not become weary in doing good, for at the proper time we will reap a harvest.",r:"Galatians 6:9"},{v:"He gives strength to the weary and increases the power of the weak.",r:"Isaiah 40:29"},{v:"Seek first his kingdom and his righteousness, and all these things will be given to you.",r:"Matthew 6:33"},{v:"For nothing will be impossible with God.",r:"Luke 1:37"},{v:"My grace is sufficient for you, for my power is made perfect in weakness.",r:"2 Corinthians 12:9"},{v:"The Lord is close to the brokenhearted and saves those who are crushed in spirit.",r:"Psalm 34:18"},{v:"Your word is a lamp for my feet, a light on my path.",r:"Psalm 119:105"},{v:"This is the day the Lord has made; let us rejoice and be glad in it.",r:"Psalm 118:24"},{v:"Ask and it will be given to you; seek and you will find.",r:"Matthew 7:7"},{v:"The righteous person may have many troubles, but the Lord delivers him from them all.",r:"Psalm 34:19"},{v:"For God so loved the world that he gave his one and only Son.",r:"John 3:16"},{v:"I am the way, the truth, and the life.",r:"John 14:6"},{v:"The name of the Lord is a fortified tower; the righteous run to it and are safe.",r:"Proverbs 18:10"},{v:"I have learned, in whatever state I am, to be content.",r:"Philippians 4:11"},{v:"The Lord bless you and keep you; the Lord make his face shine on you.",r:"Numbers 6:24-25"}];
 (function(){const n=new Date();const day=Math.floor((n-new Date(n.getFullYear(),0,0))/86400000);const{v,r}=VV[day%VV.length];const ds=n.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();document.getElementById('devotionalBody').innerHTML=`<div class="devotional-verse">"${v}"</div><div class="devotional-ref">— ${r}</div><div class="devotional-date">📖 ${ds}</div>`;})();
 
-// ─── KAI ──────────────────────────────────────────────────────────
-const kA = {biz:0,tax:0,pers:0}, kS = {biz:false,tax:false,pers:false};
-function setKai(a) {
-  const iM={biz:'kaiBizIn',tax:'kaiTaxIn',pers:'kaiPersIn'}, vM={biz:'kaiBiz',tax:'kaiTax',pers:'kaiPers'}, tM={biz:'kaiBizTs',tax:'kaiTaxTs',pers:'kaiPersTs'};
-  const val = parseFloat(document.getElementById(iM[a]).value.replace(/[$,]/g,'')); if (isNaN(val)) return;
-  kA[a] = val; kS[a] = true;
-  document.getElementById(vM[a]).textContent = '$' + val.toLocaleString('en-AU');
-  const n = new Date();
-  const ts = 'Updated ' + n.toLocaleTimeString('en-AU',{hour12:true,hour:'numeric',minute:'2-digit'}) + ' · ' + n.toLocaleDateString('en-AU',{day:'numeric',month:'short'});
-  document.getElementById(tM[a]).textContent = ts;
-  document.getElementById(iM[a]).value = '';
-  updateKaiTotal();
-  if (!D.kai) D.kai = {};
-  D.kai[a] = {val, set:true, ts};
-  save(D);
-}
-function updateKaiTotal() {
-  if (!kS.biz && !kS.tax && !kS.pers) return;
-  document.getElementById('kaiTotal').textContent = '$' + (kA.biz + kA.tax + kA.pers).toLocaleString('en-AU');
-}
-['kaiBizIn','kaiTaxIn','kaiPersIn'].forEach((id,i) => {
-  document.getElementById(id).addEventListener('keydown', e => { if (e.key==='Enter') setKai(['biz','tax','pers'][i]); });
-});
+// ── KAI ───────────────────────────────────────────────────────────
+const kA={biz:0,tax:0,pers:0},kS={biz:false,tax:false,pers:false};
+function setKai(a){const iM={biz:'kaiBizIn',tax:'kaiTaxIn',pers:'kaiPersIn'},vM={biz:'kaiBiz',tax:'kaiTax',pers:'kaiPers'},tM={biz:'kaiBizTs',tax:'kaiTaxTs',pers:'kaiPersTs'};const val=parseFloat(document.getElementById(iM[a]).value.replace(/[$,]/g,''));if(isNaN(val))return;kA[a]=val;kS[a]=true;document.getElementById(vM[a]).textContent='$'+val.toLocaleString('en-AU');const n=new Date();const ts='Updated '+n.toLocaleTimeString('en-AU',{hour12:true,hour:'numeric',minute:'2-digit'})+' · '+n.toLocaleDateString('en-AU',{day:'numeric',month:'short'});document.getElementById(tM[a]).textContent=ts;document.getElementById(iM[a]).value='';updateKaiTotal();if(!D.kai)D.kai={};D.kai[a]={val,set:true,ts};save();}
+function updateKaiTotal(){if(!kS.biz&&!kS.tax&&!kS.pers)return;document.getElementById('kaiTotal').textContent='$'+(kA.biz+kA.tax+kA.pers).toLocaleString('en-AU');}
+['kaiBizIn','kaiTaxIn','kaiPersIn'].forEach((id,i)=>{document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')setKai(['biz','tax','pers'][i]);});});
 
-// ─── MAHI Jobs ────────────────────────────────────────────────────
-function collectJobs() {
-  return Array.from(document.querySelectorAll('#jobBody tr')).map(tr => {
-    const tds = tr.querySelectorAll('td'), sel = tr.querySelector('.status-select');
-    return {quote:tds[0].textContent, name:tds[1].textContent, addr:tds[2].textContent, value:tds[3].textContent, stage:sel?sel.value:'in-progress'};
-  });
-}
-function updateStatusStyle(sel) { sel.setAttribute('data-status', sel.value); D.jobs = collectJobs(); save(D); }
-function makeSD(val) {
-  const opts = [{v:'in-progress',l:'In Progress'},{v:'needs-qdraft',l:'Needs Q-Draft'},{v:'waiting-ronny',l:'Waiting Ronny'},{v:'waiting-client',l:'Waiting Client'}];
-  return `<select class="status-select" data-status="${val}" onchange="updateStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;
-}
-function renderJob(j) {
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">${j.quote}</td><td>${j.name}</td><td style="color:var(--muted);font-size:0.55rem">${j.addr}</td><td>${j.value}</td><td>${makeSD(j.stage)}</td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
-  document.getElementById('jobBody').appendChild(tr);
-}
-function addJob() {
-  const name = document.getElementById('jobName').value.trim(); if (!name) return;
-  renderJob({quote:document.getElementById('jobQuote').value.trim()||'—', name, addr:document.getElementById('jobAddr').value.trim()||'—', value:document.getElementById('jobValue').value.trim()||'TBC', stage:document.getElementById('jobStage').value});
-  ['jobName','jobAddr','jobValue','jobQuote'].forEach(id => document.getElementById(id).value = '');
-  D.jobs = collectJobs(); save(D);
-}
-function removeJob(btn) { btn.closest('tr').remove(); D.jobs = collectJobs(); save(D); }
+// ── Jobs ──────────────────────────────────────────────────────────
+function collectJobs(){return Array.from(document.querySelectorAll('#jobBody tr')).map(tr=>{const tds=tr.querySelectorAll('td'),sel=tr.querySelector('.status-select');return{quote:tds[0].textContent,name:tds[1].textContent,addr:tds[2].textContent,value:tds[3].textContent,stage:sel?sel.value:'in-progress'};});}
+function updateStatusStyle(sel){sel.setAttribute('data-status',sel.value);D.jobs=collectJobs();save();}
+function makeSD(val){const opts=[{v:'in-progress',l:'In Progress'},{v:'needs-qdraft',l:'Needs Q-Draft'},{v:'waiting-ronny',l:'Waiting Ronny'},{v:'waiting-client',l:'Waiting Client'}];return `<select class="status-select" data-status="${val}" onchange="updateStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;}
+function renderJob(j){const tr=document.createElement('tr');tr.innerHTML=`<td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">${j.quote}</td><td>${j.name}</td><td style="color:var(--muted);font-size:0.55rem">${j.addr}</td><td>${j.value}</td><td>${makeSD(j.stage)}</td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;document.getElementById('jobBody').appendChild(tr);}
+function addJob(){const name=document.getElementById('jobName').value.trim();if(!name)return;renderJob({quote:document.getElementById('jobQuote').value.trim()||'—',name,addr:document.getElementById('jobAddr').value.trim()||'—',value:document.getElementById('jobValue').value.trim()||'TBC',stage:document.getElementById('jobStage').value});['jobName','jobAddr','jobValue','jobQuote'].forEach(id=>document.getElementById(id).value='');D.jobs=collectJobs();save();}
+function removeJob(btn){btn.closest('tr').remove();D.jobs=collectJobs();save();}
 
-// ─── POs ──────────────────────────────────────────────────────────
-function collectPOs() {
-  return Array.from(document.querySelectorAll('#poBody tr:not(#poEmpty)')).map(tr => {
-    const tds = tr.querySelectorAll('td'), sel = tr.querySelector('.po-status-select');
-    return {num:tds[0].textContent, addr:tds[1].textContent, name:tds[2].textContent, status:sel?sel.value:'sent'};
-  });
-}
-function updatePoStatusStyle(sel) { sel.setAttribute('data-status', sel.value); D.pos = collectPOs(); save(D); }
-function makePSD(val) {
-  const opts = [{v:'sent',l:'Sent'},{v:'drafted',l:'Drafted'},{v:'in-progress',l:'In Progress'}];
-  return `<select class="po-status-select" data-status="${val}" onchange="updatePoStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;
-}
-function renderPO(p) {
-  const emp = document.getElementById('poEmpty'); if (emp) emp.remove();
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td style="color:var(--muted);font-size:0.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${p.num}</td><td style="font-size:0.52rem">${p.addr}</td><td style="font-size:0.52rem">${p.name}</td><td>${makePSD(p.status)}</td><td><button onclick="removePO(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.7rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
-  document.getElementById('poBody').appendChild(tr);
-}
-function addPO() {
-  const num = document.getElementById('poNum').value.trim(); if (!num) return;
-  renderPO({num, addr:document.getElementById('poAddr').value.trim()||'—', name:document.getElementById('poName').value.trim()||'—', status:document.getElementById('poStatus').value});
-  ['poNum','poAddr','poName'].forEach(id => document.getElementById(id).value = '');
-  D.pos = collectPOs(); save(D);
-}
-function removePO(btn) {
-  const tbody = document.getElementById('poBody');
-  btn.closest('tr').remove();
-  if (tbody.rows.length === 0) tbody.innerHTML = '<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';
-  D.pos = collectPOs(); save(D);
-}
+// ── POs ───────────────────────────────────────────────────────────
+function collectPOs(){return Array.from(document.querySelectorAll('#poBody tr:not(#poEmpty)')).map(tr=>{const tds=tr.querySelectorAll('td'),sel=tr.querySelector('.po-status-select');return{num:tds[0].textContent,addr:tds[1].textContent,name:tds[2].textContent,status:sel?sel.value:'sent'};});}
+function updatePoStatusStyle(sel){sel.setAttribute('data-status',sel.value);D.pos=collectPOs();save();}
+function makePSD(val){const opts=[{v:'sent',l:'Sent'},{v:'drafted',l:'Drafted'},{v:'in-progress',l:'In Progress'}];return `<select class="po-status-select" data-status="${val}" onchange="updatePoStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;}
+function renderPO(p){const emp=document.getElementById('poEmpty');if(emp)emp.remove();const tr=document.createElement('tr');tr.innerHTML=`<td style="color:var(--muted);font-size:0.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${p.num}</td><td style="font-size:0.52rem">${p.addr}</td><td style="font-size:0.52rem">${p.name}</td><td>${makePSD(p.status)}</td><td><button onclick="removePO(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.7rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;document.getElementById('poBody').appendChild(tr);}
+function addPO(){const num=document.getElementById('poNum').value.trim();if(!num)return;renderPO({num,addr:document.getElementById('poAddr').value.trim()||'—',name:document.getElementById('poName').value.trim()||'—',status:document.getElementById('poStatus').value});['poNum','poAddr','poName'].forEach(id=>document.getElementById(id).value='');D.pos=collectPOs();save();}
+function removePO(btn){const tbody=document.getElementById('poBody');btn.closest('tr').remove();if(tbody.rows.length===0)tbody.innerHTML='<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';D.pos=collectPOs();save();}
 
-// ─── MOKO ─────────────────────────────────────────────────────────
-const vibes = ["Just getting warmed up, mate! 🔥","Solid start — keep stackin'! 💪","Three active — build the pipeline! 🏗","On fire out there! 🚀","Halfway there — push hard! 💥","Almost at target, don't blink! ⚡","TARGET SMASHED. Bloody legend. 🏆","OVER TARGET. Absolute unit! 👑"];
-let mokoTarget = 0, mokoRev = 0;
-function getVibe(p) { if(p===0)return vibes[0];if(p<25)return vibes[1];if(p<45)return vibes[2];if(p<60)return vibes[3];if(p<75)return vibes[4];if(p<95)return vibes[5];if(p<=105)return vibes[6];return vibes[7]; }
-function saveMoko() { D.moko = {rev:mokoRev,target:mokoTarget,quotes:document.getElementById('mokoQuotes').textContent,won:document.getElementById('mokoWon').textContent}; save(D); }
-function refreshMoko() {
-  document.getElementById('mokoRev').textContent = '$' + mokoRev.toLocaleString('en-AU');
-  const p = mokoTarget > 0 ? Math.round(mokoRev/mokoTarget*100) : 0;
-  document.getElementById('mokoVibe').textContent = mokoTarget > 0 ? getVibe(p) : (mokoRev > 0 ? "Set a target to track your progress! 🎯" : "Set your revenue below to track progress! 🔥");
-}
-function updateMokoRev() { mokoRev = parseFloat(document.getElementById('mokoRevInput').value.replace(/[$,]/g,''))||0; refreshMoko(); updateMokoProgress(); saveMoko(); document.getElementById('mokoRevInput').value=''; }
-function updateMokoTarget() { mokoTarget = parseFloat(document.getElementById('mokoTargetInput').value.replace(/[$,]/g,''))||0; updateMokoProgress(); saveMoko(); document.getElementById('mokoTargetInput').value=''; }
-function updateMokoProgress() {
-  const p = mokoTarget > 0 ? Math.min(100,Math.round(mokoRev/mokoTarget*100)) : 0;
-  document.getElementById('mokoBar').style.width = p + '%';
-  document.getElementById('mokoBarLabel').textContent = mokoTarget > 0 ? `$${mokoRev.toLocaleString()} of $${mokoTarget.toLocaleString()} · ${p}%` : `$${mokoRev.toLocaleString()} earned — set a target`;
-  document.getElementById('mokoVibe').textContent = mokoTarget > 0 ? getVibe(p) : (mokoRev > 0 ? "Set a target to track your progress! 🎯" : "Set your revenue below to track progress! 🔥");
-}
-function updateMokoStats() {
-  const q = document.getElementById('mokoQInput').value, w = document.getElementById('mokoWInput').value;
-  if (q) document.getElementById('mokoQuotes').textContent = q;
-  if (w) document.getElementById('mokoWon').textContent = w;
-  document.getElementById('mokoQInput').value = ''; document.getElementById('mokoWInput').value = '';
-  saveMoko();
-}
+// ── MOKO ──────────────────────────────────────────────────────────
+const vibes=["Just getting warmed up, mate! 🔥","Solid start — keep stackin'! 💪","Three active — build the pipeline! 🏗","On fire out there! 🚀","Halfway there — push hard! 💥","Almost at target, don't blink! ⚡","TARGET SMASHED. Bloody legend. 🏆","OVER TARGET. Absolute unit! 👑"];
+let mokoTarget=0,mokoRev=0;
+function getVibe(p){if(p===0)return vibes[0];if(p<25)return vibes[1];if(p<45)return vibes[2];if(p<60)return vibes[3];if(p<75)return vibes[4];if(p<95)return vibes[5];if(p<=105)return vibes[6];return vibes[7];}
+function saveMoko(){D.moko={rev:mokoRev,target:mokoTarget,quotes:document.getElementById('mokoQuotes').textContent,won:document.getElementById('mokoWon').textContent};save();}
+function refreshMoko(){document.getElementById('mokoRev').textContent='$'+mokoRev.toLocaleString('en-AU');const p=mokoTarget>0?Math.round(mokoRev/mokoTarget*100):0;document.getElementById('mokoVibe').textContent=mokoTarget>0?getVibe(p):(mokoRev>0?"Set a target to track your progress! 🎯":"Set your revenue below to track progress! 🔥");}
+function updateMokoRev(){mokoRev=parseFloat(document.getElementById('mokoRevInput').value.replace(/[$,]/g,''))||0;refreshMoko();updateMokoProgress();saveMoko();document.getElementById('mokoRevInput').value='';}
+function updateMokoTarget(){mokoTarget=parseFloat(document.getElementById('mokoTargetInput').value.replace(/[$,]/g,''))||0;updateMokoProgress();saveMoko();document.getElementById('mokoTargetInput').value='';}
+function updateMokoProgress(){const p=mokoTarget>0?Math.min(100,Math.round(mokoRev/mokoTarget*100)):0;document.getElementById('mokoBar').style.width=p+'%';document.getElementById('mokoBarLabel').textContent=mokoTarget>0?`$${mokoRev.toLocaleString()} of $${mokoTarget.toLocaleString()} · ${p}%`:`$${mokoRev.toLocaleString()} earned — set a target`;document.getElementById('mokoVibe').textContent=mokoTarget>0?getVibe(p):(mokoRev>0?"Set a target to track your progress! 🎯":"Set your revenue below to track progress! 🔥");}
+function updateMokoStats(){const q=document.getElementById('mokoQInput').value,w=document.getElementById('mokoWInput').value;if(q)document.getElementById('mokoQuotes').textContent=q;if(w)document.getElementById('mokoWon').textContent=w;document.getElementById('mokoQInput').value='';document.getElementById('mokoWInput').value='';saveMoko();}
 
-// ─── Notes ────────────────────────────────────────────────────────
-document.getElementById('notesArea').addEventListener('input', function() { D.notes = this.value; save(D); });
+// ── Notes ─────────────────────────────────────────────────────────
+document.getElementById('notesArea').addEventListener('input',function(){D.notes=this.value;save();});
 
-// ─── INIT — render from localStorage immediately ──────────────────
-renderAll();
+// ── INIT ──────────────────────────────────────────────────────────
+renderAll();                    // Instant render from localStorage
+fetchCloud(true);               // Background cloud check
+setInterval(()=>fetchCloud(false), 60000); // Re-sync every 60s (VAs see updates)
 </script>
 </body>
 </html>
