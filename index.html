@@ -31,7 +31,7 @@
   .silhouette{position:fixed;bottom:0;left:0;right:0;height:22%;z-index:1;pointer-events:none;}
   .silhouette svg{width:100%;height:100%;}
   .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");}
-  .wrap{position:relative;z-index:3;width:100vw;height:100vh;display:grid;grid-template-rows:62px 1fr 1fr 26px;grid-template-columns:110px 1fr 1fr 200px;gap:8px;padding:12px 14px;}
+  .wrap{position:relative;z-index:3;width:100vw;height:100vh;display:grid;grid-template-rows:62px 1fr 1fr 26px;grid-template-columns:200px 1fr 1fr 200px;gap:8px;padding:12px 14px;}
   .sync-bar{position:fixed;bottom:32px;right:18px;z-index:100;display:flex;align-items:center;gap:6px;background:rgba(30,15,6,0.9);border:1px solid var(--border);border-radius:20px;padding:4px 12px 4px 9px;font-family:'Barlow Condensed',sans-serif;font-size:0.44rem;letter-spacing:0.1em;color:var(--subtle);text-transform:uppercase;backdrop-filter:blur(8px);transition:all 0.35s;}
   .sync-bar.ok{border-color:var(--green-gum);color:var(--green-gum);}
   .sync-bar.saving{border-color:var(--tan);color:var(--tan);}
@@ -71,22 +71,20 @@
   .panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--brown-light),var(--tan),var(--brown-light));opacity:0.6;}
   .panel-label{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.14em;color:var(--brown);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-shrink:0;}
   .panel-label::after{content:'';flex:1;height:1.5px;background:linear-gradient(90deg,var(--border),transparent);}
-
-  /* ── Compact Launcher ─────────────────────────────────────────── */
   .launcher{grid-column:1;grid-row:2/4;animation-delay:0.05s;}
-  .app-btn{display:flex;align-items:center;gap:6px;padding:4px 7px;background:transparent;border:1px solid var(--border);border-radius:4px;cursor:pointer;text-decoration:none;color:var(--text-light);font-family:'Barlow',sans-serif;font-size:0.58rem;font-weight:600;transition:all 0.15s;flex-shrink:0;}
-  .app-btn:hover{background:var(--surface2);border-color:var(--brown-mid);color:var(--brown);transform:translateX(2px);box-shadow:2px 0 0 var(--tan);}
+  .app-btn{display:flex;align-items:center;gap:9px;padding:5px 9px;background:transparent;border:1px solid var(--border);border-radius:4px;cursor:pointer;text-decoration:none;color:var(--text-light);font-family:'Barlow',sans-serif;font-size:0.64rem;font-weight:600;transition:all 0.15s;flex-shrink:0;}
+  .app-btn:hover{background:var(--surface2);border-color:var(--brown-mid);color:var(--brown);transform:translateX(3px);box-shadow:2px 0 0 var(--tan);}
   .app-btn.blue:hover{background:var(--blue-dim);border-color:var(--blue-sky);color:var(--blue-bright);}
   .app-btn.amber:hover{background:var(--tan-dim);border-color:var(--tan);color:var(--dust);}
-  .app-icon{font-size:0.8rem;flex-shrink:0;width:15px;text-align:center;}
-  .app-name{display:block;font-size:0.56rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .app-desc{display:none;}
-  .app-arrow{display:none;}
-  .apps-grid{display:flex;flex-direction:column;gap:2px;flex:1;justify-content:space-between;}
+  .app-icon{font-size:0.9rem;flex-shrink:0;width:18px;text-align:center;}
+  .app-info{flex:1;}.app-name{display:block;font-weight:600;}
+  .app-desc{font-size:0.41rem;color:var(--muted);font-weight:400;margin-top:1px;letter-spacing:0.04em;}
+  .app-arrow{font-size:0.6rem;opacity:0;transition:opacity 0.15s;color:var(--dust);}
+  .app-btn:hover .app-arrow{opacity:1;}
+  .apps-grid{display:flex;flex-direction:column;gap:3px;flex:1;justify-content:space-between;}
   .note-input{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:4px;color:var(--text);font-family:'Barlow',sans-serif;font-size:0.58rem;padding:7px 9px;resize:none;outline:none;line-height:1.7;min-height:58px;transition:border-color 0.15s;}
   .note-input:focus{border-color:var(--blue-sky);box-shadow:0 0 0 3px rgba(74,159,212,0.15);background:var(--surface);}
   .note-input::placeholder{color:var(--subtle);}
-
   .weather-va-row{grid-column:2;grid-row:2;display:flex;gap:8px;overflow:hidden;}
   .weather-panel{flex:1.4;animation-delay:0.1s;}
   .weather-main{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
@@ -182,45 +180,13 @@
   td{padding:4px 8px;border-bottom:1px solid var(--border);color:var(--text-light);vertical-align:middle;font-family:'Barlow',sans-serif;font-weight:500;}
   tr:last-child td{border-bottom:none;}
   tr:hover td{background:var(--surface2);color:var(--brown);}
-
-  /* ── Job Status Dropdown ───────────────────────────────────────── */
   .status-select{appearance:none;-webkit-appearance:none;border:1.5px solid;border-radius:20px;padding:2px 20px 2px 8px;font-family:'Barlow Condensed',sans-serif;font-size:0.42rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;outline:none;background-repeat:no-repeat;background-position:right 5px center;background-size:8px;transition:all 0.15s;}
-  /* existing statuses */
   .status-select[data-status="in-progress"]{background-color:rgba(90,138,60,0.12);color:var(--green-gum);border-color:rgba(90,138,60,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%235a8a3c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
   .status-select[data-status="needs-qdraft"]{background-color:var(--blue-dim);color:var(--blue-bright);border-color:rgba(74,159,212,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%232e8bc0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
   .status-select[data-status="waiting-ronny"]{background-color:var(--tan-dim);color:var(--dust);border-color:rgba(196,137,58,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c4893a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
   .status-select[data-status="waiting-client"]{background-color:rgba(192,57,43,0.1);color:var(--red-dust);border-color:rgba(192,57,43,0.3);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c0392b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  /* new statuses */
-  .status-select[data-status="completed"]{background-color:rgba(0,180,100,0.15);color:#00a060;border-color:rgba(0,180,100,0.4);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%2300a060' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="waiting-material-delivery"]{background-color:var(--tan-dim);color:var(--dust);border-color:rgba(196,137,58,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c4893a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="waiting-material-payment"]{background-color:rgba(192,57,43,0.1);color:var(--red-dust);border-color:rgba(192,57,43,0.3);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c0392b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="waiting-supplier"]{background-color:var(--purple-dim);color:var(--purple-va);border-color:rgba(124,92,191,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%237c5cbf' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="need-variation"]{background-color:rgba(255,165,0,0.12);color:#d48000;border-color:rgba(255,165,0,0.4);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23d48000' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="variation-approved"]{background-color:rgba(0,180,200,0.1);color:#0098aa;border-color:rgba(0,180,200,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%230098aa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="waiting-inv-paid"]{background-color:rgba(255,215,0,0.1);color:#b89000;border-color:rgba(255,215,0,0.4);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23b89000' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="need-contact-subcon"]{background-color:rgba(192,57,43,0.1);color:var(--red-dust);border-color:rgba(192,57,43,0.3);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c0392b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="need-inv-material"]{background-color:var(--blue-dim);color:var(--blue-bright);border-color:rgba(74,159,212,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%232e8bc0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="need-inv-progress"]{background-color:var(--blue-dim);color:var(--blue-bright);border-color:rgba(74,159,212,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%232e8bc0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="need-inv-handover"]{background-color:var(--blue-dim);color:var(--blue-bright);border-color:rgba(74,159,212,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%232e8bc0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="for-handover-cr"]{background-color:rgba(0,180,200,0.1);color:#0098aa;border-color:rgba(0,180,200,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%230098aa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="book-safety-rail"]{background-color:rgba(220,100,0,0.1);color:#c05800;border-color:rgba(220,100,0,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c05800' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="book-tipper-truck"]{background-color:rgba(220,100,0,0.1);color:#c05800;border-color:rgba(220,100,0,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c05800' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .status-select[data-status="for-scaffolding-quote"]{background-color:var(--blue-dim);color:var(--blue-bright);border-color:rgba(74,159,212,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%232e8bc0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
   .status-select option{background:var(--surface);color:var(--text);font-size:0.7rem;}
-
-  /* ── Invoice Status Dropdown ──────────────────────────────────── */
-  .inv-select{appearance:none;-webkit-appearance:none;border:1.5px solid;border-radius:20px;padding:2px 18px 2px 7px;font-family:'Barlow Condensed',sans-serif;font-size:0.38rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;outline:none;background-repeat:no-repeat;background-position:right 4px center;background-size:7px;transition:all 0.15s;}
-  .inv-select[data-status="inv-not-sent"]{background-color:rgba(139,111,74,0.12);color:var(--muted);border-color:rgba(139,111,74,0.3);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%238b6f4a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .inv-select[data-status="for-inv"]{background-color:var(--purple-dim);color:var(--purple-va);border-color:rgba(124,92,191,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%237c5cbf' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .inv-select[data-status="inv-drafted"]{background-color:var(--blue-dim);color:var(--blue-bright);border-color:rgba(74,159,212,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%232e8bc0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .inv-select[data-status="inv-sent"]{background-color:rgba(90,138,60,0.12);color:var(--green-gum);border-color:rgba(90,138,60,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%235a8a3c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .inv-select[data-status="inv-follow-up"]{background-color:var(--tan-dim);color:var(--dust);border-color:rgba(196,137,58,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c4893a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .inv-select[data-status="inv-2nd-follow-up"]{background-color:rgba(220,100,0,0.1);color:#c05800;border-color:rgba(220,100,0,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c05800' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .inv-select[data-status="inv-revision"]{background-color:rgba(192,57,43,0.1);color:var(--red-dust);border-color:rgba(192,57,43,0.3);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c0392b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .inv-select[data-status="inv-paid"]{background-color:rgba(0,200,120,0.15);color:#009060;border-color:rgba(0,200,120,0.4);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23009060' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .inv-select option{background:var(--surface);color:var(--text);font-size:0.65rem;}
-
-  .add-row{display:flex;gap:5px;margin-top:7px;flex-shrink:0;flex-wrap:nowrap;align-items:center;}
+  .add-row{display:flex;gap:6px;margin-top:7px;flex-shrink:0;flex-wrap:nowrap;align-items:center;}
   .add-input{background:var(--surface2);border:1.5px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:0.58rem;padding:5px 9px;outline:none;border-radius:4px;transition:all 0.15s;min-width:0;}
   .add-input:focus{border-color:var(--blue-sky);box-shadow:0 0 0 3px rgba(74,159,212,0.12);background:var(--surface);}
   .add-input::placeholder{color:var(--subtle);}
@@ -235,18 +201,11 @@
   .po-table td{padding:3px 5px;border-bottom:1px solid var(--border);color:var(--text-light);vertical-align:middle;font-family:'Barlow',sans-serif;font-weight:500;}
   .po-table tr:last-child td{border-bottom:none;}
   .po-table tr:hover td{background:var(--surface2);color:var(--brown);}
-
-  /* ── PO Status Dropdown ───────────────────────────────────────── */
   .po-status-select{appearance:none;-webkit-appearance:none;border:1.5px solid;border-radius:20px;padding:2px 14px 2px 6px;font-family:'Barlow Condensed',sans-serif;font-size:0.38rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;outline:none;background-repeat:no-repeat;background-position:right 4px center;background-size:7px;transition:all 0.15s;}
   .po-status-select[data-status="sent"]{background-color:rgba(90,138,60,0.12);color:var(--green-gum);border-color:rgba(90,138,60,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%235a8a3c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
   .po-status-select[data-status="drafted"]{background-color:var(--blue-dim);color:var(--blue-bright);border-color:rgba(74,159,212,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%232e8bc0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
   .po-status-select[data-status="in-progress"]{background-color:var(--tan-dim);color:var(--dust);border-color:rgba(196,137,58,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c4893a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .po-status-select[data-status="need-cutlist"]{background-color:var(--tan-dim);color:var(--dust);border-color:rgba(196,137,58,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c4893a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .po-status-select[data-status="need-jotform"]{background-color:var(--blue-dim);color:var(--blue-bright);border-color:rgba(74,159,212,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%232e8bc0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .po-status-select[data-status="need-swms"]{background-color:rgba(192,57,43,0.1);color:var(--red-dust);border-color:rgba(192,57,43,0.3);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%23c0392b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
-  .po-status-select[data-status="need-completion"]{background-color:rgba(0,180,200,0.1);color:#0098aa;border-color:rgba(0,180,200,0.35);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' stroke='%230098aa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");}
   .po-status-select option{background:var(--surface);color:var(--text);font-size:0.65rem;}
-
   .po-add-row{display:flex;gap:4px;margin-top:6px;flex-shrink:0;flex-wrap:nowrap;align-items:center;}
   .po-add-input{background:var(--surface2);border:1.5px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:0.5rem;padding:4px 6px;outline:none;border-radius:3px;min-width:0;}
   .po-add-input:focus{border-color:var(--dust);box-shadow:0 0 0 2px var(--tan-dim);background:var(--surface);}
@@ -312,7 +271,7 @@
       <div class="logo-mark">🏠</div>
       <div class="logo-text">
         <div class="logo-title">Roofing Down Under</div>
-        <div class="logo-sub">CMD Centre v4.6 &nbsp;·&nbsp; Ronny Lee Couling &nbsp;·&nbsp; Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</div>
+        <div class="logo-sub">CMD Centre v4.7 &nbsp;·&nbsp; Ronny Lee Couling &nbsp;·&nbsp; Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</div>
       </div>
       <div class="colorbond-badge"><span class="cb-word">COLORBOND<sup style="font-size:0.5em">®</sup></span><span class="cb-reg">Accredited</span></div>
     </div>
@@ -327,26 +286,21 @@
     </div>
   </header>
 
-  <!-- ── COMPACT LAUNCHER ─────────────────────────────────────── -->
   <div class="panel launcher">
-    <div class="panel-label" style="font-size:0.72rem;">Quick Launch</div>
+    <div class="panel-label">Quick Launch</div>
     <div class="apps-grid">
-      <a href="https://go.xero.com" target="_blank" class="app-btn blue"><span class="app-icon">💼</span><span class="app-name">Xero</span></a>
-      <a href="https://app.roofr.com" target="_blank" class="app-btn amber"><span class="app-icon">🏠</span><span class="app-name">Roofr</span></a>
-      <a href="https://web.whatsapp.com" target="_blank" class="app-btn"><span class="app-icon">💬</span><span class="app-name">WhatsApp</span></a>
-      <a href="https://messages.google.com/web" target="_blank" class="app-btn"><span class="app-icon">📱</span><span class="app-name">G Messages</span></a>
-      <a href="https://drive.google.com" target="_blank" class="app-btn blue"><span class="app-icon">📁</span><span class="app-name">Drive</span></a>
-      <a href="https://mail.google.com" target="_blank" class="app-btn amber"><span class="app-icon">✉️</span><span class="app-name">Gmail</span></a>
-      <a href="https://calendar.google.com" target="_blank" class="app-btn blue"><span class="app-icon">📅</span><span class="app-name">Calendar</span></a>
-      <a href="https://claude.ai" target="_blank" class="app-btn"><span class="app-icon">🤖</span><span class="app-name">Claude</span></a>
-      <a href="https://docs.google.com/spreadsheets/d/10HonAOsH6DY3njzkUyIWusl0nyA_a3VOOAgKD4Rz8wQ/edit?gid=957199830#gid=957199830" target="_blank" class="app-btn amber"><span class="app-icon">📊</span><span class="app-name">Master CMD</span></a>
-      <a href="https://docs.google.com/spreadsheets/d/1_cxtaoPLw0WKdSDh28mLYgbK3VHlyf7zntIgrh_Hx88/edit?gid=417215551#gid=417215551" target="_blank" class="app-btn blue"><span class="app-icon">🗂️</span><span class="app-name">Mini CRM</span></a>
-      <a href="https://notebooklm.google.com" target="_blank" class="app-btn"><span class="app-icon">📓</span><span class="app-name">NotebookLM</span></a>
-      <a href="https://open.spotify.com" target="_blank" class="app-btn"><span class="app-icon">🎵</span><span class="app-name">Spotify</span></a>
-      <a href="https://www.instagram.com" target="_blank" class="app-btn amber"><span class="app-icon">📸</span><span class="app-name">Instagram</span></a>
+      <a href="https://go.xero.com" target="_blank" class="app-btn blue"><span class="app-icon">💼</span><div class="app-info"><span class="app-name">Xero</span><span class="app-desc">Invoicing &amp; Accounts</span></div><span class="app-arrow">›</span></a>
+      <a href="https://app.roofr.com" target="_blank" class="app-btn amber"><span class="app-icon">🏠</span><div class="app-info"><span class="app-name">Roofr</span><span class="app-desc">Quoting &amp; Proposals</span></div><span class="app-arrow">›</span></a>
+      <a href="https://web.whatsapp.com" target="_blank" class="app-btn"><span class="app-icon">💬</span><div class="app-info"><span class="app-name">WhatsApp</span><span class="app-desc">Team &amp; Client Comms</span></div><span class="app-arrow">›</span></a>
+      <a href="https://drive.google.com" target="_blank" class="app-btn blue"><span class="app-icon">📁</span><div class="app-info"><span class="app-name">Google Drive</span><span class="app-desc">Files &amp; SOPs</span></div><span class="app-arrow">›</span></a>
+      <a href="https://mail.google.com" target="_blank" class="app-btn amber"><span class="app-icon">✉️</span><div class="app-info"><span class="app-name">Gmail</span><span class="app-desc">Email</span></div><span class="app-arrow">›</span></a>
+      <a href="https://calendar.google.com" target="_blank" class="app-btn blue"><span class="app-icon">📅</span><div class="app-info"><span class="app-name">Calendar</span><span class="app-desc">Schedule &amp; Jobs</span></div><span class="app-arrow">›</span></a>
+      <a href="https://claude.ai" target="_blank" class="app-btn"><span class="app-icon">🤖</span><div class="app-info"><span class="app-name">Claude</span><span class="app-desc">AI Operations</span></div><span class="app-arrow">›</span></a>
+      <a href="https://open.spotify.com" target="_blank" class="app-btn"><span class="app-icon">🎵</span><div class="app-info"><span class="app-name">Spotify</span><span class="app-desc">Focus Mode</span></div><span class="app-arrow">›</span></a>
+      <a href="https://www.instagram.com" target="_blank" class="app-btn amber"><span class="app-icon">📸</span><div class="app-info"><span class="app-name">Instagram</span><span class="app-desc">Brand &amp; Build</span></div><span class="app-arrow">›</span></a>
     </div>
-    <div style="margin-top:8px;">
-      <div class="panel-label" style="font-size:0.72rem;">Notes</div>
+    <div style="margin-top:9px;">
+      <div class="panel-label">Notes</div>
       <textarea class="note-input" id="notesArea" placeholder="Rocky 🐾 — worksite drop 8am&#10;Toneth: invoice HCM Build&#10;Myla: chase Lloyds deposit"></textarea>
     </div>
   </div>
@@ -392,88 +346,27 @@
     <div class="task-add-row"><input class="task-add-input" id="newTaskInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTask()"><button class="task-add-btn" onclick="addTask()">+ Add</button></div>
   </div>
 
-  <!-- ── MAHI + PO ROW ─────────────────────────────────────────── -->
   <div class="mahi-po-row">
     <div class="panel jobs-panel">
       <div class="panel-label">MAHI — Live Projects 🔨</div>
-      <div class="jobs-table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th style="width:58px">Quote No.</th>
-              <th>Client</th>
-              <th>Address</th>
-              <th style="width:58px">Value</th>
-              <th style="width:130px">Status</th>
-              <th style="width:110px">Invoice</th>
-              <th style="width:20px"></th>
-            </tr>
-          </thead>
-          <tbody id="jobBody"></tbody>
-        </table>
-      </div>
+      <div class="jobs-table-wrap"><table><thead><tr><th style="width:65px">Quote No.</th><th>Client Name</th><th>Address</th><th>Value</th><th>Status</th><th style="width:22px"></th></tr></thead><tbody id="jobBody"></tbody></table></div>
       <div class="add-row">
-        <input class="add-input" id="jobQuote" placeholder="Quote #" style="width:62px;flex:none;">
-        <input class="add-input" id="jobName" placeholder="Client..." style="flex:2">
+        <input class="add-input" id="jobQuote" placeholder="Quote No." style="width:75px;flex:none;">
+        <input class="add-input" id="jobName" placeholder="Client name..." style="flex:2">
         <input class="add-input" id="jobAddr" placeholder="Address..." style="flex:2">
-        <input class="add-input" id="jobValue" placeholder="$Value" style="width:62px;flex:none;">
-        <select id="jobStage" class="add-input" style="flex:1.5">
-          <option value="in-progress">In Progress</option>
-          <option value="needs-qdraft">Needs Q-Draft</option>
-          <option value="waiting-ronny">Waiting Ronny</option>
-          <option value="waiting-client">Waiting Client</option>
-          <option value="completed">Completed</option>
-          <option value="waiting-material-delivery">Waiting Material Delivery</option>
-          <option value="waiting-material-payment">Waiting Material Payment</option>
-          <option value="waiting-supplier">Waiting Supplier Response</option>
-          <option value="need-variation">Need Variation</option>
-          <option value="variation-approved">Variation Approved</option>
-          <option value="waiting-inv-paid">Waiting for INV to be Paid</option>
-          <option value="need-contact-subcon">Need to Contact Subcon</option>
-          <option value="need-inv-material">Need to Raise INV Material</option>
-          <option value="need-inv-progress">Need INV Progress</option>
-          <option value="need-inv-handover">Need INV Handover</option>
-          <option value="for-handover-cr">For Handover &amp; CR</option>
-          <option value="book-safety-rail">Book Safety Rail</option>
-          <option value="book-tipper-truck">Book Tipper Truck</option>
-          <option value="for-scaffolding-quote">For Scaffolding Quote</option>
-        </select>
-        <select id="jobInvoice" class="add-input" style="width:90px;flex:none;">
-          <option value="inv-not-sent">INV Not Sent Yet</option>
-          <option value="for-inv">For INV</option>
-          <option value="inv-drafted">INV Drafted</option>
-          <option value="inv-sent">INV Sent</option>
-          <option value="inv-follow-up">INV for Follow Up</option>
-          <option value="inv-2nd-follow-up">INV for 2nd Follow Up</option>
-          <option value="inv-revision">INV for Revision</option>
-          <option value="inv-paid">INV Paid</option>
-        </select>
-        <button class="add-btn" onclick="addJob()">+ Add</button>
+        <input class="add-input" id="jobValue" placeholder="$Value..." style="width:75px;flex:none;">
+        <select id="jobStage" class="add-input" style="flex:1.4"><option value="in-progress">In Progress</option><option value="needs-qdraft">Needs Q-Draft</option><option value="waiting-ronny">Waiting Ronny</option><option value="waiting-client">Waiting Client</option></select>
+        <button class="add-btn" onclick="addJob()">+ Add Job</button>
       </div>
     </div>
     <div class="panel po-panel">
       <div class="panel-label">PO — Subcontractors 📄</div>
-      <div class="po-table-wrap">
-        <table class="po-table">
-          <thead>
-            <tr><th>PO #</th><th>Address</th><th>Name</th><th>Status</th><th style="width:16px"></th></tr>
-          </thead>
-          <tbody id="poBody"></tbody>
-        </table>
-      </div>
+      <div class="po-table-wrap"><table class="po-table"><thead><tr><th>PO #</th><th>Address</th><th>Name</th><th>Status</th><th style="width:16px"></th></tr></thead><tbody id="poBody"></tbody></table></div>
       <div class="po-add-row">
         <input class="po-add-input" id="poNum" placeholder="PO #" style="width:46px;flex:none;">
         <input class="po-add-input" id="poAddr" placeholder="Address..." style="flex:2;">
         <input class="po-add-input" id="poName" placeholder="Sub name..." style="width:68px;flex:none;">
-        <select id="poStatus" class="po-add-input" style="width:90px;flex:none;">
-          <option value="sent">Sent</option>
-          <option value="drafted">Drafted</option>
-          <option value="in-progress">In Progress</option>
-          <option value="need-cutlist">Need Cutlist &amp; Mud Map</option>
-          <option value="need-jotform">Need Jotform</option>
-          <option value="need-swms">Need SWMS</option>
-          <option value="need-completion">Need Completion Report</option>
-        </select>
+        <select id="poStatus" class="po-add-input" style="width:76px;flex:none;"><option value="sent">Sent</option><option value="drafted">Drafted</option><option value="in-progress">In Progress</option></select>
         <button class="po-add-btn" onclick="addPO()">+ Add</button>
       </div>
     </div>
@@ -497,7 +390,7 @@
   </div>
 
   <footer>
-    <div class="footer-left">RDU Command Centre v4.6 &nbsp;·&nbsp; Cloud Sync Active &nbsp;·&nbsp; RoofingDownUnder.net &nbsp;·&nbsp; Sydney NSW AU</div>
+    <div class="footer-left">RDU Command Centre v4.7 &nbsp;·&nbsp; Cloud Sync Active &nbsp;·&nbsp; RoofingDownUnder.net &nbsp;·&nbsp; Sydney NSW AU</div>
     <div class="footer-right">
       <span class="footer-tag">Lic 352581C &nbsp;·&nbsp; ABN 96 899 143 964</span>
       <span class="footer-tag">Myla · Toneth · Harry · Pauly · Josh</span>
@@ -508,33 +401,27 @@
 
 <script>
 // ═══════════════════════════════════════════════════════════════════
-// RDU v4.6 — CLOUD-FIRST SYNC
+// RDU v4.7 — NEW GOOGLE WORKSPACE ENDPOINT
 // ═══════════════════════════════════════════════════════════════════
 
-const SHEET = 'https://script.google.com/macros/s/AKfycbwko1p3AahESixudkk_UbJa8yQSaDllWBcQ0r0J1wSPU0tXQhXnwzgk8FqMMvXJLhDN/exec';
-const LS_KEY = 'rdu_data'; // PERMANENT — never change
+const SHEET = 'https://script.google.com/macros/s/AKfycbxREWhTD51GJeloL2iAz1aapddtaE5OATu71HBAIO86R_eByoJSujAcgkNoW6eilheEKg/exec';
+const LS_KEY = 'rdu_data';
 
 const DEF = {
   _ts: 0,
   tasks:    [{text:"Lofty's Lloyds quote",done:false},{text:"Mirral Rd — Brett Nash quote",done:false},{text:"HCM Build Jannali quote",done:false}],
   va_myla:  [{text:"Chase Lloyds deposit",done:false},{text:"Update job tracker",done:false},{text:"Follow up Uplift Building",done:false}],
   va_toneth:[{text:"Invoice HCM Build",done:false},{text:"Xero reconciliation",done:false},{text:"Send weekly P&L",done:false}],
-  jobs:[
-    {quote:'—',name:'HCM Build',addr:'111 Mansfield St, Rozelle',value:'$30,000',stage:'in-progress',invoice:'inv-not-sent'},
-    {quote:'—',name:'Lloyds',addr:'297 Woolooware Rd, Burraneer',value:'$42,250',stage:'in-progress',invoice:'inv-not-sent'},
-    {quote:'—',name:'Brad — Uplift Building',addr:'41 Lower Washington Dr',value:'$3,850',stage:'in-progress',invoice:'inv-not-sent'}
-  ],
+  jobs:     [{quote:'—',name:'HCM Build',addr:'111 Mansfield St, Rozelle',value:'$30,000',stage:'in-progress'},{quote:'—',name:'Lloyds',addr:'297 Woolooware Rd, Burraneer',value:'$42,250',stage:'in-progress'},{quote:'—',name:'Brad — Uplift Building',addr:'41 Lower Washington Dr',value:'$3,850',stage:'in-progress'}],
   pos:[], kai:{}, moko:{}, notes:''
 };
 
-// ── Sync indicator ────────────────────────────────────────────────
 function syncUI(state, msg) {
   const b = document.getElementById('syncBar');
   b.className = 'sync-bar ' + state;
   document.getElementById('syncLabel').textContent = msg;
 }
 
-// ── localStorage helpers ──────────────────────────────────────────
 function lsRead() {
   try { const r = localStorage.getItem(LS_KEY); return r ? JSON.parse(r) : null; } catch(e) { return null; }
 }
@@ -542,10 +429,8 @@ function lsWrite(d) {
   try { localStorage.setItem(LS_KEY, JSON.stringify(d)); } catch(e) {}
 }
 
-// ── Active data ───────────────────────────────────────────────────
 let D = lsRead() || Object.assign({}, DEF);
 
-// ── Save: localStorage instantly + cloud push ─────────────────────
 let _saveTimer = null;
 function save() {
   D._ts = Date.now();
@@ -568,7 +453,6 @@ function save() {
   }, 600);
 }
 
-// ── Cloud fetch ───────────────────────────────────────────────────
 async function fetchCloud(isInit) {
   try {
     if (isInit) syncUI('saving', 'Loading cloud...');
@@ -592,7 +476,6 @@ async function fetchCloud(isInit) {
   }
 }
 
-// ── Clock ─────────────────────────────────────────────────────────
 function updateClock() {
   const n = new Date();
   document.getElementById('clock').textContent = n.toLocaleTimeString('en-AU',{hour12:false});
@@ -600,7 +483,6 @@ function updateClock() {
 }
 updateClock(); setInterval(updateClock, 1000);
 
-// ── Render all panels from D ──────────────────────────────────────
 function renderAll() {
   document.getElementById('taskList').innerHTML = '';
   (D.tasks||[]).forEach(renderTask);
@@ -632,141 +514,43 @@ function renderAll() {
   document.getElementById('notesArea').value = D.notes||'';
 }
 
-// ── Tasks ─────────────────────────────────────────────────────────
 function collectTasks(){return Array.from(document.querySelectorAll('#taskList .task-item')).map(el=>({text:el.querySelector('.task-text').textContent,done:el.classList.contains('done')}));}
 function renderTask(t){const el=document.createElement('div');el.className='task-item'+(t.done?' done':'');el.innerHTML=`<div class="task-check" onclick="toggleTask(this.parentElement)">✓</div><span class="task-text" onclick="toggleTask(this.parentElement)">${t.text}</span><button class="task-del" onclick="removeTask(this)">✕</button>`;document.getElementById('taskList').appendChild(el);}
 function toggleTask(el){el.classList.toggle('done');D.tasks=collectTasks();save();}
 function removeTask(btn){btn.closest('.task-item').remove();D.tasks=collectTasks();save();}
 function addTask(){const inp=document.getElementById('newTaskInput');const t=inp.value.trim();if(!t)return;renderTask({text:t,done:false});inp.value='';D.tasks=collectTasks();save();}
 
-// ── VA Tasks ──────────────────────────────────────────────────────
 function collectVa(who){return Array.from(document.querySelectorAll('#'+(who==='myla'?'mylaTaskList':'tonethTaskList')+' .va-task-item')).map(el=>({text:el.querySelector('.va-task-text').textContent,done:el.classList.contains('done')}));}
 function renderVaTask(who,t){const lid=who==='myla'?'mylaTaskList':'tonethTaskList';const el=document.createElement('div');el.className='va-task-item'+(t.done?' done':'');el.innerHTML=`<div class="va-task-check" onclick="toggleVaTask(this.parentElement,'${who}')">✓</div><span class="va-task-text" onclick="toggleVaTask(this.parentElement,'${who}')">${t.text}</span><button class="va-task-del" onclick="removeVaTask(this,'${who}')">✕</button>`;document.getElementById(lid).appendChild(el);}
 function toggleVaTask(el,who){el.classList.toggle('done');D['va_'+who]=collectVa(who);save();}
 function removeVaTask(btn,who){btn.closest('.va-task-item').remove();D['va_'+who]=collectVa(who);save();}
 function addVaTask(who){const inp=document.getElementById(who==='myla'?'mylaInput':'tonethInput');const t=inp.value.trim();if(!t)return;renderVaTask(who,{text:t,done:false});inp.value='';D['va_'+who]=collectVa(who);save();}
 
-// ── Weather ───────────────────────────────────────────────────────
 async function loadWeather(){try{const r=await fetch('https://wttr.in/Sutherland+NSW+Australia?format=j1');const d=await r.json();const c=d.current_condition[0];const desc=c.weatherDesc[0].value,temp=c.temp_C,feels=c.FeelsLikeC,hum=c.humidity,wind=c.windspeedKmph;const ic={'Sunny':'☀️','Clear':'🌙','Partly cloudy':'⛅','Cloudy':'☁️','Overcast':'☁️','Mist':'🌫️','Rain':'🌧️','Light rain':'🌦️','Heavy rain':'⛈️','Thunder':'⛈️','Snow':'❄️','Fog':'🌫️','Drizzle':'🌦️'};let icon='🌤️';for(const[k,v]of Object.entries(ic)){if(desc.toLowerCase().includes(k.toLowerCase())){icon=v;break;}}const w=parseInt(wind);const rf=w>45?`<span style="color:var(--red-dust);font-weight:700">TOO WINDY ⚠</span>`:w>25?`<span style="color:var(--dust);font-weight:700">BIT BREEZY</span>`:`<span style="color:var(--green-gum);font-weight:700">GOOD TO GO ✓</span>`;document.getElementById('weatherContent').innerHTML=`<div class="weather-main"><div class="weather-icon">${icon}</div><div><div class="weather-temp">${temp}<span>°C</span></div><div class="weather-desc">${desc}</div><div class="weather-loc">Sutherland Shire, NSW, Australia</div></div></div><div class="weather-stats"><div class="w-stat"><div class="w-stat-label">Feels Like</div><div class="w-stat-val">${feels}°C</div></div><div class="w-stat"><div class="w-stat-label">Humidity</div><div class="w-stat-val">${hum}%</div></div><div class="w-stat"><div class="w-stat-label">Wind</div><div class="w-stat-val">${wind}km/h</div></div><div class="w-stat"><div class="w-stat-label">On the Tools</div><div class="w-stat-val" style="font-size:0.6rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${rf}</div></div></div>`;}catch(e){document.getElementById('weatherContent').innerHTML='<div class="weather-loading">No signal — check network</div>';}}
 loadWeather();setInterval(loadWeather,600000);
 
-// ── Devotional ────────────────────────────────────────────────────
 const VV=[{v:"I can do all things through Christ who strengthens me.",r:"Philippians 4:13"},{v:"For I know the plans I have for you — plans to prosper you and not to harm you.",r:"Jeremiah 29:11"},{v:"The Lord is my shepherd; I shall not want.",r:"Psalm 23:1"},{v:"Trust in the Lord with all your heart and lean not on your own understanding.",r:"Proverbs 3:5"},{v:"Be strong and courageous. Do not be afraid; do not be discouraged.",r:"Joshua 1:9"},{v:"And we know that in all things God works for the good of those who love him.",r:"Romans 8:28"},{v:"The Lord will fight for you; you need only to be still.",r:"Exodus 14:14"},{v:"Cast all your anxiety on him because he cares for you.",r:"1 Peter 5:7"},{v:"God is our refuge and strength, an ever-present help in trouble.",r:"Psalm 46:1"},{v:"With God all things are possible.",r:"Matthew 19:26"},{v:"Do not be anxious about anything, but in every situation present your requests to God.",r:"Philippians 4:6"},{v:"The Lord your God is with you, the Mighty Warrior who saves.",r:"Zephaniah 3:17"},{v:"Commit to the Lord whatever you do, and he will establish your plans.",r:"Proverbs 16:3"},{v:"Be still and know that I am God.",r:"Psalm 46:10"},{v:"Give thanks to the Lord, for he is good; his love endures forever.",r:"Psalm 107:1"},{v:"Delight yourself in the Lord, and he will give you the desires of your heart.",r:"Psalm 37:4"},{v:"Let us not become weary in doing good, for at the proper time we will reap a harvest.",r:"Galatians 6:9"},{v:"He gives strength to the weary and increases the power of the weak.",r:"Isaiah 40:29"},{v:"Seek first his kingdom and his righteousness, and all these things will be given to you.",r:"Matthew 6:33"},{v:"For nothing will be impossible with God.",r:"Luke 1:37"},{v:"My grace is sufficient for you, for my power is made perfect in weakness.",r:"2 Corinthians 12:9"},{v:"The Lord is close to the brokenhearted and saves those who are crushed in spirit.",r:"Psalm 34:18"},{v:"Your word is a lamp for my feet, a light on my path.",r:"Psalm 119:105"},{v:"This is the day the Lord has made; let us rejoice and be glad in it.",r:"Psalm 118:24"},{v:"Ask and it will be given to you; seek and you will find.",r:"Matthew 7:7"},{v:"The righteous person may have many troubles, but the Lord delivers him from them all.",r:"Psalm 34:19"},{v:"For God so loved the world that he gave his one and only Son.",r:"John 3:16"},{v:"I am the way, the truth, and the life.",r:"John 14:6"},{v:"The name of the Lord is a fortified tower; the righteous run to it and are safe.",r:"Proverbs 18:10"},{v:"I have learned, in whatever state I am, to be content.",r:"Philippians 4:11"},{v:"The Lord bless you and keep you; the Lord make his face shine on you.",r:"Numbers 6:24-25"}];
 (function(){const n=new Date();const day=Math.floor((n-new Date(n.getFullYear(),0,0))/86400000);const{v,r}=VV[day%VV.length];const ds=n.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();document.getElementById('devotionalBody').innerHTML=`<div class="devotional-verse">"${v}"</div><div class="devotional-ref">— ${r}</div><div class="devotional-date">📖 ${ds}</div>`;})();
 
-// ── KAI ───────────────────────────────────────────────────────────
 const kA={biz:0,tax:0,pers:0},kS={biz:false,tax:false,pers:false};
 function setKai(a){const iM={biz:'kaiBizIn',tax:'kaiTaxIn',pers:'kaiPersIn'},vM={biz:'kaiBiz',tax:'kaiTax',pers:'kaiPers'},tM={biz:'kaiBizTs',tax:'kaiTaxTs',pers:'kaiPersTs'};const val=parseFloat(document.getElementById(iM[a]).value.replace(/[$,]/g,''));if(isNaN(val))return;kA[a]=val;kS[a]=true;document.getElementById(vM[a]).textContent='$'+val.toLocaleString('en-AU');const n=new Date();const ts='Updated '+n.toLocaleTimeString('en-AU',{hour12:true,hour:'numeric',minute:'2-digit'})+' · '+n.toLocaleDateString('en-AU',{day:'numeric',month:'short'});document.getElementById(tM[a]).textContent=ts;document.getElementById(iM[a]).value='';updateKaiTotal();if(!D.kai)D.kai={};D.kai[a]={val,set:true,ts};save();}
 function updateKaiTotal(){if(!kS.biz&&!kS.tax&&!kS.pers)return;document.getElementById('kaiTotal').textContent='$'+(kA.biz+kA.tax+kA.pers).toLocaleString('en-AU');}
 ['kaiBizIn','kaiTaxIn','kaiPersIn'].forEach((id,i)=>{document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')setKai(['biz','tax','pers'][i]);});});
 
-// ── Jobs ──────────────────────────────────────────────────────────
-function collectJobs(){
-  return Array.from(document.querySelectorAll('#jobBody tr')).map(tr=>{
-    const tds=tr.querySelectorAll('td');
-    const sel=tr.querySelector('.status-select');
-    const inv=tr.querySelector('.inv-select');
-    return{
-      quote:tds[0].textContent,
-      name:tds[1].textContent,
-      addr:tds[2].textContent,
-      value:tds[3].textContent,
-      stage:sel?sel.value:'in-progress',
-      invoice:inv?inv.value:'inv-not-sent'
-    };
-  });
-}
-
+function collectJobs(){return Array.from(document.querySelectorAll('#jobBody tr')).map(tr=>{const tds=tr.querySelectorAll('td'),sel=tr.querySelector('.status-select');return{quote:tds[0].textContent,name:tds[1].textContent,addr:tds[2].textContent,value:tds[3].textContent,stage:sel?sel.value:'in-progress'};});}
 function updateStatusStyle(sel){sel.setAttribute('data-status',sel.value);D.jobs=collectJobs();save();}
-function updateInvStyle(sel){sel.setAttribute('data-status',sel.value);D.jobs=collectJobs();save();}
-
-function makeSD(val){
-  const opts=[
-    {v:'in-progress',l:'In Progress'},
-    {v:'needs-qdraft',l:'Needs Q-Draft'},
-    {v:'waiting-ronny',l:'Waiting Ronny'},
-    {v:'waiting-client',l:'Waiting Client'},
-    {v:'completed',l:'Completed'},
-    {v:'waiting-material-delivery',l:'Waiting Material Delivery'},
-    {v:'waiting-material-payment',l:'Waiting Material Payment'},
-    {v:'waiting-supplier',l:'Waiting Supplier Response'},
-    {v:'need-variation',l:'Need Variation'},
-    {v:'variation-approved',l:'Variation Approved'},
-    {v:'waiting-inv-paid',l:'Waiting for INV to be Paid'},
-    {v:'need-contact-subcon',l:'Need to Contact Subcon'},
-    {v:'need-inv-material',l:'Need to Raise INV Material'},
-    {v:'need-inv-progress',l:'Need INV Progress'},
-    {v:'need-inv-handover',l:'Need INV Handover'},
-    {v:'for-handover-cr',l:'For Handover & CR'},
-    {v:'book-safety-rail',l:'Book Safety Rail'},
-    {v:'book-tipper-truck',l:'Book Tipper Truck'},
-    {v:'for-scaffolding-quote',l:'For Scaffolding Quote'}
-  ];
-  return `<select class="status-select" data-status="${val}" onchange="updateStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;
-}
-
-function makeInvD(val){
-  const opts=[
-    {v:'inv-not-sent',l:'INV Not Sent Yet'},
-    {v:'for-inv',l:'For INV'},
-    {v:'inv-drafted',l:'INV Drafted'},
-    {v:'inv-sent',l:'INV Sent'},
-    {v:'inv-follow-up',l:'INV for Follow Up'},
-    {v:'inv-2nd-follow-up',l:'INV for 2nd Follow Up'},
-    {v:'inv-revision',l:'INV for Revision'},
-    {v:'inv-paid',l:'INV Paid'}
-  ];
-  return `<select class="inv-select" data-status="${val||'inv-not-sent'}" onchange="updateInvStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===(val||'inv-not-sent')?' selected':''}>${o.l}</option>`).join('')}</select>`;
-}
-
-function renderJob(j){
-  const tr=document.createElement('tr');
-  tr.innerHTML=`<td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">${j.quote}</td><td>${j.name}</td><td style="color:var(--muted);font-size:0.55rem">${j.addr}</td><td>${j.value}</td><td>${makeSD(j.stage)}</td><td>${makeInvD(j.invoice||'inv-not-sent')}</td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;
-  document.getElementById('jobBody').appendChild(tr);
-}
-
-function addJob(){
-  const name=document.getElementById('jobName').value.trim();
-  if(!name)return;
-  renderJob({
-    quote:document.getElementById('jobQuote').value.trim()||'—',
-    name,
-    addr:document.getElementById('jobAddr').value.trim()||'—',
-    value:document.getElementById('jobValue').value.trim()||'TBC',
-    stage:document.getElementById('jobStage').value,
-    invoice:document.getElementById('jobInvoice').value
-  });
-  ['jobName','jobAddr','jobValue','jobQuote'].forEach(id=>document.getElementById(id).value='');
-  D.jobs=collectJobs();save();
-}
-
+function makeSD(val){const opts=[{v:'in-progress',l:'In Progress'},{v:'needs-qdraft',l:'Needs Q-Draft'},{v:'waiting-ronny',l:'Waiting Ronny'},{v:'waiting-client',l:'Waiting Client'}];return `<select class="status-select" data-status="${val}" onchange="updateStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;}
+function renderJob(j){const tr=document.createElement('tr');tr.innerHTML=`<td style="color:var(--muted);font-size:0.55rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em">${j.quote}</td><td>${j.name}</td><td style="color:var(--muted);font-size:0.55rem">${j.addr}</td><td>${j.value}</td><td>${makeSD(j.stage)}</td><td><button onclick="removeJob(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.75rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;document.getElementById('jobBody').appendChild(tr);}
+function addJob(){const name=document.getElementById('jobName').value.trim();if(!name)return;renderJob({quote:document.getElementById('jobQuote').value.trim()||'—',name,addr:document.getElementById('jobAddr').value.trim()||'—',value:document.getElementById('jobValue').value.trim()||'TBC',stage:document.getElementById('jobStage').value});['jobName','jobAddr','jobValue','jobQuote'].forEach(id=>document.getElementById(id).value='');D.jobs=collectJobs();save();}
 function removeJob(btn){btn.closest('tr').remove();D.jobs=collectJobs();save();}
 
-// ── POs ───────────────────────────────────────────────────────────
 function collectPOs(){return Array.from(document.querySelectorAll('#poBody tr:not(#poEmpty)')).map(tr=>{const tds=tr.querySelectorAll('td'),sel=tr.querySelector('.po-status-select');return{num:tds[0].textContent,addr:tds[1].textContent,name:tds[2].textContent,status:sel?sel.value:'sent'};});}
-
 function updatePoStatusStyle(sel){sel.setAttribute('data-status',sel.value);D.pos=collectPOs();save();}
-
-function makePSD(val){
-  const opts=[
-    {v:'sent',l:'Sent'},
-    {v:'drafted',l:'Drafted'},
-    {v:'in-progress',l:'In Progress'},
-    {v:'need-cutlist',l:'Need Cutlist & Mud Map'},
-    {v:'need-jotform',l:'Need Jotform'},
-    {v:'need-swms',l:'Need SWMS'},
-    {v:'need-completion',l:'Need Completion Report'}
-  ];
-  return `<select class="po-status-select" data-status="${val}" onchange="updatePoStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;
-}
-
+function makePSD(val){const opts=[{v:'sent',l:'Sent'},{v:'drafted',l:'Drafted'},{v:'in-progress',l:'In Progress'}];return `<select class="po-status-select" data-status="${val}" onchange="updatePoStatusStyle(this)">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select>`;}
 function renderPO(p){const emp=document.getElementById('poEmpty');if(emp)emp.remove();const tr=document.createElement('tr');tr.innerHTML=`<td style="color:var(--muted);font-size:0.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:700">${p.num}</td><td style="font-size:0.52rem">${p.addr}</td><td style="font-size:0.52rem">${p.name}</td><td>${makePSD(p.status)}</td><td><button onclick="removePO(this)" style="background:none;border:none;color:var(--subtle);cursor:pointer;font-size:0.7rem;" onmouseover="this.style.color='var(--red-dust)'" onmouseout="this.style.color='var(--subtle)'">✕</button></td>`;document.getElementById('poBody').appendChild(tr);}
-
 function addPO(){const num=document.getElementById('poNum').value.trim();if(!num)return;renderPO({num,addr:document.getElementById('poAddr').value.trim()||'—',name:document.getElementById('poName').value.trim()||'—',status:document.getElementById('poStatus').value});['poNum','poAddr','poName'].forEach(id=>document.getElementById(id).value='');D.pos=collectPOs();save();}
-
 function removePO(btn){const tbody=document.getElementById('poBody');btn.closest('tr').remove();if(tbody.rows.length===0)tbody.innerHTML='<tr id="poEmpty"><td colspan="5" style="text-align:center;color:var(--muted);font-size:0.48rem;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:0.1em;padding:10px 0;">No POs yet — add one below</td></tr>';D.pos=collectPOs();save();}
 
-// ── MOKO ──────────────────────────────────────────────────────────
 const vibes=["Just getting warmed up, mate! 🔥","Solid start — keep stackin'! 💪","Three active — build the pipeline! 🏗","On fire out there! 🚀","Halfway there — push hard! 💥","Almost at target, don't blink! ⚡","TARGET SMASHED. Bloody legend. 🏆","OVER TARGET. Absolute unit! 👑"];
 let mokoTarget=0,mokoRev=0;
 function getVibe(p){if(p===0)return vibes[0];if(p<25)return vibes[1];if(p<45)return vibes[2];if(p<60)return vibes[3];if(p<75)return vibes[4];if(p<95)return vibes[5];if(p<=105)return vibes[6];return vibes[7];}
@@ -777,10 +561,8 @@ function updateMokoTarget(){mokoTarget=parseFloat(document.getElementById('mokoT
 function updateMokoProgress(){const p=mokoTarget>0?Math.min(100,Math.round(mokoRev/mokoTarget*100)):0;document.getElementById('mokoBar').style.width=p+'%';document.getElementById('mokoBarLabel').textContent=mokoTarget>0?`$${mokoRev.toLocaleString()} of $${mokoTarget.toLocaleString()} · ${p}%`:`$${mokoRev.toLocaleString()} earned — set a target`;document.getElementById('mokoVibe').textContent=mokoTarget>0?getVibe(p):(mokoRev>0?"Set a target to track your progress! 🎯":"Set your revenue below to track progress! 🔥");}
 function updateMokoStats(){const q=document.getElementById('mokoQInput').value,w=document.getElementById('mokoWInput').value;if(q)document.getElementById('mokoQuotes').textContent=q;if(w)document.getElementById('mokoWon').textContent=w;document.getElementById('mokoQInput').value='';document.getElementById('mokoWInput').value='';saveMoko();}
 
-// ── Notes ─────────────────────────────────────────────────────────
 document.getElementById('notesArea').addEventListener('input',function(){D.notes=this.value;save();});
 
-// ── INIT ──────────────────────────────────────────────────────────
 renderAll();
 fetchCloud(true);
 setInterval(()=>fetchCloud(false), 60000);
